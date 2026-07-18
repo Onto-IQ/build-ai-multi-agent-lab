@@ -4,16 +4,20 @@
 
 โครงสร้างเป็น **โฟลเดอร์ต่อ Lab** — เริ่มจาก `labs/lab-01-triage/README.md` แล้วเดินตามลำดับ
 
+**โจทย์หลัก:** Bangkok Rattanakosin day trip  
+Scenario: `labs/lab-01-triage/scenarios/scenario-01-bangkok-rattanakosin.json`  
+ข้อมูล: tool (`shared/scripts/tools/`) → JSON contract · mock เป็น fallback
+
 ## ภาพรวมระบบ
 
 ```text
-User Request
+User Request (กรุงเทพ / ภาษาไทย)
     |
     v
-Claude Code: Triage / Activity
+Claude Code: Triage / Activity (+ tools)
     |  workspace/contracts/trip-brief.json + activity-options.json
     v
-OpenCode: Dining / Logistics Audit
+OpenCode: Dining / Logistics Audit (+ tools)
     |  dining-options.json + audit-result.json
     v
 Claude Code: Coordinator / Final Synthesis
