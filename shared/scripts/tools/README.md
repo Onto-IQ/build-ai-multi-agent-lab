@@ -2,6 +2,9 @@
 
 CLI ที่ Agent เรียกผ่าน Bash / shell เพื่อดึงข้อมูลจริง แล้วเขียนผลลง JSON contract
 
+**เหตุผลหลักที่ห่อเป็น CLI + cache:** กัน **rate limit** เมื่อทั้งห้องเรียนเรียก Overpass/Nominatim พร้อมกัน  
+MCP/API สำเร็จรูปลองได้ใน Lab เสริม — [`labs/lab-optional-mcp-vs-cli/`](../../../labs/lab-optional-mcp-vs-cli/README.md)
+
 กฎรวม: [`shared/prompts/tool-calling-rules.md`](../../prompts/tool-calling-rules.md)
 
 ## คำสั่ง
@@ -19,8 +22,9 @@ node shared/scripts/tools/smoke-test.mjs
 
 ผล cache อยู่ที่ `shared/mock-data/external-cache/`
 
-## ข้อจำกัดห้องเรียน
+## ข้อจำกัดห้องเรียน / Rate limit
 
 - Nominatim: ~1 req/s + ต้องมี User-Agent (สคริปต์ใส่ให้แล้ว)
-- Overpass: อาจได้ HTTP 429 — ใช้ cache / fallback mock
-- OSRM / Open-Meteo: ไม่ต้อง API key
+- Overpass: มักได้ HTTP **429** ถ้ายิงถี่ — **อ่าน cache ก่อน** แล้วค่อย fallback mock
+- OSRM / Open-Meteo: ไม่ต้อง API key แต่ public instance ยังอาจช้าหรือล่มได้
+- ทั้งห้องอย่ารัน `smoke-test.mjs` พร้อมกันโดยไม่จำเป็น — Instructor อาจ pre-warm cache ให้ก่อน Lab

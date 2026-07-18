@@ -13,6 +13,9 @@
 | Lab 7 Collab Layer | [labs/lab-07-collab-layer/README.md](../labs/lab-07-collab-layer/README.md) |
 | Lab 8 Stop Condition | [labs/lab-08-stop-condition/README.md](../labs/lab-08-stop-condition/README.md) |
 | Lab 9 Capstone | [labs/lab-09-capstone/README.md](../labs/lab-09-capstone/README.md) |
+| Lab เสริม (optional) MCP vs CLI | [labs/lab-optional-mcp-vs-cli/README.md](../labs/lab-optional-mcp-vs-cli/README.md) |
 
-Shared assets: [shared/contracts](../shared/contracts/), [shared/mock-data](../shared/mock-data/)  
+Shared assets: [shared/contracts](../shared/contracts/), [shared/mock-data](../shared/mock-data/), [shared/scripts/tools](../shared/scripts/tools/)  
 ผลงานผู้เรียน: [workspace/](../workspace/)
+
+หมายเหตุ: ค่าเริ่มต้นของ tool ในคอร์สคือ CLI + `external-cache` เพื่อ**ลด rate limit** เมื่อทั้งห้องเรียก Overpass/Nominatim พร้อมกัน — MCP สำเร็จรูปเป็นทางเสริม ไม่ใช่เกณฑ์ผ่านหลัก

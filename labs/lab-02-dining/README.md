@@ -45,4 +45,5 @@ node shared/scripts/validate-json.mjs workspace/contracts/dining-options.json
 
 ## ถัดไป
 
-[Lab 3: Permission](../lab-03-permission/README.md)
+- (Optional, 15–25 นาที) [Lab เสริม: MCP vs CLI + rate limit](../lab-optional-mcp-vs-cli/README.md)  
+- [Lab 3: Permission](../lab-03-permission/README.md)
