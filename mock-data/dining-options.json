@@ -1,0 +1,9 @@
+{
+  "source_mode": "mock",
+  "restaurants": [
+    { "id": "dining-001", "name": "The Garden Wine Terrace", "category": "wine-restaurant", "location": "Na Jomtien", "lat": 12.800, "lng": 100.910, "open": "16:00", "close": "22:00", "closed_days": [], "cost_for_two": 2400, "tags": ["romantic", "quiet", "wine", "outdoor"] },
+    { "id": "dining-002", "name": "Vineyard Kitchen", "category": "restaurant", "location": "Huai Yai", "lat": 12.840, "lng": 100.940, "open": "11:00", "close": "20:00", "closed_days": ["Monday"], "cost_for_two": 1600, "tags": ["quiet", "wine", "value"] },
+    { "id": "dining-003", "name": "Sunset Bistro", "category": "bistro", "location": "Pattaya Beach", "lat": 12.934, "lng": 100.878, "open": "15:00", "close": "23:00", "closed_days": [], "cost_for_two": 1200, "tags": ["romantic", "value", "backup"] },
+    { "id": "dining-004", "name": "Closed Monday Wine Bar", "category": "wine-bar", "location": "Na Jomtien", "lat": 12.805, "lng": 100.915, "open": "16:00", "close": "22:00", "closed_days": ["Monday"], "cost_for_two": 1800, "tags": ["wine", "quiet"] }
+  ]
+}

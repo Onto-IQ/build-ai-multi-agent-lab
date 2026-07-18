@@ -1,0 +1,34 @@
+{
+  "schema_version": "1.0",
+  "trip_id": "trip-001",
+  "generated_by": "claude-code/activity-agent",
+  "generated_at": "2026-07-18T09:20:00+07:00",
+  "source_mode": "mock",
+  "candidates": [
+    {
+      "id": "activity-001",
+      "name": "Nong Nooch Morning Mini Marathon",
+      "category": "running",
+      "location": { "name": "Nong Nooch Tropical Garden", "lat": 12.765, "lng": 100.906 },
+      "schedule": { "start": "06:00", "end": "09:30", "date": "2026-08-15" },
+      "estimated_cost": { "currency": "THB", "amount": 1600, "breakdown": "800 per person" },
+      "fit_score": 0.94,
+      "evidence": ["Matches required morning running activity"],
+      "assumptions": ["Registration is available"],
+      "backup_rank": 1
+    },
+    {
+      "id": "activity-002",
+      "name": "Nong Nooch Garden Easy Run",
+      "category": "running",
+      "location": { "name": "Nong Nooch Tropical Garden", "lat": 12.765, "lng": 100.906 },
+      "schedule": { "start": "07:00", "end": "09:00", "date": "2026-08-15" },
+      "estimated_cost": { "currency": "THB", "amount": 600, "breakdown": "300 per person" },
+      "fit_score": 0.78,
+      "evidence": ["Lower cost backup activity"],
+      "assumptions": ["Public access is available"],
+      "backup_rank": 2
+    }
+  ],
+  "sources": [{ "type": "mock-data", "ref": "mock-data/activities.json" }]
+}

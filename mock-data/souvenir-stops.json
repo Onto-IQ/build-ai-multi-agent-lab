@@ -1,0 +1,7 @@
+{
+  "source_mode": "mock",
+  "stops": [
+    { "id": "souvenir-001", "name": "Pattaya Souvenir Market", "location": "Pattaya", "open": "10:00", "close": "21:00", "cost_estimate": 0, "tags": ["local", "souvenir"] },
+    { "id": "souvenir-002", "name": "Garden Gift Shop", "location": "Nong Nooch Tropical Garden", "open": "09:00", "close": "18:00", "cost_estimate": 0, "tags": ["souvenir", "convenient"] }
+  ]
+}

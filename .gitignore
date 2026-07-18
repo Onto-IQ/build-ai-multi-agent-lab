@@ -1,0 +1,7 @@
+.DS_Store
+Thumbs.db
+.env
+learning-log.md
+screenshots/
+contracts/*.json
+!contracts/*.example.json

@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "trip_id": "trip-001",
+  "generated_by": "opencode/logistics-auditor",
+  "generated_at": "2026-07-18T09:50:00+07:00",
+  "source_mode": "mock",
+  "status": "PASS",
+  "round": 1,
+  "budget_check": {
+    "currency": "THB",
+    "max": 5000,
+    "estimated_total": 4600,
+    "remaining": 400,
+    "status": "PASS"
+  },
+  "time_check": {
+    "window": { "start": "05:30", "end": "22:00" },
+    "travel_buffer_minutes": 30,
+    "status": "PASS"
+  },
+  "opening_hours_check": { "status": "PASS", "notes": ["Dining arrival is within operating hours"] },
+  "violations": [],
+  "recommended_action": "FINALIZE",
+  "backup_requirements": null,
+  "checked_inputs": ["contracts/trip-brief.json", "contracts/activity-options.json", "contracts/dining-options.json", "mock-data/travel-times.json"],
+  "sources": [{ "type": "mock-data", "ref": "mock-data/travel-times.json" }]
+}

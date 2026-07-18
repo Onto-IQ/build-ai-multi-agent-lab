@@ -1,0 +1,27 @@
+{
+  "schema_version": "1.0",
+  "trip_id": "trip-001",
+  "generated_by": "claude-code/coordinator",
+  "generated_at": "2026-07-18T10:00:00+07:00",
+  "source_mode": "mock",
+  "status": "PROPOSED_NOT_CONFIRMED",
+  "title": "Morning Run, Garden Wine and Souvenirs",
+  "date": "2026-08-15",
+  "travellers": 2,
+  "timeline": [
+    { "start": "06:00", "end": "09:30", "title": "Mini marathon", "location": "Nong Nooch Tropical Garden", "cost": 1600, "notes": "Confirm event registration" },
+    { "start": "09:30", "end": "12:00", "title": "Breakfast and recovery", "location": "Near Nong Nooch", "cost": 400, "notes": "Buffer after running" },
+    { "start": "12:00", "end": "15:30", "title": "Rest and transfer", "location": "Pattaya area", "cost": 200, "notes": "Estimated travel and refreshments" },
+    { "start": "16:00", "end": "19:00", "title": "Wine dinner", "location": "The Garden Wine Terrace", "cost": 2400, "notes": "Check opening hours before departure" },
+    { "start": "19:00", "end": "20:30", "title": "Souvenir shopping", "location": "Pattaya souvenir market", "cost": 0, "notes": "Souvenir budget remains within total budget" }
+  ],
+  "budget_summary": { "currency": "THB", "estimated_total": 4600, "max": 5000, "remaining": 400, "includes": ["activity", "dining", "transport estimate"] },
+  "audit": { "status": "PASS", "round": 1, "audit_ref": "contracts/audit-result.json" },
+  "assumptions": ["Prices are estimates", "Travel time is based on mock data", "Event availability is not confirmed"],
+  "user_confirmation_required": ["Confirm mini marathon registration", "Confirm restaurant opening and reservation", "Confirm actual travel conditions"],
+  "sources": [
+    { "type": "mock-data", "ref": "mock-data/activities.json" },
+    { "type": "mock-data", "ref": "mock-data/dining-options.json" },
+    { "type": "mock-data", "ref": "mock-data/travel-times.json" }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "source_mode": "mock",
+  "unit": "minutes",
+  "travel_times": [
+    { "from": "Pattaya", "to": "Nong Nooch Tropical Garden", "minutes": 35, "cost": 250 },
+    { "from": "Nong Nooch Tropical Garden", "to": "Na Jomtien", "minutes": 20, "cost": 100 },
+    { "from": "Nong Nooch Tropical Garden", "to": "Huai Yai", "minutes": 35, "cost": 150 },
+    { "from": "Nong Nooch Tropical Garden", "to": "Pattaya Beach", "minutes": 45, "cost": 200 },
+    { "from": "Na Jomtien", "to": "Pattaya", "minutes": 30, "cost": 150 },
+    { "from": "Huai Yai", "to": "Pattaya", "minutes": 35, "cost": 150 },
+    { "from": "Pattaya Beach", "to": "Pattaya", "minutes": 10, "cost": 50 }
+  ]
+}

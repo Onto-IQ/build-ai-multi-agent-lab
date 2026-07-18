@@ -1,0 +1,14 @@
+{
+  "scenario_id": "scenario-02-budget-fail",
+  "title": "ทริปงบจำกัดเพื่อทดสอบ fallback",
+  "user_request": "อยากวิ่งตอนเช้าที่สวนนงนุช แล้วกินมื้อเย็นบรรยากาศโรแมนติกกับแฟน งบรวมสองคนไม่เกิน 3,000 บาท กลับถึงพัทยาก่อนสามทุ่ม",
+  "date": "2026-08-15",
+  "start_area": "Pattaya",
+  "end_area": "Pattaya",
+  "travellers": { "count": 2, "relationship": "couple" },
+  "time_window": { "start": "05:30", "end": "21:00", "timezone": "Asia/Bangkok" },
+  "budget": { "currency": "THB", "total_max": 3000 },
+  "required_activities": ["morning running"],
+  "preferences": ["romantic", "quiet"],
+  "expected_failure": "premium dining candidate exceeds budget; request backup"
+}
