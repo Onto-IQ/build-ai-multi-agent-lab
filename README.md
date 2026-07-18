@@ -2,6 +2,8 @@
 
 โปรเจกต์ Lab สำหรับการอบรม AI Multi-Agent Systems 2 วัน 12 ชั่วโมง ผู้เรียนจะสร้างระบบวางแผนทริปจากคำขอภาษาธรรมชาติ โดยแบ่งงานระหว่าง Claude Code และ OpenCode แล้วประสานกันผ่าน JSON contracts
 
+งานใน repo นี้แบ่งเป็น **Trip Step A–G** แล้วกระจายเข้า Lab 1–9 ของหลักสูตร (ดูตารางใน `docs/LAB-INSTRUCTIONS.md`) ไม่ต้องรันทั้งชุดในครั้งเดียวตั้งแต่ต้น
+
 ## ภาพรวมระบบ
 
 ```text
@@ -22,6 +24,20 @@ final-itinerary.json + Mockup
 
 Claude Code รับผิดชอบการถอดความต้องการและกิจกรรมหลัก ส่วน OpenCode รับผิดชอบตัวเลือก dining และการตรวจงบประมาณ/เวลา ทั้งสองฝั่งสื่อสารผ่านไฟล์ใน `contracts/` และไม่แก้ไฟล์ของอีกฝั่งโดยตรง
 
+## Mapping เร็วกับหลักสูตร
+
+| Lab หลักสูตร | Trip Step | โฟกัส |
+|---|---|---|
+| Lab 1 | A | Triage (Claude Code) |
+| Lab 2 | C | Dining (OpenCode) |
+| Lab 3 | D | Permission + checklist |
+| Lab 4 | — | Memory (นอก trip flow) |
+| Lab 5 | B + C + E | ทีม 3 ตัว |
+| Lab 6 | E–F | Orchestration แบบเป็นขั้น |
+| Lab 7 | — | Collaboration Layer (ดู `docs/LAB7-COLLAB-LAYER.md`) |
+| Lab 8 | E–F | Loop vs stop |
+| Lab 9 | A–G | Capstone + Mockup |
+
 ## โครงสร้าง repository
 
 ```text
@@ -33,6 +49,12 @@ mockup/          หน้าเว็บแสดง itinerary แบบ static
 scripts/         สคริปต์ตรวจ JSON และ contract
 docs/            Instruction สำหรับผู้เรียน
 ```
+
+เอกสารสำคัญใน `docs/`:
+
+- `LAB-INSTRUCTIONS.md` — Trip Step A–G + mapping หลักสูตร
+- `PERMISSION-CHECKLIST.md` — Lab 3
+- `LAB7-COLLAB-LAYER.md` — Lab 7
 
 ## เริ่มต้นอย่างเร็ว
 
@@ -62,7 +84,7 @@ python -m http.server 8080 --directory mockup
 
 ## ลำดับการทำ Lab
 
-เริ่มจาก `docs/LAB-INSTRUCTIONS.md` แล้วทำตาม Lab 1 ถึง Lab 7 ตามลำดับ ผลลัพธ์ที่ผู้เรียนต้องสร้างคือ `trip-brief.json`, `activity-options.json`, `dining-options.json`, `audit-result.json` และ `final-itinerary.json` (ไฟล์ output จริงไม่รวมใน starter repository)
+เริ่มจาก `docs/LAB-INSTRUCTIONS.md` แล้วทำตาม **Trip Step A–G** ตามตาราง mapping ของแต่ละวัน ผลลัพธ์ที่ผู้เรียนต้องสร้างเมื่อจบ Capstone คือ `trip-brief.json`, `activity-options.json`, `dining-options.json`, `audit-result.json` และ `final-itinerary.json` (ไฟล์ output จริงไม่รวมใน starter repository)
 
 เส้นทางหลักใช้ข้อมูลจาก `mock-data/` เพื่อให้ทุกคนได้ผลลัพธ์ที่ทำซ้ำได้ API ภายนอกเป็น optional extension เท่านั้น หากใช้ API ต้องบันทึกแหล่งข้อมูลและวันเวลาที่เรียกไว้ใน output
 
