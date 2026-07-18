@@ -20,10 +20,11 @@ Dining Agent ใช้ต้นฉบับจาก Lab 2:
 ## ขั้นตอน
 
 1. ทำงานจาก **root** ของ repository
-2. Claude Code: รัน Activity Agent → `workspace/contracts/activity-options.json`
-3. OpenCode: ตรวจ/อัปเดต Dining Agent ถ้ายังไม่มี dining options
-4. OpenCode: รัน Auditor → `workspace/contracts/audit-result.json`
-5. ตรวจ:
+2. Activity / Dining เรียก tool ตาม `shared/prompts/tool-calling-rules.md` ก่อนเขียน contract (mock = fallback)
+3. Claude Code: รัน Activity Agent → `workspace/contracts/activity-options.json`
+4. OpenCode: ตรวจ/อัปเดต Dining Agent ถ้ายังไม่มี dining options
+5. OpenCode: รัน Auditor (ใช้ `travel-time` tool เมื่อมีพิกัด) → `workspace/contracts/audit-result.json`
+6. ตรวจ:
 
 ```bash
 node shared/scripts/validate-json.mjs workspace/contracts/activity-options.json

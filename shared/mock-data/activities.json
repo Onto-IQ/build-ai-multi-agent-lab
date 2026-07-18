@@ -1,8 +1,45 @@
 {
   "source_mode": "mock",
+  "notes": "Coords aligned with OSM/Nominatim probes (2026-07-18). Ticket prices are estimates for two people.",
   "activities": [
-    { "id": "activity-001", "name": "Nong Nooch Morning Mini Marathon", "category": "running", "location": "Nong Nooch Tropical Garden", "lat": 12.765, "lng": 100.906, "open": "05:00", "close": "12:00", "duration_minutes": 210, "cost_for_two": 1600, "tags": ["morning", "running", "outdoor"] },
-    { "id": "activity-002", "name": "Nong Nooch Garden Easy Run", "category": "running", "location": "Nong Nooch Tropical Garden", "lat": 12.765, "lng": 100.906, "open": "06:00", "close": "18:00", "duration_minutes": 120, "cost_for_two": 600, "tags": ["morning", "running", "value"] },
-    { "id": "activity-003", "name": "Pattaya Beach Walk", "category": "walking", "location": "Pattaya Beach", "lat": 12.934, "lng": 100.878, "open": "05:00", "close": "22:00", "duration_minutes": 90, "cost_for_two": 0, "tags": ["outdoor", "backup"] }
+    {
+      "id": "activity-001",
+      "name": "Wat Pho Morning Heritage Walk",
+      "category": "temple",
+      "location": "Wat Pho",
+      "lat": 13.74635,
+      "lng": 100.49274,
+      "open": "08:00",
+      "close": "18:30",
+      "duration_minutes": 120,
+      "cost_for_two": 400,
+      "tags": ["morning", "heritage", "photogenic", "outdoor"]
+    },
+    {
+      "id": "activity-002",
+      "name": "Wat Arun Riverside Visit",
+      "category": "temple",
+      "location": "Wat Arun",
+      "lat": 13.7439,
+      "lng": 100.48851,
+      "open": "08:00",
+      "close": "18:00",
+      "duration_minutes": 90,
+      "cost_for_two": 200,
+      "tags": ["morning", "heritage", "photogenic", "value"]
+    },
+    {
+      "id": "activity-003",
+      "name": "Lumphini Park Easy Morning Walk",
+      "category": "walking",
+      "location": "Lumphini Park",
+      "lat": 13.7306,
+      "lng": 100.54154,
+      "open": "04:30",
+      "close": "21:00",
+      "duration_minutes": 75,
+      "cost_for_two": 0,
+      "tags": ["morning", "outdoor", "backup", "quiet"]
+    }
   ]
 }

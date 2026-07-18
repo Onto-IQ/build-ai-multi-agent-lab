@@ -1,13 +1,14 @@
-# Memory brief — preference ที่ต้องจำ
+# Persistent Memory Brief (Lab 4)
 
-ใช้กับ Lab 4 บันทึกลง memory ของเครื่องมือ แล้วทดสอบข้าม session
+จำเฉพาะ preference และข้อจำกัดที่ใช้ซ้ำข้าม session — ไม่เก็บ itinerary ทั้งก้อน
 
-| รายการ | ค่า |
+| หัวข้อ | ค่าที่ควรจำ |
 |---|---|
-| งบรวมสูงสุด | 5,000 THB |
-| ผู้เดินทาง | คู่รัก 2 คน |
-| Dining preference | wine, romantic, quiet, chill |
-| พื้นที่ | Pattaya / สวนนงนุช |
-| ห้าม | อ้างว่าจองจริงหรือยืนยันร้านจากข้อมูล mock |
+| งบรวมสูงสุด | 3,000 THB |
+| Travellers | คู่รัก 2 คน |
+| Dining preference | thai food, quiet, chill |
+| พื้นที่ | กรุงเทพ — เกาะรัตนโกสินทร์ / สีลม |
+| Hard time | กลับถึงสีลมก่อน 20:00 |
+| Soft | ลดเวลาเดินทาง, ถ่ายรูปได้ |
 
-หลังเปิด session ใหม่ ถาม Agent ให้สรุป preference เหล่านี้โดยไม่อ่านไฟล์โจทย์ซ้ำ (หรือให้อ่าน memory เท่านั้น) แล้วบันทึกผลใน `workspace/learning-log.md`
+อย่าจำ: รายละเอียด timeline รอบนี้, ชื่อร้านที่เลือกในรอบเดียว, ข้อความแชทยาวที่ไม่มีโครงสร้าง

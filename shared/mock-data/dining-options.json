@@ -1,9 +1,58 @@
 {
   "source_mode": "mock",
+  "notes": "Names inspired by real OSM density near Tha Tian / Rattanakosin. Prices and closed_days are teaching fixtures — not live booking data.",
   "restaurants": [
-    { "id": "dining-001", "name": "The Garden Wine Terrace", "category": "wine-restaurant", "location": "Na Jomtien", "lat": 12.800, "lng": 100.910, "open": "16:00", "close": "22:00", "closed_days": [], "cost_for_two": 2400, "tags": ["romantic", "quiet", "wine", "outdoor"] },
-    { "id": "dining-002", "name": "Vineyard Kitchen", "category": "restaurant", "location": "Huai Yai", "lat": 12.840, "lng": 100.940, "open": "11:00", "close": "20:00", "closed_days": ["Monday"], "cost_for_two": 1600, "tags": ["quiet", "wine", "value"] },
-    { "id": "dining-003", "name": "Sunset Bistro", "category": "bistro", "location": "Pattaya Beach", "lat": 12.934, "lng": 100.878, "open": "15:00", "close": "23:00", "closed_days": [], "cost_for_two": 1200, "tags": ["romantic", "value", "backup"] },
-    { "id": "dining-004", "name": "Closed Monday Wine Bar", "category": "wine-bar", "location": "Na Jomtien", "lat": 12.805, "lng": 100.915, "open": "16:00", "close": "22:00", "closed_days": ["Monday"], "cost_for_two": 1800, "tags": ["wine", "quiet"] }
+    {
+      "id": "dining-001",
+      "name": "Tha Tian Thai Kitchen",
+      "category": "restaurant",
+      "location": "Tha Tian",
+      "lat": 13.7452,
+      "lng": 100.4911,
+      "open": "10:30",
+      "close": "21:00",
+      "closed_days": [],
+      "cost_for_two": 1200,
+      "tags": ["thai", "quiet", "chill", "near-wat-pho"]
+    },
+    {
+      "id": "dining-002",
+      "name": "Rattanakosin Riverside Table",
+      "category": "restaurant",
+      "location": "Tha Pra Chan",
+      "lat": 13.755,
+      "lng": 100.4895,
+      "open": "11:00",
+      "close": "20:00",
+      "closed_days": ["Monday"],
+      "cost_for_two": 1800,
+      "tags": ["thai", "quiet", "photogenic"]
+    },
+    {
+      "id": "dining-003",
+      "name": "Silom Comfort Cafe",
+      "category": "cafe",
+      "location": "Silom",
+      "lat": 13.7285,
+      "lng": 100.5355,
+      "open": "09:00",
+      "close": "21:00",
+      "closed_days": [],
+      "cost_for_two": 700,
+      "tags": ["thai", "value", "backup", "chill"]
+    },
+    {
+      "id": "dining-004",
+      "name": "Closed Monday Heritage Bistro",
+      "category": "restaurant",
+      "location": "Tha Tian",
+      "lat": 13.7448,
+      "lng": 100.4905,
+      "open": "11:00",
+      "close": "21:00",
+      "closed_days": ["Monday"],
+      "cost_for_two": 1600,
+      "tags": ["thai", "quiet"]
+    }
   ]
 }
