@@ -52,4 +52,6 @@
 
 สคริปต์ยืนยัน: `shared/scripts/probe-bangkok-scenario.py`  
 Tool path (implementation): `shared/scripts/tools/` + `shared/prompts/tool-calling-rules.md`  
+เหตุผล CLI+cache: ลด rate limit ทั้งห้อง (Overpass/Nominatim 429)  
+Lab เสริม MCP vs CLI: `labs/lab-optional-mcp-vs-cli/`  
 Smoke test: `node shared/scripts/tools/smoke-test.mjs`

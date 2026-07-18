@@ -3,14 +3,23 @@
 ใช้ร่วมกับ prompt ของ Activity / Dining / Auditor  
 **JSON contract ยังเป็นแกน orchestration** — tool ใช้เพื่อดึงข้อมูลเข้า contract เท่านั้น
 
+## ทำไมใช้ CLI + cache (ไม่ยิง API ตรงทั้งห้อง)
+
+คอร์สเตรียม `shared/scripts/tools/*` และบังคับอ่าน/เขียน `external-cache/` เพื่อ **ลด rate limit** ของ Overpass / Nominatim / public OSRM เมื่อผู้เรียนหลายคนยิงพร้อมกัน
+
+- โดน `429` / timeout → ใช้ cache หรือ `shared/mock-data/*` ทันที อย่าวนยิงซ้ำ  
+- MCP หรือ API สำเร็จรูปอาจเรียกง่ายกว่า — ลองได้ใน Lab เสริม แต่**ไม่ใช่เกณฑ์ผ่านหลัก**  
+- Lab เสริม: [`labs/lab-optional-mcp-vs-cli/README.md`](../../labs/lab-optional-mcp-vs-cli/README.md)
+
 ## สถาปัตยกรรม
 
 ```text
 อ่าน contract ขาเข้า
-  → เรียก tool (CLI ด้านล่าง)
-  → ได้ cache ใน shared/mock-data/external-cache/
+  → ตรวจ external-cache ก่อน (กัน rate limit)
+  → ถ้าไม่มี cache ค่อยเรียก tool (CLI ด้านล่าง)
+  → เขียน cache ใหม่
   → map เข้า schema ของ contract ที่ตัวเองเป็น owner
-  → ถ้า tool ล้ม / ข้อมูลไม่พอ → fallback shared/mock-data/*
+  → ถ้า tool ล้ม / 429 / ข้อมูลไม่พอ → fallback shared/mock-data/*
   → ตั้ง source_mode + sources ให้ตรงความจริง
 ```
 

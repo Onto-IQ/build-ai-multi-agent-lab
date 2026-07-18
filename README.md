@@ -6,7 +6,8 @@
 
 **โจทย์หลัก:** Bangkok Rattanakosin day trip  
 Scenario: `labs/lab-01-triage/scenarios/scenario-01-bangkok-rattanakosin.json`  
-ข้อมูล: tool (`shared/scripts/tools/`) → JSON contract · mock เป็น fallback
+ข้อมูล: tool CLI + `external-cache` → JSON contract · mock เป็น fallback  
+(ใช้ CLI+cache โดยเจตนาเพื่อ**ลด rate limit** ทั้งห้อง — ดู Lab เสริม MCP)
 
 ## ภาพรวมระบบ
 
@@ -48,6 +49,7 @@ docs/            index สั้น ๆ ชี้ไป labs/*
 | 7 | [labs/lab-07-collab-layer](labs/lab-07-collab-layer/README.md) | Collaboration Layer |
 | 8 | [labs/lab-08-stop-condition](labs/lab-08-stop-condition/README.md) | Loop vs stop |
 | 9 | [labs/lab-09-capstone](labs/lab-09-capstone/README.md) | Capstone + Mockup |
+| เสริม | [labs/lab-optional-mcp-vs-cli](labs/lab-optional-mcp-vs-cli/README.md) | MCP/API สำเร็จรูป vs CLI+cache (rate limit) — ไม่บังคับ |
 
 ## เริ่มต้นอย่างเร็ว
 
