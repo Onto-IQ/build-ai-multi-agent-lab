@@ -4,3 +4,6 @@ Thumbs.db
 screenshots/
 workspace/contracts/*.json
 !workspace/contracts/.gitkeep
+
+# Cursor project rules / local AI config — do not publish
+.cursor/

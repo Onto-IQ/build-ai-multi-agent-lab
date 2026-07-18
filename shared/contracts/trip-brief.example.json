@@ -4,24 +4,33 @@
   "generated_by": "claude-code/triage-agent",
   "generated_at": "2026-07-18T09:00:00+07:00",
   "source_mode": "mock",
-  "request_text": "อยากไปวิ่งมินิมาราธอนแถวสวนนงนุชตอนเช้า บ่ายอยากหาร้านไวน์บรรยากาศดี ๆ นั่งชิลกับแฟน ขากลับแวะซื้อของฝาก งบรวมไม่เกิน 5,000 บาท",
+  "request_text": "เช้าอยากเที่ยววัดถ่ายรูปแถวเกาะรัตนโกสินทร์ (วัดโพธิ์หรือวัดอรุณ) นั่งชิลกับแฟน เที่ยงกินอาหารไทยรสดี บ่ายแวะซื้อของฝาก งบสองคนไม่เกิน 3,000 บาท กลับถึงที่พักย่านสีลมก่อน 20:00",
   "travellers": { "count": 2, "relationship": "couple" },
   "date": "2026-08-15",
-  "start_area": "Pattaya",
-  "end_area": "Pattaya",
-  "budget": { "currency": "THB", "total_max": 5000 },
-  "time_window": { "start": "05:30", "end": "22:00", "timezone": "Asia/Bangkok" },
-  "required_activities": ["morning mini marathon", "souvenir shopping"],
-  "dining_preferences": ["wine", "romantic", "quiet", "chill"],
+  "start_area": "Silom",
+  "end_area": "Silom",
+  "budget": { "currency": "THB", "total_max": 3000 },
+  "time_window": { "start": "08:00", "end": "20:00", "timezone": "Asia/Bangkok" },
+  "required_activities": ["morning temple or heritage visit", "souvenir shopping"],
+  "dining_preferences": ["thai food", "quiet", "chill"],
   "hard_constraints": [
-    { "id": "budget", "rule": "total_cost <= 5000", "priority": "critical" },
-    { "id": "morning-run", "rule": "running_activity starts before 10:00", "priority": "critical" },
-    { "id": "open-hours", "rule": "arrive during operating hours", "priority": "critical" }
+    { "id": "budget", "rule": "total_cost <= 3000", "priority": "critical" },
+    { "id": "morning-heritage", "rule": "temple_or_heritage_activity starts before 11:00", "priority": "critical" },
+    { "id": "open-hours", "rule": "arrive during operating hours", "priority": "critical" },
+    { "id": "return-silom", "rule": "arrive_end_area by 20:00", "priority": "critical" }
   ],
   "soft_preferences": [
     { "id": "short-travel", "rule": "minimize travel time", "weight": 0.7 },
-    { "id": "atmosphere", "rule": "romantic and quiet", "weight": 0.9 }
+    { "id": "atmosphere", "rule": "quiet and chill", "weight": 0.8 },
+    { "id": "thai-cuisine", "rule": "prefer thai food", "weight": 0.9 }
   ],
-  "assumptions": ["Transport is a private car", "Prices are estimates for two people"],
-  "missing_information": ["Exact running event date confirmation", "Preferred souvenir category"]
+  "assumptions": [
+    "Transport is taxi or ride-hail within Bangkok",
+    "Prices are estimates for two people",
+    "Temple ticket prices may vary by zone"
+  ],
+  "missing_information": [
+    "Preferred temple if both Wat Pho and Wat Arun fit",
+    "Dietary restrictions"
+  ]
 }

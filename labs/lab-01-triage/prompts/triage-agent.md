@@ -9,7 +9,7 @@
 
 ## ขั้นตอน
 
-1. อ่าน `labs/lab-01-triage/scenarios/scenario-01-nong-nooch.json`
+1. อ่าน `labs/lab-01-triage/scenarios/scenario-01-bangkok-rattanakosin.json`
 2. ดึงวันที่ พื้นที่ จำนวนคน งบ เวลา กิจกรรมที่ต้องมี และ preference
 3. แยกข้อกำหนดเป็น `hard_constraints` กับ `soft_preferences`
 4. ถ้าข้อมูลหายให้ใส่ใน `missing_information` และตั้ง assumption อย่างระมัดระวัง

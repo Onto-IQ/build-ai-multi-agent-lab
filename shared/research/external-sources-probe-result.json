@@ -1,0 +1,389 @@
+{
+  "probed_at": "2026-07-18T14:22:13.195376+00:00",
+  "user_agent": "TripCoordinatorLabResearch/1.0 (course probe; local)",
+  "results": [
+    {
+      "name": "Nominatim:Nong Nooch",
+      "ok": true,
+      "latency_ms": 747,
+      "notes": [
+        "สวนนงนุช, Entrance to car park, เขาชีจรรย์, อำเภอสัตหีบ, จังหวัดชลบุรี, 20250, ป | 12.7687820,100.9339740 | tourism/attraction"
+      ],
+      "error": null,
+      "sample": {
+        "place_id": 257735345,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 6937395185,
+        "lat": "12.7687820",
+        "lon": "100.9339740",
+        "class": "tourism",
+        "type": "attraction",
+        "place_rank": 30,
+        "importance": 0.2836220396951343,
+        "addresstype": "tourism",
+        "name": "สวนนงนุช",
+        "display_name": "สวนนงนุช, Entrance to car park, เขาชีจรรย์, อำเภอสัตหีบ, จังหวัดชลบุรี, 20250, ประเทศไทย",
+        "boundingbox": [
+          "12.7687320",
+          "12.7688320",
+          "100.9339240",
+          "100.9340240"
+        ]
+      }
+    },
+    {
+      "name": "Nominatim:สวนนงนุช",
+      "ok": true,
+      "latency_ms": 712,
+      "notes": [
+        "สวนนงนุช พัทยา, เมืองพัทยา, เขาชีจรรย์, อำเภอสัตหีบ, จังหวัดชลบุรี, 20250, ประเท | 12.7646849,100.9361187 | leisure/garden",
+        "alt_count=2"
+      ],
+      "error": null,
+      "sample": {
+        "place_id": 257535956,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 318679723,
+        "lat": "12.7646849",
+        "lon": "100.9361187",
+        "class": "leisure",
+        "type": "garden",
+        "place_rank": 25,
+        "importance": 0.2836220396951343,
+        "addresstype": "garden",
+        "name": "สวนนงนุช พัทยา",
+        "display_name": "สวนนงนุช พัทยา, เมืองพัทยา, เขาชีจรรย์, อำเภอสัตหีบ, จังหวัดชลบุรี, 20250, ประเทศไทย",
+        "boundingbox": [
+          "12.7591514",
+          "12.7705892",
+          "100.9275868",
+          "100.9434406"
+        ]
+      }
+    },
+    {
+      "name": "Nominatim:Pattaya Beach Thailand",
+      "ok": true,
+      "latency_ms": 755,
+      "notes": [
+        "Pattaya Beach, ถนนพัทยากลาง, เมืองพัทยา, หนองปลาไหล, อำเภอบางละมุง, จังหวัดชลบุร | 12.9365830,100.8859605 | tourism/hotel",
+        "alt_count=2"
+      ],
+      "error": null,
+      "sample": {
+        "place_id": 258138056,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "way",
+        "osm_id": 1210196040,
+        "lat": "12.9365830",
+        "lon": "100.8859605",
+        "class": "tourism",
+        "type": "hotel",
+        "place_rank": 30,
+        "importance": 5.996261539630758e-05,
+        "addresstype": "tourism",
+        "name": "Pattaya Beach",
+        "display_name": "Pattaya Beach, ถนนพัทยากลาง, เมืองพัทยา, หนองปลาไหล, อำเภอบางละมุง, จังหวัดชลบุรี, 20210, ประเทศไทย",
+        "boundingbox": [
+          "12.9363798",
+          "12.9367717",
+          "100.8857607",
+          "100.8861319"
+        ]
+      }
+    },
+    {
+      "name": "Nominatim:Na Jomtien Pattaya",
+      "ok": true,
+      "latency_ms": 656,
+      "notes": [
+        "Ami&Na Guesthouse, จอมเทียน ซอย3, จอมเทียน, เมืองพัทยา, ห้วยใหญ่, อำเภอบางละมุง, | 12.8976998,100.8697403 | tourism/guest_house",
+        "alt_count=2"
+      ],
+      "error": null,
+      "sample": {
+        "place_id": 257728441,
+        "licence": "Data © OpenStreetMap contributors, ODbL 1.0. http://osm.org/copyright",
+        "osm_type": "node",
+        "osm_id": 3530855427,
+        "lat": "12.8976998",
+        "lon": "100.8697403",
+        "class": "tourism",
+        "type": "guest_house",
+        "place_rank": 30,
+        "importance": 5.996261539630758e-05,
+        "addresstype": "tourism",
+        "name": "Ami&Na Guesthouse",
+        "display_name": "Ami&Na Guesthouse, จอมเทียน ซอย3, จอมเทียน, เมืองพัทยา, ห้วยใหญ่, อำเภอบางละมุง, จังหวัดชลบุรี, 20260, ประเทศไทย",
+        "boundingbox": [
+          "12.8976498",
+          "12.8977498",
+          "100.8696903",
+          "100.8697903"
+        ]
+      }
+    },
+    {
+      "name": "Overpass:nong_nooch_name",
+      "ok": true,
+      "latency_ms": 1067,
+      "notes": [
+        "endpoint=https://overpass-api.de/api/interpreter",
+        "elements=10",
+        "named=10/10 opening_hours=0/10 cuisine=0/10"
+      ],
+      "error": null,
+      "sample": [
+        {
+          "name": "สวนนงนุช",
+          "amenity": null,
+          "tourism": null,
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.7746754,
+          "lon": 100.9242303
+        },
+        {
+          "name": "สวนนงนุช 2",
+          "amenity": null,
+          "tourism": null,
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.7763618,
+          "lon": 100.926121
+        },
+        {
+          "name": "สวนนงนุช",
+          "amenity": null,
+          "tourism": "attraction",
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.768782,
+          "lon": 100.933974
+        },
+        {
+          "name": "Ceramic Garden - Nong nooch",
+          "amenity": null,
+          "tourism": "attraction",
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.7661444,
+          "lon": 100.9301458
+        },
+        {
+          "name": "Strebluses - Nong nooch",
+          "amenity": null,
+          "tourism": "attraction",
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.7658508,
+          "lon": 100.9307649
+        }
+      ]
+    },
+    {
+      "name": "Overpass:beach_restaurants",
+      "ok": true,
+      "latency_ms": 1290,
+      "notes": [
+        "endpoint=https://overpass-api.de/api/interpreter",
+        "elements=25",
+        "named=25/25 opening_hours=1/25 cuisine=8/25"
+      ],
+      "error": null,
+      "sample": [
+        {
+          "name": "Toscana Trattoria Pizzeria",
+          "amenity": "restaurant",
+          "tourism": null,
+          "cuisine": "pizza",
+          "opening_hours": null,
+          "lat": 12.9419779,
+          "lon": 100.8850018
+        },
+        {
+          "name": "Hard Rock Cafe",
+          "amenity": "restaurant",
+          "tourism": null,
+          "cuisine": "american",
+          "opening_hours": null,
+          "lat": 12.9394083,
+          "lon": 100.8842618
+        },
+        {
+          "name": "Star Dice",
+          "amenity": "restaurant",
+          "tourism": null,
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.9386303,
+          "lon": 100.8837535
+        },
+        {
+          "name": "Sukanya Bar Beer",
+          "amenity": "bar",
+          "tourism": null,
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.9374757,
+          "lon": 100.8838118
+        },
+        {
+          "name": "Chalet Suisse",
+          "amenity": "restaurant",
+          "tourism": null,
+          "cuisine": null,
+          "opening_hours": null,
+          "lat": 12.9370466,
+          "lon": 100.884589
+        }
+      ]
+    },
+    {
+      "name": "Overpass:southern_attractions",
+      "ok": false,
+      "latency_ms": 0,
+      "notes": [],
+      "error": "HTTP Error 429: Too Many Requests",
+      "sample": null
+    },
+    {
+      "name": "OSRM:NongNooch->PattayaBeach",
+      "ok": true,
+      "latency_ms": 646,
+      "notes": [
+        "27.4 min",
+        "23.8 km",
+        "code=Ok"
+      ],
+      "error": null,
+      "sample": {
+        "duration_min": 27.4,
+        "distance_km": 23.8
+      }
+    },
+    {
+      "name": "OSRM:NongNooch->NaJomtienApprox",
+      "ok": true,
+      "latency_ms": 633,
+      "notes": [
+        "14.0 min",
+        "6.6 km",
+        "code=Ok"
+      ],
+      "error": null,
+      "sample": {
+        "duration_min": 14.0,
+        "distance_km": 6.6
+      }
+    },
+    {
+      "name": "OSRM:PattayaBeach->NaJomtienApprox",
+      "ok": true,
+      "latency_ms": 637,
+      "notes": [
+        "16.7 min",
+        "18.4 km",
+        "code=Ok"
+      ],
+      "error": null,
+      "sample": {
+        "duration_min": 16.7,
+        "distance_km": 18.4
+      }
+    },
+    {
+      "name": "OSRM:mockCoords NongNooch->Beach",
+      "ok": true,
+      "latency_ms": 633,
+      "notes": [
+        "17.8 min",
+        "21.8 km",
+        "code=Ok"
+      ],
+      "error": null,
+      "sample": {
+        "duration_min": 17.8,
+        "distance_km": 21.8
+      }
+    },
+    {
+      "name": "OSRM:table",
+      "ok": true,
+      "latency_ms": 633,
+      "notes": [
+        "code=Ok",
+        "NongNooch->PattayaBeach: 27.4 min / 23.8 km",
+        "NongNooch->NaJomtienApprox: 14.0 min / 6.6 km",
+        "PattayaBeach->NaJomtienApprox: 16.7 min / 18.4 km"
+      ],
+      "error": null,
+      "sample": {
+        "NongNooch->PattayaBeach": {
+          "min": 27.4,
+          "km": 23.8
+        },
+        "NongNooch->NaJomtienApprox": {
+          "min": 14.0,
+          "km": 6.6
+        },
+        "PattayaBeach->NaJomtienApprox": {
+          "min": 16.7,
+          "km": 18.4
+        }
+      }
+    },
+    {
+      "name": "OpenMeteo:forecast",
+      "ok": true,
+      "latency_ms": 822,
+      "notes": [
+        "timezone=Asia/Bangkok",
+        "2026-07-18 precip=0.0mm tmax=32.3C",
+        "2026-07-19 precip=0.0mm tmax=31.7C",
+        "2026-07-20 precip=0.1mm tmax=32.6C"
+      ],
+      "error": null,
+      "sample": {
+        "time": [
+          "2026-07-18",
+          "2026-07-19",
+          "2026-07-20"
+        ],
+        "precipitation_sum": [
+          0.0,
+          0.0,
+          0.1
+        ],
+        "temperature_2m_max": [
+          32.3,
+          31.7,
+          32.6
+        ]
+      }
+    },
+    {
+      "name": "OpenMeteo:geocoding",
+      "ok": false,
+      "latency_ms": 914,
+      "notes": [
+        "results=0"
+      ],
+      "error": null,
+      "sample": []
+    },
+    {
+      "name": "OpenRouteService:no_key",
+      "ok": false,
+      "latency_ms": 0,
+      "notes": [
+        "HTTP 401 (expected without API key)",
+        "{\n    \"error\": \"Authorization field missing\"\n}"
+      ],
+      "error": "HTTP 401",
+      "sample": null
+    }
+  ]
+}

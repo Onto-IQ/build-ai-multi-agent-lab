@@ -5,23 +5,73 @@
   "generated_at": "2026-07-18T10:00:00+07:00",
   "source_mode": "mock",
   "status": "PROPOSED_NOT_CONFIRMED",
-  "title": "Morning Run, Garden Wine and Souvenirs",
+  "title": "Rattanakosin Morning, Thai Lunch and Souvenirs",
   "date": "2026-08-15",
   "travellers": 2,
   "timeline": [
-    { "start": "06:00", "end": "09:30", "title": "Mini marathon", "location": "Nong Nooch Tropical Garden", "cost": 1600, "notes": "Confirm event registration" },
-    { "start": "09:30", "end": "12:00", "title": "Breakfast and recovery", "location": "Near Nong Nooch", "cost": 400, "notes": "Buffer after running" },
-    { "start": "12:00", "end": "15:30", "title": "Rest and transfer", "location": "Pattaya area", "cost": 200, "notes": "Estimated travel and refreshments" },
-    { "start": "16:00", "end": "19:00", "title": "Wine dinner", "location": "The Garden Wine Terrace", "cost": 2400, "notes": "Check opening hours before departure" },
-    { "start": "19:00", "end": "20:30", "title": "Souvenir shopping", "location": "Pattaya souvenir market", "cost": 0, "notes": "Souvenir budget remains within total budget" }
+    {
+      "start": "08:30",
+      "end": "10:30",
+      "title": "Wat Pho Morning Heritage Walk",
+      "location": "Wat Pho",
+      "cost": 400,
+      "notes": "Confirm ticket zones on arrival"
+    },
+    {
+      "start": "10:30",
+      "end": "11:00",
+      "title": "Short transfer to lunch",
+      "location": "Tha Tian",
+      "cost": 40,
+      "notes": "Walk or short ride from Wat Pho"
+    },
+    {
+      "start": "11:00",
+      "end": "13:00",
+      "title": "Thai lunch",
+      "location": "Tha Tian Thai Kitchen",
+      "cost": 1200,
+      "notes": "Check opening hours before departure"
+    },
+    {
+      "start": "13:30",
+      "end": "15:30",
+      "title": "Souvenir shopping",
+      "location": "Pak Khlong Talat Flower & Gift Stalls",
+      "cost": 300,
+      "notes": "Souvenir spend is an estimate"
+    },
+    {
+      "start": "15:30",
+      "end": "16:00",
+      "title": "Return to Silom",
+      "location": "Silom",
+      "cost": 150,
+      "notes": "Buffer before 20:00 hard constraint"
+    }
   ],
-  "budget_summary": { "currency": "THB", "estimated_total": 4600, "max": 5000, "remaining": 400, "includes": ["activity", "dining", "transport estimate"] },
+  "budget_summary": {
+    "currency": "THB",
+    "estimated_total": 2090,
+    "max": 3000,
+    "remaining": 910,
+    "includes": ["activity", "dining", "souvenir estimate", "transport estimate"]
+  },
   "audit": { "status": "PASS", "round": 1, "audit_ref": "contracts/audit-result.json" },
-  "assumptions": ["Prices are estimates", "Travel time is based on mock data", "Event availability is not confirmed"],
-  "user_confirmation_required": ["Confirm mini marathon registration", "Confirm restaurant opening and reservation", "Confirm actual travel conditions"],
+  "assumptions": [
+    "Prices are estimates",
+    "Travel time is based on mock data aligned with OSRM probes",
+    "No restaurant reservation is confirmed"
+  ],
+  "user_confirmation_required": [
+    "Confirm temple ticket prices and dress code",
+    "Confirm restaurant opening and table availability",
+    "Confirm actual traffic before return to Silom"
+  ],
   "sources": [
     { "type": "mock-data", "ref": "mock-data/activities.json" },
     { "type": "mock-data", "ref": "mock-data/dining-options.json" },
-    { "type": "mock-data", "ref": "mock-data/travel-times.json" }
+    { "type": "mock-data", "ref": "mock-data/travel-times.json" },
+    { "type": "mock-data", "ref": "mock-data/souvenir-stops.json" }
   ]
 }

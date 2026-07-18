@@ -8,20 +8,29 @@
   "round": 1,
   "budget_check": {
     "currency": "THB",
-    "max": 5000,
-    "estimated_total": 4600,
-    "remaining": 400,
+    "max": 3000,
+    "estimated_total": 2420,
+    "remaining": 580,
     "status": "PASS"
   },
   "time_check": {
-    "window": { "start": "05:30", "end": "22:00" },
-    "travel_buffer_minutes": 30,
+    "window": { "start": "08:00", "end": "20:00" },
+    "travel_buffer_minutes": 20,
+    "return_by": "20:00",
     "status": "PASS"
   },
-  "opening_hours_check": { "status": "PASS", "notes": ["Dining arrival is within operating hours"] },
+  "opening_hours_check": {
+    "status": "PASS",
+    "notes": ["Dining and souvenir stops fall within operating hours"]
+  },
   "violations": [],
   "recommended_action": "FINALIZE",
   "backup_requirements": null,
-  "checked_inputs": ["contracts/trip-brief.json", "contracts/activity-options.json", "contracts/dining-options.json", "mock-data/travel-times.json"],
+  "checked_inputs": [
+    "contracts/trip-brief.json",
+    "contracts/activity-options.json",
+    "contracts/dining-options.json",
+    "mock-data/travel-times.json"
+  ],
   "sources": [{ "type": "mock-data", "ref": "mock-data/travel-times.json" }]
 }

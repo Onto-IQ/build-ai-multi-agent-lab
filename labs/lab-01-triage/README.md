@@ -11,7 +11,7 @@
 ## ไฟล์ในโฟลเดอร์นี้
 
 - `prompts/triage-agent.md` — prompt หลัก
-- `scenarios/scenario-01-nong-nooch.json` — โจทย์ตั้งต้นของหลักสูตร
+- `scenarios/scenario-01-bangkok-rattanakosin.json` — โจทย์ตั้งต้นของหลักสูตร (Bangkok day trip)
 
 ## ขั้นตอน
 

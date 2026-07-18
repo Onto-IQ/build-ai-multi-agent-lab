@@ -1,0 +1,25 @@
+{
+  "source": "osrm",
+  "retrieved_at": "2026-07-18T14:36:34.708Z",
+  "confidence": 0.9,
+  "query": {
+    "from": {
+      "lon": 100.4927381,
+      "lat": 13.7463456
+    },
+    "to": {
+      "lon": 100.53707,
+      "lat": 13.7292
+    },
+    "profile": "driving"
+  },
+  "ok": true,
+  "data": {
+    "duration_min": 11.7,
+    "distance_km": 7.4,
+    "code": "Ok"
+  },
+  "notes": [
+    "driving profile; traffic not included"
+  ]
+}

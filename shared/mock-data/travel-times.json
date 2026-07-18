@@ -1,13 +1,19 @@
 {
   "source_mode": "mock",
   "unit": "minutes",
+  "notes": "Rounded from OSRM driving probes (2026-07-18). Cost is taxi/ride-hail estimate for teaching, not a live fare API.",
   "travel_times": [
-    { "from": "Pattaya", "to": "Nong Nooch Tropical Garden", "minutes": 35, "cost": 250 },
-    { "from": "Nong Nooch Tropical Garden", "to": "Na Jomtien", "minutes": 20, "cost": 100 },
-    { "from": "Nong Nooch Tropical Garden", "to": "Huai Yai", "minutes": 35, "cost": 150 },
-    { "from": "Nong Nooch Tropical Garden", "to": "Pattaya Beach", "minutes": 45, "cost": 200 },
-    { "from": "Na Jomtien", "to": "Pattaya", "minutes": 30, "cost": 150 },
-    { "from": "Huai Yai", "to": "Pattaya", "minutes": 35, "cost": 150 },
-    { "from": "Pattaya Beach", "to": "Pattaya", "minutes": 10, "cost": 50 }
+    { "from": "Silom", "to": "Wat Pho", "minutes": 15, "cost": 120 },
+    { "from": "Wat Pho", "to": "Wat Arun", "minutes": 10, "cost": 80 },
+    { "from": "Wat Pho", "to": "Tha Tian", "minutes": 5, "cost": 40 },
+    { "from": "Wat Pho", "to": "Tha Pra Chan", "minutes": 8, "cost": 60 },
+    { "from": "Wat Arun", "to": "Tha Tian", "minutes": 12, "cost": 90 },
+    { "from": "Tha Tian", "to": "Pak Khlong Talat", "minutes": 8, "cost": 50 },
+    { "from": "Tha Tian", "to": "Silom", "minutes": 18, "cost": 140 },
+    { "from": "Tha Pra Chan", "to": "Silom", "minutes": 20, "cost": 150 },
+    { "from": "Pak Khlong Talat", "to": "Silom", "minutes": 20, "cost": 150 },
+    { "from": "Lumphini Park", "to": "Silom", "minutes": 5, "cost": 40 },
+    { "from": "Silom", "to": "Lumphini Park", "minutes": 5, "cost": 40 },
+    { "from": "Silom Comfort Cafe", "to": "Silom", "minutes": 3, "cost": 0 }
   ]
 }
