@@ -50,6 +50,8 @@ opencode --version
 node scripts/validate-json.mjs
 ```
 
+คำสั่งนี้ตรวจทั้ง JSON syntax และโครงสร้างขั้นต่ำของ contract ที่มีชื่อสอดคล้องกับ `trip-brief`, `activity-options`, `dining-options`, `audit-result` หรือ `final-itinerary` และสามารถตรวจไฟล์เดียวได้
+
 เปิด Mockup โดยดับเบิลคลิก `mockup/index.html` หรือใช้ local server:
 
 ```bash
