@@ -1,8 +1,8 @@
 # Multi-Agent Personalized Trip & Dining Coordinator Lab
 
-โปรเจกต์ Lab สำหรับการอบรม AI Multi-Agent Systems 2 วัน 12 ชั่วโมง ผู้เรียนจะสร้างระบบวางแผนทริปจากคำขอภาษาธรรมชาติ โดยแบ่งงานระหว่าง Claude Code และ OpenCode แล้วประสานกันผ่าน JSON contracts
+โปรเจกต์ Lab สำหรับหลักสูตร AI Multi-Agent Systems (2 วัน) ผู้เรียนสร้างระบบวางแผนทริปโดยแบ่งงานระหว่าง Claude Code กับ OpenCode ผ่าน JSON contracts
 
-งานใน repo นี้แบ่งเป็น **Trip Step A–G** แล้วกระจายเข้า Lab 1–9 ของหลักสูตร (ดูตารางใน `docs/LAB-INSTRUCTIONS.md`) ไม่ต้องรันทั้งชุดในครั้งเดียวตั้งแต่ต้น
+โครงสร้างเป็น **โฟลเดอร์ต่อ Lab** — เริ่มจาก `labs/lab-01-triage/README.md` แล้วเดินตามลำดับ
 
 ## ภาพรวมระบบ
 
@@ -11,7 +11,7 @@ User Request
     |
     v
 Claude Code: Triage / Activity
-    |  trip-brief.json + activity-options.json
+    |  workspace/contracts/trip-brief.json + activity-options.json
     v
 OpenCode: Dining / Logistics Audit
     |  dining-options.json + audit-result.json
@@ -19,42 +19,31 @@ OpenCode: Dining / Logistics Audit
 Claude Code: Coordinator / Final Synthesis
     |
     v
-final-itinerary.json + Mockup
+final-itinerary.json + labs/lab-09-capstone/mockup
 ```
-
-Claude Code รับผิดชอบการถอดความต้องการและกิจกรรมหลัก ส่วน OpenCode รับผิดชอบตัวเลือก dining และการตรวจงบประมาณ/เวลา ทั้งสองฝั่งสื่อสารผ่านไฟล์ใน `contracts/` และไม่แก้ไฟล์ของอีกฝั่งโดยตรง
-
-## Mapping เร็วกับหลักสูตร
-
-| Lab หลักสูตร | Trip Step | โฟกัส |
-|---|---|---|
-| Lab 1 | A | Triage (Claude Code) |
-| Lab 2 | C | Dining (OpenCode) |
-| Lab 3 | D | Permission + checklist |
-| Lab 4 | — | Memory (นอก trip flow) |
-| Lab 5 | B + C + E | ทีม 3 ตัว |
-| Lab 6 | E–F | Orchestration แบบเป็นขั้น |
-| Lab 7 | — | Collaboration Layer (ดู `docs/LAB7-COLLAB-LAYER.md`) |
-| Lab 8 | E–F | Loop vs stop |
-| Lab 9 | A–G | Capstone + Mockup |
 
 ## โครงสร้าง repository
 
 ```text
-contracts/       ตัวอย่าง JSON contract ระหว่าง Agent
-mock-data/       ข้อมูลจำลองสถานที่ กิจกรรม ร้านอาหาร และการเดินทาง
-prompts/         Prompt สำหรับ Claude Code และ OpenCode
-scenarios/       โจทย์ Lab และ failure cases
-mockup/          หน้าเว็บแสดง itinerary แบบ static
-scripts/         สคริปต์ตรวจ JSON และ contract
-docs/            Instruction สำหรับผู้เรียน
+labs/            Lab 01–09 แต่ละโฟลเดอร์มี README + ไฟล์ที่จำเป็น
+shared/          contracts examples, mock-data, scripts
+workspace/       output ของผู้เรียน (contracts + learning-log)
+docs/            index สั้น ๆ ชี้ไป labs/*
 ```
 
-เอกสารสำคัญใน `docs/`:
+## Mapping Lab
 
-- `LAB-INSTRUCTIONS.md` — Trip Step A–G + mapping หลักสูตร
-- `PERMISSION-CHECKLIST.md` — Lab 3
-- `LAB7-COLLAB-LAYER.md` — Lab 7
+| Lab | โฟลเดอร์ | โฟกัส |
+|---|---|---|
+| 1 | [labs/lab-01-triage](labs/lab-01-triage/README.md) | Triage (Claude Code) |
+| 2 | [labs/lab-02-dining](labs/lab-02-dining/README.md) | Dining (OpenCode) |
+| 3 | [labs/lab-03-permission](labs/lab-03-permission/README.md) | Permission boundary |
+| 4 | [labs/lab-04-memory](labs/lab-04-memory/README.md) | Memory ข้าม session |
+| 5 | [labs/lab-05-team-audit](labs/lab-05-team-audit/README.md) | ทีม 3 ตัว |
+| 6 | [labs/lab-06-orchestration](labs/lab-06-orchestration/README.md) | Audit → backup เป็นขั้น |
+| 7 | [labs/lab-07-collab-layer](labs/lab-07-collab-layer/README.md) | Collaboration Layer |
+| 8 | [labs/lab-08-stop-condition](labs/lab-08-stop-condition/README.md) | Loop vs stop |
+| 9 | [labs/lab-09-capstone](labs/lab-09-capstone/README.md) | Capstone + Mockup |
 
 ## เริ่มต้นอย่างเร็ว
 
@@ -66,34 +55,23 @@ claude --version
 opencode --version
 ```
 
-ตรวจไฟล์ JSON ทั้ง repository:
+ตรวจ JSON ใน shared / labs / workspace:
 
 ```bash
-node scripts/validate-json.mjs
+node shared/scripts/validate-json.mjs
 ```
 
-คำสั่งนี้ตรวจทั้ง JSON syntax และโครงสร้างขั้นต่ำของ contract ที่มีชื่อสอดคล้องกับ `trip-brief`, `activity-options`, `dining-options`, `audit-result` หรือ `final-itinerary` และสามารถตรวจไฟล์เดียวได้
-
-เปิด Mockup โดยดับเบิลคลิก `mockup/index.html` หรือใช้ local server:
-
-```bash
-python -m http.server 8080 --directory mockup
-```
-
-แล้วเปิด `http://localhost:8080`
-
-## ลำดับการทำ Lab
-
-เริ่มจาก `docs/LAB-INSTRUCTIONS.md` แล้วทำตาม **Trip Step A–G** ตามตาราง mapping ของแต่ละวัน ผลลัพธ์ที่ผู้เรียนต้องสร้างเมื่อจบ Capstone คือ `trip-brief.json`, `activity-options.json`, `dining-options.json`, `audit-result.json` และ `final-itinerary.json` (ไฟล์ output จริงไม่รวมใน starter repository)
-
-เส้นทางหลักใช้ข้อมูลจาก `mock-data/` เพื่อให้ทุกคนได้ผลลัพธ์ที่ทำซ้ำได้ API ภายนอกเป็น optional extension เท่านั้น หากใช้ API ต้องบันทึกแหล่งข้อมูลและวันเวลาที่เรียกไว้ใน output
+สำคัญ: เปิด Claude Code / OpenCode ที่ **root ของ repository** เสมอ path ใน prompt อ้างจาก root
 
 ## สัญญาการทำงานร่วมกัน
 
-ห้าม Agent สองฝั่งแก้ไฟล์เดียวกันพร้อมกัน เจ้าของไฟล์คือ Claude Code: `trip-brief.json`, `activity-options.json`, `final-itinerary.json`; OpenCode: `dining-options.json`, `audit-result.json` การแก้ไขต้องทำผ่านไฟล์ชั่วคราวแล้วแทนที่เมื่อ output ผ่าน schema แล้ว
+ห้าม Agent สองฝั่งแก้ไฟล์เดียวกันพร้อมกัน
 
-## Definition of Done
+- Claude Code เป็นเจ้าของ: `trip-brief.json`, `activity-options.json`, `final-itinerary.json`
+- OpenCode เป็นเจ้าของ: `dining-options.json`, `audit-result.json`
 
-ระบบต้องรับคำขอภาษาไทย สร้าง structured trip brief มีข้อเสนอจาก Activity และ Dining Agent ตรวจงบประมาณ เวลาเปิด-ปิด และเวลาเดินทาง มี fallback อย่างน้อยหนึ่งกรณี หยุด refinement ไม่เกิน 2 รอบ สร้าง itinerary สุดท้ายเป็น JSON และแสดงผลใน Mockup พร้อม assumptions และข้อจำกัดของข้อมูลจำลอง
+รายละเอียด schema: [shared/contracts/README.md](shared/contracts/README.md)
 
-หมายเหตุ: `contracts/*.example.json` เป็น template/fixture สำหรับอ้างอิง ไม่ใช่ผลลัพธ์ของผู้เรียน คำสั่ง validator ตรวจ JSON syntax และรองรับการระบุไฟล์เฉพาะ เช่น `node scripts/validate-json.mjs contracts/trip-brief.json`
+## Definition of Done (Lab 9)
+
+รับคำขอภาษาไทย มี trip brief, ข้อเสนอ activity/dining, audit งบ/เวลา, fallback อย่างน้อยหนึ่งกรณี, refinement ≤ 2 รอบ, final itinerary + Mockup พร้อม assumptions และไม่ยืนยันจองจริงจาก mock data

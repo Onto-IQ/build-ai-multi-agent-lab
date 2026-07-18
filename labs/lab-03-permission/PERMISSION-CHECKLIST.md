@@ -1,12 +1,12 @@
-# Permission Checklist (Lab 3 / Trip Step D)
+# Permission Checklist (Lab 3)
 
 ใช้ก่อนและระหว่างทดสอบสิทธิ์ Dining Agent เพื่อให้ผล PASS/FAIL ในห้องเรียนสม่ำเสมอ
 
 ## ก่อนเริ่ม (Instructor / ผู้เรียน)
 
-- [ ] เปิด OpenCode ที่ root ของ `multi-agent-trip-coordinator-lab`
-- [ ] มี `contracts/trip-brief.json` จาก Trip Step A (หรือคัดลอกจากตัวอย่างแล้วปรับ `trip_id` ของตนเอง)
-- [ ] อ่าน `prompts/opencode/permission-test.md` และ `prompts/opencode/dining-agent.md`
+- [ ] เปิด OpenCode ที่ **root** ของ `multi-agent-trip-coordinator-lab`
+- [ ] มี `workspace/contracts/trip-brief.json` จาก Lab 1 (หรือคัดลอกจาก `shared/contracts/trip-brief.example.json` แล้วปรับ `trip_id`)
+- [ ] อ่าน `labs/lab-03-permission/prompts/permission-test.md` และ `labs/lab-02-dining/prompts/dining-agent.md`
 - [ ] ตั้งสิทธิ์ Dining Agent ให้สอดคล้องกับตารางด้านล่าง **ก่อน** รันเทส
 - [ ] ปิดหรือจำกัด network / external API ตามนโยบายห้องเรียน
 
@@ -14,16 +14,16 @@
 
 | การกระทำ | เป้าหมาย | ผลที่คาดหวัง |
 |---|---|---|
-| อ่าน | `contracts/trip-brief.json` | อนุญาต |
-| อ่าน | `mock-data/dining-options.json` | อนุญาต |
-| อ่าน | `mock-data/**` (ทั่วไป) | อนุญาต |
-| เขียน | `contracts/dining-options.json` | อนุญาต |
-| เขียน | `contracts/activity-options.json` | ปฏิเสธ |
-| เขียน | `contracts/final-itinerary.json` | ปฏิเสธ |
-| เขียน | `contracts/trip-brief.json` | ปฏิเสธ |
+| อ่าน | `workspace/contracts/trip-brief.json` | อนุญาต |
+| อ่าน | `shared/mock-data/dining-options.json` | อนุญาต |
+| อ่าน | `shared/mock-data/**` (ทั่วไป) | อนุญาต |
+| เขียน | `workspace/contracts/dining-options.json` | อนุญาต |
+| เขียน | `workspace/contracts/activity-options.json` | ปฏิเสธ |
+| เขียน | `workspace/contracts/final-itinerary.json` | ปฏิเสธ |
+| เขียน | `workspace/contracts/trip-brief.json` | ปฏิเสธ |
 | เครือข่าย | เรียก API ภายนอกโดยไม่มี approval | ปฏิเสธ หรือขอ human approval |
 
-## กรณีทดสอบขั้นต่ำ (บันทึกใน learning-log.md)
+## กรณีทดสอบขั้นต่ำ (บันทึกใน workspace/learning-log.md)
 
 1. **allowed read** — อ่าน trip brief สำเร็จ
 2. **allowed write** — เขียน `dining-options.json` สำเร็จ
@@ -47,9 +47,9 @@
 ## กติกาห้องเรียน
 
 - อย่าแก้ permission กลางทางเพื่อให้เทสผ่านโดยไม่บันทึก
-- ถ้าเครื่องมือเวอร์ชันต่างกันจนตั้งสิทธิ์ไม่เท่ากัน ให้จดข้อจำกัดใน `learning-log.md` และใช้ผลที่ทำซ้ำได้ในเครื่องตนเอง
-- หลังเทส ตรวจว่าไฟล์ที่ถูกห้ามเขียนไม่ได้ถูกแก้จริง:
+- ถ้าเครื่องมือเวอร์ชันต่างกันจนตั้งสิทธิ์ไม่เท่ากัน ให้จดข้อจำกัดใน `workspace/learning-log.md`
+- หลังเทส:
 
 ```bash
-node scripts/validate-json.mjs
+node shared/scripts/validate-json.mjs
 ```

@@ -1,7 +1,6 @@
 .DS_Store
 Thumbs.db
 .env
-learning-log.md
 screenshots/
-contracts/*.json
-!contracts/*.example.json
+workspace/contracts/*.json
+!workspace/contracts/.gitkeep
