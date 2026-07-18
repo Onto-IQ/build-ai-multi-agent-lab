@@ -1,7 +1,9 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-const root = process.cwd();
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+const repoRoot = path.resolve(__dirname, '..', '..');
 const requestedFiles = process.argv.slice(2);
 const jsonFiles = [];
 const contractChecks = {
@@ -33,7 +35,9 @@ function validateContractShape(file, parsed) {
     throw new Error('FAIL audit must include at least one violation');
   }
 }
+
 function walk(dir) {
+  if (!fs.existsSync(dir)) return;
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (entry.name === 'node_modules' || entry.name.startsWith('.git')) continue;
     const full = path.join(dir, entry.name);
@@ -41,9 +45,10 @@ function walk(dir) {
     else if (entry.name.endsWith('.json')) jsonFiles.push(full);
   }
 }
+
 if (requestedFiles.length > 0) {
   for (const requested of requestedFiles) {
-    const full = path.resolve(root, requested);
+    const full = path.resolve(repoRoot, requested);
     if (!fs.existsSync(full)) {
       console.error(`FAIL ${requested}: file not found`);
       process.exitCode = 1;
@@ -57,18 +62,21 @@ if (requestedFiles.length > 0) {
     jsonFiles.push(full);
   }
 } else {
-  walk(root);
+  walk(path.join(repoRoot, 'shared'));
+  walk(path.join(repoRoot, 'workspace'));
+  walk(path.join(repoRoot, 'labs'));
 }
+
 let failed = false;
 for (const file of jsonFiles) {
   try {
     const parsed = JSON.parse(fs.readFileSync(file, 'utf8'));
     if (!parsed || typeof parsed !== 'object') throw new Error('root must be an object');
     validateContractShape(file, parsed);
-    console.log(`PASS ${path.relative(root, file)}`);
+    console.log(`PASS ${path.relative(repoRoot, file)}`);
   } catch (error) {
     failed = true;
-    console.error(`FAIL ${path.relative(root, file)}: ${error.message}`);
+    console.error(`FAIL ${path.relative(repoRoot, file)}: ${error.message}`);
   }
 }
 if (failed || process.exitCode === 1) process.exit(1);
