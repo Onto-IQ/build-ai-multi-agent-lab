@@ -2,6 +2,8 @@
 
 ไฟล์ในโฟลเดอร์นี้คือจุดเชื่อมระหว่าง Claude Code และ OpenCode ทุก output ต้องเป็น JSON ที่อ่านได้และตรงกับ schema ที่ระบุ
 
+ใช้คู่กับหลักสูตร Lab 5 / Lab 7 / Lab 9 และ Trip Step A–G ใน `docs/LAB-INSTRUCTIONS.md`
+
 ## Ownership
 
 | Contract | Owner | Consumer |
