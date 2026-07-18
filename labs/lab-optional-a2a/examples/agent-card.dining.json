@@ -1,0 +1,70 @@
+{
+  "name": "Trip Dining Agent (Lab Demo)",
+  "description": "Static Agent Card ตัวอย่างสำหรับ Lab เสริม A2A — บทบาท Dining ใน multi-agent-trip-coordinator-lab อ่าน trip-brief/activity-options แล้วเสนอร้านอาหารตามงบ/เวลา เขียนได้เฉพาะ dining-options.json ไม่ยืนยันจองจริง ไฟล์นี้เป็นเอกสารสอน ไม่ใช่ live endpoint",
+  "version": "1.0.0-lab-static",
+  "protocolVersion": "1.0",
+  "provider": {
+    "organization": "Build AI Multi-Agent Course (lab demo)",
+    "url": "https://example.local/multi-agent-trip-coordinator-lab"
+  },
+  "documentationUrl": "labs/lab-optional-a2a/README.md",
+  "capabilities": {
+    "streaming": false,
+    "pushNotifications": false,
+    "extendedAgentCard": false
+  },
+  "defaultInputModes": ["text/plain", "application/json"],
+  "defaultOutputModes": ["text/plain", "application/json"],
+  "supportedInterfaces": [
+    {
+      "url": "http://localhost:3001/a2a/jsonrpc",
+      "protocolBinding": "JSONRPC",
+      "protocolVersion": "1.0"
+    },
+    {
+      "url": "http://localhost:3001/a2a/rest",
+      "protocolBinding": "HTTP+JSON",
+      "protocolVersion": "1.0"
+    }
+  ],
+  "skills": [
+    {
+      "id": "propose-dining-options",
+      "name": "Propose dining options",
+      "description": "อ่าน trip-brief (+ activity-options ถ้ามี) เรียก tool/CLI+cache ตามกฎคอร์ส แล้วคืนตัวเลือกร้าน ≥ 2 (หลัก + backup) ที่ map เข้า schema dining-options ได้ Owner ไฟล์ = OpenCode ห้ามแก้ trip-brief / activity-options / final-itinerary",
+      "tags": ["dining", "bangkok", "rattanakosin", "trip-coordinator", "json-contract"],
+      "examples": [
+        "จาก trip-brief กรุงเทพ เสนอร้านอาหารไทยใกล้รัตนโกสินทร์ งบรวมทริป ≤ 3000 THB มี backup อย่างน้อย 1 ร้าน",
+        "อ่าน workspace/contracts/trip-brief.json แล้วสร้าง dining options พร้อม source_mode และ assumptions"
+      ],
+      "inputModes": ["text/plain", "application/json"],
+      "outputModes": ["application/json", "text/plain"]
+    },
+    {
+      "id": "map-to-dining-contract",
+      "name": "Map result to dining-options contract",
+      "description": "แปลงผลจาก tool/A2A artifact ให้เข้า schema ของ shared/contracts/dining-options.example.json รวม schema_version, trip_id, generated_by, generated_at, source_mode",
+      "tags": ["contract", "schema", "ownership"],
+      "examples": [
+        "Map ผลค้นหาร้านเข้า dining-options.json โดยไม่ยืนยันจอง"
+      ],
+      "inputModes": ["application/json"],
+      "outputModes": ["application/json"]
+    }
+  ],
+  "securitySchemes": {},
+  "securityRequirements": [],
+  "_lab_meta": {
+    "static_only": true,
+    "well_known_path_when_live": "/.well-known/agent-card.json",
+    "course_owner": "OpenCode",
+    "writes": ["workspace/contracts/dining-options.json"],
+    "reads": [
+      "workspace/contracts/trip-brief.json",
+      "workspace/contracts/activity-options.json",
+      "shared/prompts/tool-calling-rules.md"
+    ],
+    "paired_lab": "labs/lab-optional-mcp-vs-cli",
+    "note_th": "ฟิลด์ _lab_meta ไม่ใช่ส่วนของสเปก A2A — ใส่เพื่อสอน ownership ในห้องเรียนเท่านั้น เมื่อขึ้น live server ให้เสิร์ฟเฉพาะฟิลด์มาตรฐานของ Agent Card"
+  }
+}

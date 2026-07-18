@@ -50,6 +50,7 @@ docs/            index สั้น ๆ ชี้ไป labs/*
 | 8 | [labs/lab-08-stop-condition](labs/lab-08-stop-condition/README.md) | Loop vs stop |
 | 9 | [labs/lab-09-capstone](labs/lab-09-capstone/README.md) | Capstone + Mockup |
 | เสริม | [labs/lab-optional-mcp-vs-cli](labs/lab-optional-mcp-vs-cli/README.md) | MCP/API สำเร็จรูป vs CLI+cache (rate limit) — ไม่บังคับ |
+| เสริม | [labs/lab-optional-a2a](labs/lab-optional-a2a/README.md) | A2A vs JSON contract (คู่ MCP; คน+ไฟล์ยังเป็นค่าเริ่มต้น) — ไม่บังคับ |
 
 ## เริ่มต้นอย่างเร็ว
 
