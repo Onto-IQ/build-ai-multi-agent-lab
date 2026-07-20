@@ -1,0 +1,24 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "runs": [
+    {
+      "id": "run-001",
+      "agent": "code-reviewer",
+      "tool": "Claude Code",
+      "model": "claude-sonnet",
+      "tokens_estimate": 3500,
+      "gate_status": "n/a",
+      "notes": "Lab 01 sample run — replace with your real lab runs"
+    },
+    {
+      "id": "run-002",
+      "agent": "frontend",
+      "tool": "OpenCode",
+      "model": "classroom-default",
+      "tokens_estimate": 4200,
+      "gate_status": "n/a",
+      "notes": "Sample Frontend run"
+    }
+  ]
+}

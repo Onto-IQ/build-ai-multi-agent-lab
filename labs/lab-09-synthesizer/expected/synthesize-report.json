@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "synthesizer",
+  "generated_at": "2026-07-20T13:00:00+07:00",
+  "source_mode": "manual",
+  "status": "ok",
+  "frontend_ready": true,
+  "backend_ready": true,
+  "ui_shows_status": true,
+  "ui_shows_runs": true,
+  "notes": "Example expected synthesize report for Lab 09.",
+  "open_path": "apps/sample-dashboard/frontend/index.html"
+}

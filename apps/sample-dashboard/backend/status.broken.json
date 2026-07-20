@@ -1,0 +1,6 @@
+{
+  "status": "broken",
+  "message": "",
+  "schema_version": "1.0.0",
+  "note": "Intentionally invalid for Lab 08 — copy over status.json to make the quality gate fail"
+}

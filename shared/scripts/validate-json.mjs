@@ -6,12 +6,18 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const repoRoot = path.resolve(__dirname, '..', '..');
 const requestedFiles = process.argv.slice(2);
 const jsonFiles = [];
+
+const common = ['schema_version', 'project_id', 'generated_by', 'generated_at', 'source_mode'];
+
 const contractChecks = {
-  'trip-brief': ['schema_version', 'trip_id', 'generated_by', 'generated_at', 'source_mode', 'budget', 'time_window', 'hard_constraints', 'soft_preferences'],
-  'activity-options': ['schema_version', 'trip_id', 'generated_by', 'generated_at', 'source_mode', 'candidates', 'sources'],
-  'dining-options': ['schema_version', 'trip_id', 'generated_by', 'generated_at', 'source_mode', 'candidates', 'sources'],
-  'audit-result': ['schema_version', 'trip_id', 'generated_by', 'generated_at', 'source_mode', 'status', 'round', 'budget_check', 'time_check', 'opening_hours_check', 'violations', 'recommended_action'],
-  'final-itinerary': ['schema_version', 'trip_id', 'generated_by', 'generated_at', 'source_mode', 'status', 'timeline', 'budget_summary', 'audit', 'assumptions', 'user_confirmation_required', 'sources']
+  'code-review': [...common, 'scope', 'findings', 'summary', 'edit_attempted'],
+  'role-cards': [...common, 'roles'],
+  'handoff-fe': [...common, 'from_role', 'to_role', 'status', 'notes', 'files_touched'],
+  'handoff-be': [...common, 'from_role', 'to_role', 'status', 'notes', 'files_touched'],
+  'audit-result': [...common, 'status', 'round', 'quality_check', 'cost_check', 'violations', 'recommended_action', 'max_refinement_rounds'],
+  'synthesize-report': [...common, 'status', 'frontend_ready', 'backend_ready', 'ui_shows_status', 'notes', 'open_path'],
+  'kanban-snapshot': [...common, 'board_tool', 'board_name', 'columns', 'cards'],
+  'capstone-ship': [...common, 'public_url', 'deploy_target', 'gate_status', 'kanban_column', 'cost_note']
 };
 
 function validateContractShape(file, parsed) {
@@ -22,17 +28,26 @@ function validateContractShape(file, parsed) {
   for (const key of required) {
     if (!(key in parsed)) throw new Error(`missing required field: ${key}`);
   }
-  if (['activity-options', 'dining-options', 'audit-result', 'final-itinerary'].includes(base) && !Array.isArray(parsed.sources)) {
-    throw new Error('sources must be an array');
+  if (!['mock', 'cache', 'hybrid', 'api', 'manual'].includes(parsed.source_mode)) {
+    throw new Error('source_mode must be mock|cache|hybrid|api|manual');
   }
-  if (['activity-options', 'dining-options'].includes(base) && parsed.candidates.length < 2) {
-    throw new Error('candidates must contain at least 2 items');
+  if (base === 'code-review' && !Array.isArray(parsed.findings)) {
+    throw new Error('findings must be an array');
+  }
+  if (base === 'role-cards' && (!Array.isArray(parsed.roles) || parsed.roles.length < 3)) {
+    throw new Error('roles must contain at least 3 items');
   }
   if (base === 'audit-result' && !['PASS', 'FAIL'].includes(parsed.status)) {
     throw new Error('status must be PASS or FAIL');
   }
-  if (base === 'audit-result' && parsed.status === 'FAIL' && parsed.violations.length === 0) {
+  if (base === 'audit-result' && parsed.status === 'FAIL' && (!Array.isArray(parsed.violations) || parsed.violations.length === 0)) {
     throw new Error('FAIL audit must include at least one violation');
+  }
+  if (base === 'kanban-snapshot' && (!Array.isArray(parsed.cards) || parsed.cards.length < 3)) {
+    throw new Error('cards must contain at least 3 items');
+  }
+  if (base === 'capstone-ship' && !String(parsed.public_url).startsWith('http')) {
+    throw new Error('public_url must start with http');
   }
 }
 
@@ -62,9 +77,8 @@ if (requestedFiles.length > 0) {
     jsonFiles.push(full);
   }
 } else {
-  walk(path.join(repoRoot, 'shared'));
-  walk(path.join(repoRoot, 'workspace'));
-  walk(path.join(repoRoot, 'labs'));
+  walk(path.join(repoRoot, 'shared', 'contracts'));
+  walk(path.join(repoRoot, 'workspace', 'contracts'));
 }
 
 let failed = false;
@@ -79,5 +93,6 @@ for (const file of jsonFiles) {
     console.error(`FAIL ${path.relative(repoRoot, file)}: ${error.message}`);
   }
 }
-if (failed || process.exitCode === 1) process.exit(1);
-console.log(`Validated ${jsonFiles.length} JSON files.`);
+
+if (failed) process.exitCode = 1;
+else console.log('All checks passed.');

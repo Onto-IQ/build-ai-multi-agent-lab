@@ -3,17 +3,84 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Sample Dashboard</title>
+  <title>Agent Cost Board</title>
   <style>
-    body { font-family: system-ui, sans-serif; margin: 2rem; background: #0f172a; color: #e2e8f0; }
-    h1 { font-size: 1.75rem; }
-    .card { margin-top: 1.5rem; padding: 1rem; border: 1px solid #334155; border-radius: 8px; max-width: 28rem; }
+    :root {
+      --bg: #0b1220;
+      --panel: #121a2b;
+      --line: #2a364f;
+      --text: #e8eefc;
+      --muted: #9aa8c7;
+      --ok: #3ecf8e;
+      --warn: #f0b429;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Noto Sans Thai", sans-serif;
+      background: radial-gradient(1200px 600px at 10% -10%, #1a2744, var(--bg));
+      color: var(--text);
+      min-height: 100vh;
+    }
+    main { max-width: 56rem; margin: 0 auto; padding: 2rem 1.25rem 3rem; }
+    h1 { margin: 0 0 0.35rem; font-size: 1.85rem; letter-spacing: -0.02em; }
+    .lead { color: var(--muted); margin: 0 0 1.5rem; }
+    .grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(14rem, 1fr)); }
+    .card {
+      background: color-mix(in srgb, var(--panel) 92%, black);
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 1rem 1.1rem;
+    }
+    .label { color: var(--muted); font-size: 0.85rem; margin-bottom: 0.35rem; }
+    .value { font-size: 1.35rem; font-weight: 650; }
+    .ok { color: var(--ok); }
+    .warn { color: var(--warn); }
+    table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.95rem; }
+    th, td { text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--line); }
+    th { color: var(--muted); font-weight: 600; }
+    .note { margin-top: 1.25rem; color: var(--muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
-  <h1>Sample Dashboard</h1>
-  <p>Frontend ownership — FE agent only.</p>
-  <div class="card" id="status">Backend status: loading…</div>
+  <main>
+    <h1>Agent Cost Board</h1>
+    <p class="lead">แผงต้นทุนและสถานะทีม AI ของผู้เรียน — Frontend ownership only</p>
+
+    <div class="grid">
+      <section class="card">
+        <div class="label">สถานะ Backend</div>
+        <div class="value" id="backend-status">กำลังโหลด…</div>
+      </section>
+      <section class="card">
+        <div class="label">ยอดโทเคนโดยประมาณ (รอบที่บันทึก)</div>
+        <div class="value" id="token-total">—</div>
+      </section>
+      <section class="card">
+        <div class="label">เพดานงบโทเคน</div>
+        <div class="value" id="token-limit">—</div>
+      </section>
+    </div>
+
+    <section class="card" style="margin-top: 1rem;">
+      <div class="label">รายการรอบ agent ของทีมตัวเอง</div>
+      <table>
+        <thead>
+          <tr>
+            <th>Agent</th>
+            <th>เครื่องมือ</th>
+            <th>โทเคน</th>
+            <th>ด่าน</th>
+          </tr>
+        </thead>
+        <tbody id="runs-body">
+          <tr><td colspan="4">กำลังโหลด…</td></tr>
+        </tbody>
+      </table>
+    </section>
+
+    <p class="note">ข้อมูลมาจาก <code>../backend/status.json</code> และ <code>../backend/runs.json</code> — ไม่ดึงเทเลเมทรีคลาวด์จริง</p>
+  </main>
   <script src="./app.js"></script>
 </body>
 </html>

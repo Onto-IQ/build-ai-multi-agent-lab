@@ -1,0 +1,21 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "auditor",
+  "generated_at": "2026-07-20T12:00:00+07:00",
+  "source_mode": "manual",
+  "status": "FAIL",
+  "round": 1,
+  "quality_check": "FAIL",
+  "cost_check": "PASS",
+  "violations": [
+    {
+      "code": "STATUS_NOT_OK",
+      "detail": "status.json status is not ok or message missing"
+    }
+  ],
+  "recommended_action": "Restore status.json to status=ok with a clear message, then re-run gate-quality.mjs",
+  "max_refinement_rounds": 2,
+  "budget_tokens_estimate": 8000,
+  "budget_tokens_limit": 50000
+}

@@ -1,21 +1,24 @@
 # Docs index
 
-เนื้อหา Lab อยู่ที่โฟลเดอร์ `labs/` แต่ละ Lab มี README ของตนเอง
+เริ่มที่ [`../SETUP.md`](../SETUP.md) แล้วทำ Lab ตามลำดับบันไดความรู้
 
-| Lab | ลิงก์ |
-|---|---|
-| Lab 1 Triage | [labs/lab-01-triage/README.md](../labs/lab-01-triage/README.md) |
-| Lab 2 Dining | [labs/lab-02-dining/README.md](../labs/lab-02-dining/README.md) |
-| Lab 3 Permission | [labs/lab-03-permission/README.md](../labs/lab-03-permission/README.md) |
-| Lab 4 Memory | [labs/lab-04-memory/README.md](../labs/lab-04-memory/README.md) |
-| Lab 5 Team Audit | [labs/lab-05-team-audit/README.md](../labs/lab-05-team-audit/README.md) |
-| Lab 6 Orchestration | [labs/lab-06-orchestration/README.md](../labs/lab-06-orchestration/README.md) |
-| Lab 7 Collab Layer | [labs/lab-07-collab-layer/README.md](../labs/lab-07-collab-layer/README.md) |
-| Lab 8 Stop Condition | [labs/lab-08-stop-condition/README.md](../labs/lab-08-stop-condition/README.md) |
-| Lab 9 Capstone | [labs/lab-09-capstone/README.md](../labs/lab-09-capstone/README.md) |
-| Lab เสริม (optional) MCP vs CLI | [labs/lab-optional-mcp-vs-cli/README.md](../labs/lab-optional-mcp-vs-cli/README.md) |
+| Outline | Lab | ลิงก์ |
+|---|---|---|
+| 3 | Lab 01 Code Reviewer | [lab-01-code-reviewer](../labs/lab-01-code-reviewer/README.md) |
+| 4 | Lab 02 OpenCode | [lab-02-opencode-specialist](../labs/lab-02-opencode-specialist/README.md) |
+| 5 | Lab 03 Permission | [lab-03-permission-boundary](../labs/lab-03-permission-boundary/README.md) |
+| 6 | Lab 04 Memory | [lab-04-persistent-memory](../labs/lab-04-persistent-memory/README.md) |
+| 7 | Lab 05 Roles | [lab-05-solo-to-team-roles](../labs/lab-05-solo-to-team-roles/README.md) |
+| 8 | Lab 06 Claude multi-agent | [lab-06-claude-multi-agent](../labs/lab-06-claude-multi-agent/README.md) |
+| 9 | Lab 07 OpenCode sequential | [lab-07-opencode-sequential](../labs/lab-07-opencode-sequential/README.md) |
+| 10 | Lab 08 Gate | [lab-08-quality-cost-gate](../labs/lab-08-quality-cost-gate/README.md) |
+| 11 | Lab 09 Synthesize | [lab-09-synthesizer](../labs/lab-09-synthesizer/README.md) |
+| 12 | Lab 10 Flux | [lab-10-kanban-collab](../labs/lab-10-kanban-collab/README.md) |
+| 13 | Lab 11 Capstone | [lab-11-capstone](../labs/lab-11-capstone/README.md) |
+| เสริม | MCP vs scripts | [lab-optional-mcp-vs-cli](../labs/lab-optional-mcp-vs-cli/README.md) |
+| เสริม | A2A vs contract | [lab-optional-a2a](../labs/lab-optional-a2a/README.md) |
 
-Shared assets: [shared/contracts](../shared/contracts/), [shared/mock-data](../shared/mock-data/), [shared/scripts/tools](../shared/scripts/tools/)  
-ผลงานผู้เรียน: [workspace/](../workspace/)
+Shared: [contracts](../shared/contracts/), [scripts](../shared/scripts/)  
+ผลงาน: [workspace](../workspace/)
 
-หมายเหตุ: ค่าเริ่มต้นของ tool ในคอร์สคือ CLI + `external-cache` เพื่อ**ลด rate limit** เมื่อทั้งห้องเรียก Overpass/Nominatim พร้อมกัน — MCP สำเร็จรูปเป็นทางเสริม ไม่ใช่เกณฑ์ผ่านหลัก
+โจทย์ทั้งคอร์ส: **Agent Cost Board** (`apps/sample-dashboard/`)

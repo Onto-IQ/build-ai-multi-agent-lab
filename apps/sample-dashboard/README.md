@@ -1,23 +1,29 @@
-# sample-dashboard
+# Agent Cost Board
 
-Starter modular app for FE / BE / QA labs (Outline-aligned).
+แผงควบคุมต้นทุนและสถานะ**ทีม agent ของผู้เรียนเอง** (ที่สร้างใน Lab)  
+โฟลเดอร์ทางเทคนิค: `apps/sample-dashboard/`
 
 ```text
 apps/sample-dashboard/
-  frontend/     # UI only — Frontend agent ownership
-  backend/      # logic / API stubs — Backend agent ownership
-  qa/           # test notes & checklists — QA / Tester ownership
+  frontend/     # UI — Frontend agent เท่านั้น
+  backend/      # status.json + runs.json — Backend agent เท่านั้น
+  qa/           # เช็กลิสต์ — QA / Tester
   README.md
 ```
 
-## Workflow columns (Kanban)
+## ลำดับงาน (คอลัมน์ Flux)
 
 Interview → Plan → Build → Test → Ship
 
-## Non-programmer deploy (Capstone)
+## ข้อมูลที่แผงแสดง
 
-1. Push or drag `frontend` (or built static output) to **Vercel** or **Netlify**
-2. Copy the public URL into `workspace/learning-log.md`
-3. Share the link with a classmate
+- สถานะ Backend จาก `backend/status.json`
+- ยอดโทเคนโดยประมาณและรายการรอบจาก `backend/runs.json`
 
-Keep modules separate so agents do not overwrite each other.
+ไม่ดึงเทเลเมทรีจากคลาวด์จริง — ผู้เรียน/agent บันทึกรอบเองหลังแต่ละ Lab
+
+## Deploy (Capstone)
+
+1. Deploy โฟลเดอร์ `frontend` (หรือ static ทั้งแอปตามที่โฮสต์รับ) ขึ้น Vercel หรือ Netlify  
+2. ใส่ URL ใน `workspace/contracts/capstone-ship.json` และ `workspace/learning-log.md`  
+3. แชร์ลิงก์ให้เพื่อนในห้อง

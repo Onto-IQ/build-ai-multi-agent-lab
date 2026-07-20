@@ -1,29 +1,32 @@
-# JSON Contract Guide
+# JSON Contracts — Agent Cost Board
 
-ตัวอย่าง schema อยู่ที่ `shared/contracts/*.example.json`  
-ผลงานผู้เรียนเขียนที่ `workspace/contracts/*.json`
+สัญญาไฟล์เป็นแหล่งความจริงระหว่าง agent  
+ผลงานผู้เรียนเขียนที่ `workspace/contracts/` (คัดลอกโครงจาก `*.example.json` ที่นี่)
 
-ใช้คู่กับ Lab 1–9 ใน `labs/*/README.md`
+ทุกไฟล์ต้องมี: `schema_version`, `project_id`, `generated_by`, `generated_at`, `source_mode`
 
-## Ownership
+`source_mode` ที่อนุญาต: `mock` | `cache` | `hybrid` | `api` | `manual`
 
-| Contract | Owner | Consumer |
+| ไฟล์ตัวอย่าง | Lab | ความหมาย |
 |---|---|---|
-| `trip-brief.json` | Claude Code / Triage | Activity, Dining, Auditor |
-| `activity-options.json` | Claude Code / Activity | Auditor, Coordinator |
-| `dining-options.json` | OpenCode / Dining | Auditor, Coordinator |
-| `audit-result.json` | OpenCode / Auditor | Coordinator, Backup Agents |
-| `final-itinerary.json` | Claude Code / Coordinator | Mockup, User |
+| `code-review.example.json` | 01 | รายงานรีวิว (Reviewer ไม่แก้โค้ด) |
+| `role-cards.example.json` | 05 | บทบาท Frontend / Backend / QA |
+| `handoff-fe.example.json` | 06–07 | ส่งงานต่อจาก Frontend |
+| `handoff-be.example.json` | 06–07 | ส่งงานต่อจาก Backend |
+| `audit-result.example.json` | 08 | ผลด่านคุณภาพ/ต้นทุน |
+| `synthesize-report.example.json` | 09 | รวมผลให้เปิดแผงได้ |
+| `kanban-snapshot.example.json` | 10 | สรุปบอร์ด Flux |
+| `capstone-ship.example.json` | 11 | URL สาธารณะ + บันทึกต้นทุน |
 
-## หลักการ
-
-ทุก contract ต้องมี `schema_version`, `trip_id`, `generated_by`, `generated_at` และ `source_mode` เพื่อให้ตรวจย้อนกลับได้ ใช้ ISO 8601 สำหรับเวลาและ THB สำหรับเงิน ระบุข้อมูลที่เป็น mock data หรือข้อมูลจาก API ใน `source_mode` และ `sources`
-
-คำสั่งตรวจ schema (รันจาก root ของ repository):
+ตรวจสัญญา:
 
 ```bash
 node shared/scripts/validate-json.mjs
-node shared/scripts/validate-json.mjs workspace/contracts/trip-brief.json
+node shared/scripts/validate-json.mjs workspace/contracts/code-review.json
 ```
 
-ใน Lab ใช้ schema เป็นข้อตกลง ไม่ใช่แค่รูปแบบไฟล์ ตัวอย่างเช่น Auditor ต้องส่ง `violations` เมื่อไม่ผ่าน และ Coordinator ต้องไม่ประกาศว่า itinerary ยืนยันแล้วหากข้อมูลร้านหรือเวลาเป็น mock
+ด่านคุณภาพของแอป:
+
+```bash
+node shared/scripts/gate-quality.mjs
+```

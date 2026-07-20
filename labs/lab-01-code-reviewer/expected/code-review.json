@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "code-reviewer",
+  "generated_at": "2026-07-20T11:00:00+07:00",
+  "source_mode": "manual",
+  "scope": "apps/sample-dashboard/frontend/",
+  "findings": [
+    {
+      "severity": "medium",
+      "file": "apps/sample-dashboard/frontend/index.html",
+      "summary": "Example finding — replace with your real review"
+    },
+    {
+      "severity": "low",
+      "file": "apps/sample-dashboard/frontend/app.js",
+      "summary": "Example finding — replace with your real review"
+    }
+  ],
+  "summary": "Example expected output for Lab 01.",
+  "edit_attempted": false
+}

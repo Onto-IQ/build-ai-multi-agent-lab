@@ -1,18 +1,4 @@
 {
-  "comment_th": "ตัวอย่าง payload แนว HTTP+JSON / message:send สำหรับ Track B — ไม่ได้ยิง endpoint จริง ใช้สอนว่า Task หน้าตาประมาณไหน",
-  "message": {
-    "role": "user",
-    "parts": [
-      {
-        "kind": "text",
-        "text": "คุณเป็น Dining Agent ของ lab Trip Coordinator กรุงเทพ (รัตนโกสินทร์) อ่าน workspace/contracts/trip-brief.json และ activity-options.json ถ้ามี เรียก tool ตาม shared/prompts/tool-calling-rules.md (CLI+cache ก่อน, mock เป็น fallback) เสนอร้าน ≥ 2 (หลัก+backup) งบและเวลากลับสีลมต้องสอดคล้อง hard constraints เขียนหรือคืนผลที่ map เข้า dining-options schema เท่านั้น ห้ามแก้ไฟล์ฝั่ง Claude Code และห้ามยืนยันจองจริง"
-      }
-    ],
-    "metadata": {
-      "trip_id": "scenario-01-bangkok-rattanakosin",
-      "skill_id": "propose-dining-options",
-      "expected_artifact": "dining-options",
-      "source_mode_hint": "external-cache|api|mock"
-    }
-  }
+  "id": "task-backend-001",
+  "message": "Append one OpenCode Frontend run to apps/sample-dashboard/backend/runs.json and write workspace/contracts/handoff-be.json when ready for QA."
 }

@@ -1,15 +1,16 @@
-# Lab architecture (Outline-aligned)
+# Lab architecture — Agent Cost Board
 
 ## Modular layout
 
 ```text
-apps/sample-dashboard/
-  frontend/   # FE agent only
-  backend/    # BE agent only
-  qa/         # QA / Tester / Reviewer notes
-labs/lab-XX-*/
-shared/       # schemas, prompts, scripts, hooks stubs
-workspace/    # learner outputs
+apps/sample-dashboard/   # ชื่อแสดงผล: Agent Cost Board
+  frontend/
+  backend/
+  qa/
+labs/lab-XX-*/           # workbook บันไดความรู้
+shared/                  # สัญญาตัวอย่าง, prompts, สคริปต์ด่าน
+workspace/               # ผลงานผู้เรียน
+SETUP.md / CLAUDE.md / AGENTS.md
 ```
 
 ## Ownership
@@ -21,21 +22,21 @@ workspace/    # learner outputs
 | `apps/sample-dashboard/qa/**` | QA / Reviewer |
 | `workspace/contracts/**` | ตาม `generated_by` |
 
-## Hooks (classroom-sized)
+## ด่านในห้อง
 
-- `node shared/scripts/validate-json.mjs` before Ship  
-- Permission deny on destructive actions  
-- Cost/stop: max 2 refinement rounds  
-- Optional: add project hooks when Claude Code / OpenCode versions in class support them  
+- `node shared/scripts/validate-json.mjs`
+- `node shared/scripts/gate-quality.mjs`
+- ปรับแก้ไม่เกิน 2 รอบ (`shared/scripts/gate-cost.md`)
+- สิทธิ์ deny คำสั่งทำลายไฟล์สำคัญ
 
-## Fallback matrix
+## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
-| Feature | Fallback |
+| ชั้น | ทางเลือก |
 |---|---|
-| Claude Agent Teams | Subagents + contract |
-| OpenCode orchestration plugin | Manual FE→BE→QA sequential |
-| Flux cloud | Flux local/git or instructor demo board + learner worksheet |
+| Claude Agent Teams | Subagents + สัญญา |
+| OpenCode plugin | ลำดับมือ Frontend→Backend→QA |
+| Flux | บอร์ดที่ห้องอนุญาต + kanban-snapshot |
 
-## Workflow on Kanban
+## ลำดับงานบน Kanban
 
 Interview → Plan → Build → Test → Ship

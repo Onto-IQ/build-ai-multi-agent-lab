@@ -1,31 +1,71 @@
 # Lab 01 — Code Reviewer Agent (Claude Code)
 
-**Outline:** Claude Code Specialist Agent  
-**Workflow stage:** Interview / Plan  
-**Wow:** Reviewer **cannot edit** — permission deny is the lesson
+**Outline 3:** Claude Code Specialist  
+**ลำดับงาน:** Interview / Plan
 
-## Goal
+## ได้รับมาจาก Lab ก่อน
 
-สร้าง Specialist **Code Reviewer** บน Claude Code ที่รีวิวโค้ดใน `apps/sample-dashboard` แต่ไม่แก้ไฟล์เอง
+- เครื่องพร้อมจาก [`SETUP.md`](../../SETUP.md) (Outline 2)
+- กรอบคิดทีมจาก Outline 1
+- แอปเริ่มต้น: `apps/sample-dashboard/` (Agent Cost Board)
 
-## Steps
+## ได้เพิ่มใน Lab นี้
 
-1. เปิด repo นี้ใน **VS Code** ที่ root
-2. คัดลอก `.env.example` → `.env` (Task: `copy-env-example`)
-3. สร้าง Code Reviewer agent (ชื่อ / หน้าที่ / สิทธิ์อ่านอย่างเดียวหรือ deny edit)
-4. ให้รีวิว `apps/sample-dashboard/frontend/` และเขียนรายงานใน `workspace/contracts/code-review.json`
+สร้าง **specialist Code Reviewer บน Claude Code** ที่รีวิวได้แต่**ห้ามแก้โค้ด** + สัญญา JSON แรก
 
-## Definition of Done
+## เป้าหมาย
 
-- [ ] มี agent definition ที่ระบุ role = Code Reviewer
-- [ ] รายงานรีวิวอยู่ใน `workspace/contracts/` (หรือ learning-log)
-- [ ] พิสูจน์ได้ว่า agent **ไม่ได้** แก้โค้ดให้เอง (deny / ask)
-- [ ] จด learning-log 1 ย่อหน้า
+ให้ Reviewer รีวิว `apps/sample-dashboard/frontend/` แล้วเขียนรายงานโดยไม่แก้ไฟล์แอป
 
-## Fallback
+**จุดที่ควรรู้สึกว้าว:** สั่งให้แก้โค้ดแล้วโดน deny / ปฏิเสธ
 
-ถ้า Claude Desktop ยังไม่พร้อม — เขียน reviewer prompt ในไฟล์แล้วรันใน Claude Code CLI ที่ root
+## ของที่ต้องเปิดก่อนเริ่ม
 
-## Legacy
+1. VS Code ที่ **root** ของ repo
+2. [`CLAUDE.md`](../../CLAUDE.md) และ [`.claude/agents/code-reviewer.md`](../../.claude/agents/code-reviewer.md)
+3. ตัวอย่างสัญญา: `shared/contracts/code-review.example.json`
 
-Trip Triage lab: `labs/_legacy-trip/lab-01-triage/`
+## ขั้นตอนทีละข้อ
+
+1. เปิด Terminal ที่ root แล้วตรวจว่ามี `.env`
+2. เปิด Claude Code ที่ root ของโปรเจกต์นี้
+3. ใช้ agent/definition จาก `.claude/agents/code-reviewer.md` (หรือวางข้อความจาก `prompts/01-review.md`)
+4. สั่งรีวิว Frontend ตาม prompt
+5. ให้เขียนผลไปที่ `workspace/contracts/code-review.json`
+6. ลองสั่งให้ “แก้ไฟล์ frontend ให้หน่อย” — ต้องถูกปฏิเสธหรือ ask/deny
+7. ตรวจสัญญา:
+
+```powershell
+node shared/scripts/validate-json.mjs workspace/contracts/code-review.json
+```
+
+8. จด `workspace/learning-log.md` สั้น ๆ
+
+## ข้อความพร้อมวาง
+
+ดู [`prompts/01-review.md`](prompts/01-review.md) และ [`prompts/02-deny-edit.md`](prompts/02-deny-edit.md)
+
+## ผลที่คาดหวัง
+
+- มี `workspace/contracts/code-review.json` โครงใกล้ [`expected/code-review.json`](expected/code-review.json)
+- `edit_attempted` เป็น `false`
+- Frontend ไฟล์เดิมไม่ถูกแก้โดย Reviewer
+
+## เกณฑ์ผ่าน Lab
+
+- [ ] มี agent/definition ระบุ role = Code Reviewer
+- [ ] มี `workspace/contracts/code-review.json` ผ่าน validator
+- [ ] พิสูจน์ได้ว่า agent ไม่แก้โค้ดให้เองเมื่อถูกสั่งแก้
+- [ ] learning-log มีอย่างน้อย 1 ย่อหน้า
+
+## ทางเลือกเมื่อเครื่องมือไม่พร้อม
+
+ถ้า Claude Desktop/Teams ยังไม่พร้อม — วาง reviewer prompt ในไฟล์ แล้วรัน Claude Code CLI ที่ root
+
+## แก้ปัญหาเบื้องต้น
+
+| อาการ | ทำอะไร |
+|---|---|
+| หาไฟล์สัญญาไม่เจอ | สร้างโฟลเดอร์ `workspace/contracts/` แล้วคัดลอกจาก example |
+| validator fail | เทียบฟิลด์กับ `shared/contracts/code-review.example.json` |
+| agent แก้โค้ดอยู่ดี | ย้ำสิทธิ์ใน `.claude/agents/code-reviewer.md` และ settings |

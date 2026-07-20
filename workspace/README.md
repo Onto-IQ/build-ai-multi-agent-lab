@@ -1,14 +1,12 @@
-# Workspace
-
-โฟลเดอร์นี้เก็บ **ผลงานผู้เรียน** ที่ส่งต่อข้าม Lab
-
-## โครงสร้าง
+# workspace — ผลงานผู้เรียน
 
 ```text
 workspace/
-  contracts/       trip-brief.json, activity-options.json, ...
-  learning-log.md  บันทึก prompt, permission tests, refinement, cost
+  contracts/       สัญญา JSON ของแต่ละ Lab (code-review, role-cards, audit-result, ...)
+  learning-log.md  บันทึกสั้น ๆ หลังแต่ละ Lab
 ```
 
-อย่า commit ไฟล์ JSON ผลงานขึ้น git (ถูก ignore แล้ว)  
-ตัวอย่าง schema อยู่ที่ `shared/contracts/*.example.json`
+คัดลอกโครงจาก `shared/contracts/*.example.json`  
+ตรวจด้วย `node shared/scripts/validate-json.mjs`
+
+อย่า commit ไฟล์สัญญาที่มีข้อมูลส่วนตัวหรือคีย์

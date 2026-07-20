@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "backend-agent",
+  "generated_at": "2026-07-20T10:15:00+07:00",
+  "source_mode": "mock",
+  "from_role": "Backend",
+  "to_role": "QA",
+  "status": "ready_for_qa",
+  "notes": "status.json and runs.json updated with sample agent runs.",
+  "files_touched": [
+    "apps/sample-dashboard/backend/status.json",
+    "apps/sample-dashboard/backend/runs.json"
+  ]
+}
