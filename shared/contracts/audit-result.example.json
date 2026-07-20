@@ -1,36 +1,16 @@
 {
-  "schema_version": "1.0",
-  "trip_id": "trip-001",
-  "generated_by": "opencode/logistics-auditor",
-  "generated_at": "2026-07-18T09:50:00+07:00",
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "auditor",
+  "generated_at": "2026-07-20T10:20:00+07:00",
   "source_mode": "mock",
   "status": "PASS",
   "round": 1,
-  "budget_check": {
-    "currency": "THB",
-    "max": 3000,
-    "estimated_total": 2420,
-    "remaining": 580,
-    "status": "PASS"
-  },
-  "time_check": {
-    "window": { "start": "08:00", "end": "20:00" },
-    "travel_buffer_minutes": 20,
-    "return_by": "20:00",
-    "status": "PASS"
-  },
-  "opening_hours_check": {
-    "status": "PASS",
-    "notes": ["Dining and souvenir stops fall within operating hours"]
-  },
+  "quality_check": "PASS",
+  "cost_check": "PASS",
   "violations": [],
-  "recommended_action": "FINALIZE",
-  "backup_requirements": null,
-  "checked_inputs": [
-    "contracts/trip-brief.json",
-    "contracts/activity-options.json",
-    "contracts/dining-options.json",
-    "mock-data/travel-times.json"
-  ],
-  "sources": [{ "type": "mock-data", "ref": "mock-data/travel-times.json" }]
+  "recommended_action": "ship",
+  "max_refinement_rounds": 2,
+  "budget_tokens_estimate": 12000,
+  "budget_tokens_limit": 50000
 }

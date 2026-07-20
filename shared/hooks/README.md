@@ -1,10 +1,11 @@
-# Hooks stubs (classroom)
+# Hooks (แนวคิดในห้อง)
 
-Use these as automatic QA ideas before Ship:
+ใช้เป็นด่านอัตโนมัติก่อน Ship:
 
-1. `node shared/scripts/validate-json.mjs` (if contracts present)
-2. QA checklist in `apps/sample-dashboard/qa/CHECKLIST.md`
-3. Max refinement rounds = 2 (Cost Gate)
-4. Permission deny for destructive shell commands
+1. `node shared/scripts/validate-json.mjs`
+2. `node shared/scripts/gate-quality.mjs`
+3. เช็กลิสต์ใน `apps/sample-dashboard/qa/CHECKLIST.md`
+4. ปรับแก้ไม่เกิน 2 รอบ (`shared/scripts/gate-cost.md`)
+5. สิทธิ์ deny คำสั่งทำลายไฟล์สำคัญ
 
-Wire into Claude Code / OpenCode project hooks when the classroom versions support them.
+ผูกกับ project hooks ของ Claude Code / OpenCode ได้เมื่อเวอร์ชันในห้องรองรับ

@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "defaultMode": "default",
+    "deny": [
+      "Bash(git push *)",
+      "Bash(rm -rf shared*)",
+      "Bash(Remove-Item -Recurse *shared*)"
+    ]
+  }
+}

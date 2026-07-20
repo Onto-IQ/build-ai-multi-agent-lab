@@ -1,0 +1,13 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "learner",
+  "generated_at": "2026-07-20T10:40:00+07:00",
+  "source_mode": "mock",
+  "public_url": "https://example.vercel.app",
+  "deploy_target": "Vercel",
+  "gate_status": "PASS",
+  "kanban_column": "Ship",
+  "cost_note": "Used Subagents instead of Agent Teams for lower token cost.",
+  "shared_with_classmate": true
+}

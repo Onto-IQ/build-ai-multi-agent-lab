@@ -16,9 +16,9 @@
       "presentation": { "reveal": "always" }
     },
     {
-      "label": "smoke-test-tools",
+      "label": "gate-quality",
       "type": "shell",
-      "command": "if (Test-Path shared/scripts/tools/smoke-test.mjs) { node shared/scripts/tools/smoke-test.mjs } else { Write-Host 'smoke-test.mjs not found — skip' }",
+      "command": "node shared/scripts/gate-quality.mjs",
       "problemMatcher": [],
       "presentation": { "reveal": "always" }
     },

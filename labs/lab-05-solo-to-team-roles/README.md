@@ -1,27 +1,60 @@
-# Lab 05 — From Solo Builder to FE / BE / QA
+# Lab 05 — จากคนเดียวสู่ Frontend / Backend / QA
 
-**Outline:** From Solo Builder to Multi-Agent System  
-**Workflow stage:** Plan → Build  
-**Wow:** เห็น 3 บทบาท + ownership บน sample app ก่อนรันจริง
+**Outline 7:** Solo → Multi-Agent roles  
+**ลำดับงาน:** Plan → Build
 
-## Goal
+## ได้รับมาจาก Lab ก่อน
 
-ออกแบบทีม 3 ตัวบน `apps/sample-dashboard` โดยไม่ควบคุมละเอียดเกินจำเป็น
+- Specialist สองเครื่องมือ + สิทธิ์ + memory (Lab 01–04)
+- โครงสร้างแอป Agent Cost Board
 
-| Role | Ownership |
-|---|---|
-| Frontend / UI | `apps/sample-dashboard/frontend/` |
-| Backend / Logic | `apps/sample-dashboard/backend/` |
-| QA / Reviewer | `apps/sample-dashboard/qa/` + review notes |
+## ได้เพิ่มใน Lab นี้
 
-เทียบบทบาทงาน: **Researcher / Reviewer / Tester** (ใช้ประกอบได้)
+ออกแบบ**ทีม 3 บทบาท**บนแอปเดียว (ยังไม่บังคับรันพร้อมกัน)
 
-## Definition of Done
+## เป้าหมาย
+
+เขียน role cards ให้ Frontend / Backend / QA ไม่แย่งโฟลเดอร์กัน
+
+**จุดที่ควรรู้สึกว้าว:** เห็น ownership ชัดก่อนรันทีมจริง
+
+## ของที่ต้องเปิดก่อนเริ่ม
+
+1. `apps/sample-dashboard/README.md`
+2. `shared/contracts/role-cards.example.json`
+3. (ถ้าเริ่ม Flux แล้ว) สร้างการ์ดเบา ๆ ได้ แต่บังคับครบที่ Lab 10
+
+## ขั้นตอนทีละข้อ
+
+1. อ่าน ownership ใน `AGENTS.md`
+2. วาง `prompts/01-role-cards.md` ให้สร้าง `workspace/contracts/role-cards.json`
+3. ตรวจด้วย validator
+4. (ทางเลือก) วาง prompts ของแต่ละบทบาทเพื่อทดลองสั้น ๆ คนละครั้ง — ยังไม่ต้อง orchestration เต็ม
+5. จด learning-log
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-role-cards.md`](prompts/01-role-cards.md)
+- [`prompts/02-frontend-brief.md`](prompts/02-frontend-brief.md)
+- [`prompts/03-backend-brief.md`](prompts/03-backend-brief.md)
+- [`prompts/04-qa-brief.md`](prompts/04-qa-brief.md)
+
+## ผลที่คาดหวัง
+
+- `workspace/contracts/role-cards.json` มีอย่างน้อย 3 บทบาท ไม่ซ้ำโฟลเดอร์เขียน
+
+## เกณฑ์ผ่าน Lab
 
 - [ ] มี role cards (ชื่อ + หน้าที่ + ไฟล์ที่เขียนได้/ไม่ได้)
-- [ ] ไม่มี agent สองตัวเขียนโฟลเดอร์เดียวกัน
-- [ ] Kanban มีการ์ด Interview/Plan สำหรับแต่ละ role (ถ้าเริ่ม Lab 10 แล้ว)
+- [ ] ไม่มีสองบทบาทเขียนโฟลเดอร์เดียวกัน
+- [ ] learning-log อัปเดต
 
-## Legacy map
+## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
-Activity/Dining/Auditor แบบทริปเดิม: `labs/_legacy-trip/lab-05-team-audit/`
+เขียน role-cards.json มือโดยคัดลอกจาก example แล้วแก้ชื่อเครื่องมือตามที่ห้องมี
+
+## แก้ปัญหาเบื้องต้น
+
+| อาการ | ทำอะไร |
+|---|---|
+| validator บอก roles < 3 | เพิ่มบทบาทให้ครบ Frontend / Backend / QA |

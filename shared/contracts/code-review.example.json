@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "code-reviewer",
+  "generated_at": "2026-07-20T10:00:00+07:00",
+  "source_mode": "mock",
+  "scope": "apps/sample-dashboard/frontend/",
+  "findings": [
+    {
+      "severity": "medium",
+      "file": "apps/sample-dashboard/frontend/index.html",
+      "summary": "Title still generic; should say Agent Cost Board"
+    },
+    {
+      "severity": "low",
+      "file": "apps/sample-dashboard/frontend/app.js",
+      "summary": "Status load has no loading indicator for slow file access"
+    }
+  ],
+  "summary": "Frontend is readable; reviewer did not edit any files.",
+  "edit_attempted": false
+}

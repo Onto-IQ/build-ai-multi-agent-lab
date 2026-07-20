@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "learner",
+  "generated_at": "2026-07-20T10:30:00+07:00",
+  "source_mode": "mock",
+  "board_tool": "Flux",
+  "board_name": "Agent Cost Board",
+  "columns": ["Interview", "Plan", "Build", "Test", "Ship"],
+  "cards": [
+    {
+      "title": "ปรับ Frontend แสดงยอดใช้และรายการรอบ",
+      "assignee_role": "Frontend",
+      "tool": "Claude Code",
+      "column": "Build"
+    },
+    {
+      "title": "เติม runs.json จากรอบ Lab",
+      "assignee_role": "Backend",
+      "tool": "OpenCode",
+      "column": "Build"
+    },
+    {
+      "title": "รันด่านคุณภาพแล้ว Deploy",
+      "assignee_role": "QA",
+      "tool": "Claude Code",
+      "column": "Test"
+    }
+  ],
+  "notes": "Board tracks Agent Cost Board work only; JSON contracts remain source of truth."
+}

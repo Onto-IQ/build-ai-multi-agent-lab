@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0.0",
+  "project_id": "agent-cost-board",
+  "generated_by": "frontend-agent",
+  "generated_at": "2026-07-20T10:10:00+07:00",
+  "source_mode": "mock",
+  "from_role": "Frontend",
+  "to_role": "Backend",
+  "status": "ready_for_backend",
+  "notes": "UI expects status.json and runs.json under backend/.",
+  "files_touched": [
+    "apps/sample-dashboard/frontend/index.html",
+    "apps/sample-dashboard/frontend/app.js"
+  ]
+}

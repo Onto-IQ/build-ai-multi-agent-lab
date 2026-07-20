@@ -1,35 +1,81 @@
-# Lab 11 — Capstone (Gate + Synthesize + Ship)
+# Lab 11 — Capstone (ครบสูตร + Deploy)
 
-**Outline:** Capstone Workshop (The Masterpiece)  
-**Workflow stage:** Ship  
-**Wow:** URL สาธารณะ + cost note ที่เล่าต่อได้
+**Outline 13:** Capstone  
+**ลำดับงาน:** Ship
 
-## Goal
+## ได้รับมาจาก Lab ก่อน
 
-ประกอบระบบ Multi-Agent ที่มีทั้ง Gate และ Synthesize สำหรับโจทย์บน sample dashboard แล้ว **Deploy & Share**
+- ทั้งบันได Lab 01–10: specialist, สิทธิ์, memory, ทีมสองเครื่องมือ, ด่าน, รวมผล, Flux
+- บอร์ด Flux ของ Agent Cost Board
 
-## Pre-flight checklist
+## ได้เพิ่มใน Lab นี้
 
-- [ ] Ownership FE/BE/QA ชัด
-- [ ] Quality Gate + Cost/Stop เคย fail และเคยผ่านอย่างละครั้ง
-- [ ] Kanban (Flux) มีการ์ดถึงคอลัมน์ Ship
-- [ ] Synthesize แล้วเปิดดูแอปได้
-- [ ] cost note: Subagents vs Teams ใช้แบบไหนเพราะอะไร
+ประกอบทุกชั้นแล้ว **Deploy & Share** + สูตรนำไปใช้กับบอร์ดงานอื่น
 
-## Deploy & Share (≤ ~5 นาที)
+## เป้าหมาย
 
-1. Deploy frontend (หรือ static build) ขึ้น **Vercel** หรือ **Netlify**
-2. คัดลอก public URL → `workspace/learning-log.md`
-3. แชร์ลิงก์ให้เพื่อนในห้องอย่างน้อย 1 คน
-4. Git Non-Coder: `status` → `add` → `commit` อย่างน้อย 1 ครั้ง (push ถ้ามี remote ห้องเรียน)
+มี URL สาธารณะ บอร์ดถึงคอลัมน์ Ship และบันทึกต้นทุนที่เล่าต่อได้
 
-## Definition of Done
+**จุดที่ควรรู้สึกว้าว:** แชร์ลิงก์แผงของตัวเองในห้องได้
+
+## ของที่ต้องเปิดก่อนเริ่ม
+
+1. Pre-flight ด้านล่าง
+2. `shared/contracts/capstone-ship.example.json`
+
+## Pre-flight (ติ๊กก่อน Deploy)
+
+- [ ] Ownership Frontend / Backend / QA ชัด (role-cards)
+- [ ] ด่านคุณภาพเคย FAIL และเคย PASS
+- [ ] Flux มีการ์ดถึงคอลัมน์ใกล้ Ship
+- [ ] Synthesize แล้วเปิดแผงได้
+- [ ] บันทึกต้นทุน: ใช้ Subagents หรือ Teams เพราะอะไร
+
+## ขั้นตอนทีละข้อ
+
+1. เลื่อนการ์ดบน Flux ชุดเดิมไป Ship เมื่อด่านผ่าน
+2. Deploy `apps/sample-dashboard/frontend` (หรือตามที่โฮสต์รับ) ขึ้น **Vercel** หรือ **Netlify** (~5 นาที)
+3. คัดลอก public URL
+4. วาง `prompts/01-capstone-ship.md` เขียน `workspace/contracts/capstone-ship.json`
+5. แชร์ลิงก์ให้เพื่อนในห้องอย่างน้อย 1 คน
+6. Git พื้นฐาน: `status` → `add` → `commit` อย่างน้อย 1 ครั้ง (push ถ้ามี remote ห้องเรียน)
+7. จดสูตรนำไปใช้ใน learning-log (ด้านล่าง)
+
+## สูตรนำไปใช้ (ใส่ใน learning-log)
+
+```text
+สร้างบอร์ด Flux ใหม่
+  → แตกการ์ด + บทบาท
+  → มอบหมาย Claude Code และ/หรือ OpenCode
+  → ส่งงานด้วยสัญญา JSON + สิทธิ์เขียนไฟล์
+  → ด่านคุณภาพ/ต้นทุน แล้วค่อย Ship
+```
+
+## ข้อความพร้อมวาง
+
+[`prompts/01-capstone-ship.md`](prompts/01-capstone-ship.md)
+
+## ผลที่คาดหวัง
+
+- URL เปิดได้
+- capstone-ship ผ่าน validator
+- พร้อมนำเสนอ 5 นาที: ปัญหา / ด่าน / สิ่งที่บอกต่อ
+
+## เกณฑ์ผ่าน Lab
 
 - [ ] Pre-flight ผ่าน
 - [ ] มี public URL
-- [ ] มี cost note + screenshot/บอร์ด
-- [ ] นำเสนอ 5 นาทีได้ (ปัญหา / gate / สิ่งที่บอกต่อ)
+- [ ] มีบันทึกต้นทุน + หลักฐานบอร์ด
+- [ ] มี `capstone-ship.json`
+- [ ] นำเสนอได้สั้น ๆ
 
-## Legacy
+## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
-`labs/_legacy-trip/lab-09-capstone/`
+Vercel/Netlify ล็อกอินไม่ได้ — ใช้ static host ที่ห้องเตรียม หรือแชร์ zip + บันทึกเหตุผล (ถามวิทยากรว่าผ่านแทนได้หรือไม่)
+
+## แก้ปัญหาเบื้องต้น
+
+| อาการ | ทำอะไร |
+|---|---|
+| หน้า deploy เปล่า | ตรวจว่าอัปโหลดโฟลเดอร์ frontend ถูก และ path JSON ยังชี้ backend ได้หรือต้องปรับโฮสต์ |
+| ไม่มี gate PASS | กลับ Lab 08 |
