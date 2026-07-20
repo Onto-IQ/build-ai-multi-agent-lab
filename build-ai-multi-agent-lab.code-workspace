@@ -1,0 +1,11 @@
+{
+  "folders": [
+    {
+      "name": "Build AI Multi-Agent Lab",
+      "path": "."
+    }
+  ],
+  "settings": {
+    "terminal.integrated.cwd": "${workspaceFolder}"
+  }
+}
