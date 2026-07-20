@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "mikestead.dotenv",
+    "yzhang.markdown-all-in-one",
+    "esbenp.prettier-vscode"
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "copy-env-example",
+      "type": "shell",
+      "command": "if (!(Test-Path .env)) { Copy-Item .env.example .env; Write-Host 'Created .env from .env.example' } else { Write-Host '.env already exists' }",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "validate-json",
+      "type": "shell",
+      "command": "node shared/scripts/validate-json.mjs",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "smoke-test-tools",
+      "type": "shell",
+      "command": "if (Test-Path shared/scripts/tools/smoke-test.mjs) { node shared/scripts/tools/smoke-test.mjs } else { Write-Host 'smoke-test.mjs not found — skip' }",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "env-checklist",
+      "type": "shell",
+      "command": "Write-Host 'node:' (node --version); Write-Host 'git:' (git --version); Write-Host 'claude:' (if (Get-Command claude -ErrorAction SilentlyContinue) { 'found' } else { 'missing' }); Write-Host 'opencode:' (if (Get-Command opencode -ErrorAction SilentlyContinue) { 'found' } else { 'missing' }); Write-Host '.env:' (Test-Path .env)",
+      "problemMatcher": [],
+      "presentation": { "reveal": "always" }
+    }
+  ]
+}

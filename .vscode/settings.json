@@ -1,0 +1,11 @@
+{
+  "files.exclude": {
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true
+  },
+  "editor.formatOnSave": false,
+  "terminal.integrated.cwd": "${workspaceFolder}",
+  "files.associations": {
+    "*.env.example": "dotenv"
+  }
+}

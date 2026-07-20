@@ -1,84 +1,76 @@
-# Multi-Agent Personalized Trip & Dining Coordinator Lab
+# Build AI Multi-Agent Lab
 
-โปรเจกต์ Lab สำหรับหลักสูตร AI Multi-Agent Systems (2 วัน) ผู้เรียนสร้างระบบวางแผนทริปโดยแบ่งงานระหว่าง Claude Code กับ OpenCode ผ่าน JSON contracts
+Lab repo สำหรับหลักสูตร **Build AI Multi-Agent with Claude Code** (VIBE-CODE-L2)
 
-โครงสร้างเป็น **โฟลเดอร์ต่อ Lab** — เริ่มจาก `labs/lab-01-triage/README.md` แล้วเดินตามลำดับ
+GitHub: https://github.com/Onto-IQ/build-ai-multi-agent-lab
 
-**โจทย์หลัก:** Bangkok Rattanakosin day trip  
-Scenario: `labs/lab-01-triage/scenarios/scenario-01-bangkok-rattanakosin.json`  
-ข้อมูล: tool CLI + `external-cache` → JSON contract · mock เป็น fallback  
-(ใช้ CLI+cache โดยเจตนาเพื่อ**ลด rate limit** ทั้งห้อง — ดู Lab เสริม MCP)
+## เริ่มต้นด้วย VS Code (บังคับในห้อง)
 
-## ภาพรวมระบบ
+1. **File → Open Folder** เลือก root ของ repo นี้ (ไม่ใช่โฟลเดอร์ย่อย)
+2. คัดลอก `.env.example` → `.env`  
+   หรือรัน Task: `copy-env-example`
+3. รัน Task: `env-checklist`
+4. เริ่ม `labs/lab-01-code-reviewer/README.md`
 
-```text
-User Request (กรุงเทพ / ภาษาไทย)
-    |
-    v
-Claude Code: Triage / Activity (+ tools)
-    |  workspace/contracts/trip-brief.json + activity-options.json
-    v
-OpenCode: Dining / Logistics Audit (+ tools)
-    |  dining-options.json + audit-result.json
-    v
-Claude Code: Coordinator / Final Synthesis
-    |
-    v
-final-itinerary.json + labs/lab-09-capstone/mockup
-```
+หรือเปิด `build-ai-multi-agent-lab.code-workspace`
 
-## โครงสร้าง repository
+## Workflow ที่สอน
 
 ```text
-labs/            Lab 01–09 แต่ละโฟลเดอร์มี README + ไฟล์ที่จำเป็น
-shared/          contracts examples, mock-data, scripts
-workspace/       output ของผู้เรียน (contracts + learning-log)
-docs/            index สั้น ๆ ชี้ไป labs/*
+Interview → Plan → Build → Test → Ship
 ```
 
-## Mapping Lab
+Kanban (ค่าเริ่มต้น **Flux**) บังคับใน Lab 10 — คอลัมน์ตาม 5 ขั้นด้านบน
+
+## Orchestration layers
+
+| ชั้น | เกณฑ์ผ่าน |
+|---|---|
+| Specialist + permission + contract + stop | บังคับ |
+| Claude Agent Teams | ลองได้ — fallback Subagents |
+| OpenCode orchestration plugins | pin ในห้อง — fallback Sequential ด้วยมือ |
+| Kanban (Flux) | บังคับใน Lab 10 |
+
+## Mapping Lab (ตรง Outline)
 
 | Lab | โฟลเดอร์ | โฟกัส |
 |---|---|---|
-| 1 | [labs/lab-01-triage](labs/lab-01-triage/README.md) | Triage (Claude Code) |
-| 2 | [labs/lab-02-dining](labs/lab-02-dining/README.md) | Dining (OpenCode) |
-| 3 | [labs/lab-03-permission](labs/lab-03-permission/README.md) | Permission boundary |
-| 4 | [labs/lab-04-memory](labs/lab-04-memory/README.md) | Memory ข้าม session |
-| 5 | [labs/lab-05-team-audit](labs/lab-05-team-audit/README.md) | ทีม 3 ตัว |
-| 6 | [labs/lab-06-orchestration](labs/lab-06-orchestration/README.md) | Audit → backup เป็นขั้น |
-| 7 | [labs/lab-07-collab-layer](labs/lab-07-collab-layer/README.md) | Collaboration Layer |
-| 8 | [labs/lab-08-stop-condition](labs/lab-08-stop-condition/README.md) | Loop vs stop |
-| 9 | [labs/lab-09-capstone](labs/lab-09-capstone/README.md) | Capstone + Mockup |
-| เสริม | [labs/lab-optional-mcp-vs-cli](labs/lab-optional-mcp-vs-cli/README.md) | MCP/API สำเร็จรูป vs CLI+cache (rate limit) — ไม่บังคับ |
-| เสริม | [labs/lab-optional-a2a](labs/lab-optional-a2a/README.md) | A2A vs JSON contract (คู่ MCP; คน+ไฟล์ยังเป็นค่าเริ่มต้น) — ไม่บังคับ |
+| 1 | [lab-01-code-reviewer](labs/lab-01-code-reviewer/README.md) | Code Reviewer (Claude Code) |
+| 2 | [lab-02-opencode-specialist](labs/lab-02-opencode-specialist/README.md) | OpenCode + เทียบ |
+| 3 | [lab-03-permission-boundary](labs/lab-03-permission-boundary/README.md) | Permission |
+| 4 | [lab-04-persistent-memory](labs/lab-04-persistent-memory/README.md) | Memory |
+| 5 | [lab-05-solo-to-team-roles](labs/lab-05-solo-to-team-roles/README.md) | FE / BE / QA roles |
+| 6 | [lab-06-claude-multi-agent](labs/lab-06-claude-multi-agent/README.md) | Claude Teams / Subagents |
+| 7 | [lab-07-opencode-sequential](labs/lab-07-opencode-sequential/README.md) | OpenCode sequential |
+| 8 | [lab-08-quality-cost-gate](labs/lab-08-quality-cost-gate/README.md) | Quality + Cost Gate |
+| 9 | [lab-09-synthesizer](labs/lab-09-synthesizer/README.md) | Synthesize |
+| 10 | [lab-10-kanban-collab](labs/lab-10-kanban-collab/README.md) | Kanban (Flux) |
+| 11 | [lab-11-capstone](labs/lab-11-capstone/README.md) | Capstone + Deploy & Share |
+| เสริม | [lab-optional-mcp-vs-cli](labs/lab-optional-mcp-vs-cli/README.md) | MCP vs CLI |
+| เสริม | [lab-optional-a2a](labs/lab-optional-a2a/README.md) | A2A vs contract |
 
-## เริ่มต้นอย่างเร็ว
+Legacy trip labs: [`labs/_legacy-trip/`](labs/_legacy-trip/)
 
-ตรวจ environment:
+## โครงสร้าง
 
-```bash
-node --version
-claude --version
-opencode --version
+```text
+apps/sample-dashboard/   modular FE / BE / QA
+labs/                    Lab 01–11 ตาม Outline
+shared/                  contracts, prompts, scripts
+workspace/               output ผู้เรียน
+.env.example             → .env (อย่า commit)
+.vscode/                 settings, extensions, tasks
 ```
 
-ตรวจ JSON ใน shared / labs / workspace:
+## Debug สำหรับ Non-Programmer
 
-```bash
-node shared/scripts/validate-json.mjs
-```
+1. อ่านข้อความ error ทั้งก้อน  
+2. คัดลอกใส่แชท AI  
+3. สั่งให้แก้ **ทีละจุด** พร้อมบอกไฟล์ที่เกี่ยวข้อง  
+4. รันซ้ำ / ตรวจ QA checklist  
 
-สำคัญ: เปิด Claude Code / OpenCode ที่ **root ของ repository** เสมอ path ใน prompt อ้างจาก root
+อย่าพิมพ์แค่ “แก้ให้หน่อย” แบบไม่มี error
 
-## สัญญาการทำงานร่วมกัน
+## Design brief
 
-ห้าม Agent สองฝั่งแก้ไฟล์เดียวกันพร้อมกัน
-
-- Claude Code เป็นเจ้าของ: `trip-brief.json`, `activity-options.json`, `final-itinerary.json`
-- OpenCode เป็นเจ้าของ: `dining-options.json`, `audit-result.json`
-
-รายละเอียด schema: [shared/contracts/README.md](shared/contracts/README.md)
-
-## Definition of Done (Lab 9)
-
-รับคำขอภาษาไทย มี trip brief, ข้อเสนอ activity/dining, audit งบ/เวลา, fallback อย่างน้อยหนึ่งกรณี, refinement ≤ 2 รอบ, final itinerary + Mockup พร้อม assumptions และไม่ยืนยันจองจริงจาก mock data
+ดู `docs/research/` ใน course repo หรือคัดลอก brief ใน `shared/research/` เมื่อ sync
