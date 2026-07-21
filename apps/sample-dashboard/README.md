@@ -22,8 +22,24 @@ Interview → Plan → Build → Test → Ship
 
 ไม่ดึงเทเลเมทรีจากคลาวด์จริง — ผู้เรียน/agent บันทึกรอบเองหลังแต่ละ Lab
 
-## Deploy (Capstone)
+## ดูบน localhost (ทุก OS)
 
-1. Deploy โฟลเดอร์ `frontend` (หรือ static ทั้งแอปตามที่โฮสต์รับ) ขึ้น Vercel หรือ Netlify  
-2. ใส่ URL ใน `workspace/contracts/capstone-ship.json` และ `workspace/learning-log.md`  
-3. แชร์ลิงก์ให้เพื่อนในห้อง
+`frontend` ดึง `../backend/*.json` — **ห้าม**เปิด `index.html` แบบ `file://`
+
+จาก root ของ repo:
+
+```bash
+npx --yes serve apps/sample-dashboard -p 4173
+```
+
+เปิด [http://localhost:4173/frontend/](http://localhost:4173/frontend/)
+
+ไม่ต้อง Python venv / ไม่ต้อง `npm install` ที่ root — มี **Node** พอสำหรับ `npx` และสคริปต์ด่าน
+
+## Deploy (Capstone / go-live)
+
+1. Deploy **ทั้ง** `apps/sample-dashboard/` (ต้องมี `frontend/` + `backend/`)  
+   แนะนำ: Cloudflare Pages / Netlify / Azure Static Web Apps — ตั้ง publish root ที่ `apps/sample-dashboard` แล้วเปิด `…/frontend/`
+2. ตรวจว่าแผงโหลดสถานะ + ตารางรอบจาก JSON จริง
+3. ใส่ URL ใน `workspace/contracts/capstone-ship.json` และ `workspace/learning-log.md`
+4. แชร์ลิงก์ให้เพื่อนในห้อง
