@@ -26,7 +26,8 @@
 
 Shared: [contracts](../shared/contracts/), [scripts](../shared/scripts/)  
 ผลงาน: [workspace](../workspace/) (สัญญา JSON ของผู้เรียนถูก gitignore — เริ่มจากศูนย์)  
-เช็คลิสต์วิทยากร: [E2E-ORCHESTRATION-CHECKLIST.md](E2E-ORCHESTRATION-CHECKLIST.md)
+เช็คลิสต์วิทยากร: [E2E-ORCHESTRATION-CHECKLIST.md](E2E-ORCHESTRATION-CHECKLIST.md)  
+แผนปรับ named agents → Lab 10 go-live: [MULTI-AGENT-IDENTITY-PLAN.md](MULTI-AGENT-IDENTITY-PLAN.md)
 
 โจทย์ทั้งคอร์ส: **Agent Cost Board** (`apps/sample-dashboard/`)  
 Localhost: `npx --yes serve apps/sample-dashboard -p 4173` → `/frontend/`
