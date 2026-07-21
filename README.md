@@ -17,6 +17,9 @@ GitHub: https://github.com/Onto-IQ/build-ai-multi-agent-lab
 
 อ่านกฎโปรเจกต์: [`CLAUDE.md`](CLAUDE.md) · [`AGENTS.md`](AGENTS.md)
 
+**ข้ามแพลตฟอร์ม:** ใช้ Node + git (ไม่ใช้ Python venv)  
+**ดูแผง localhost:** `npx --yes serve apps/sample-dashboard -p 4173` → `/frontend/`
+
 ## บันไดความรู้
 
 แต่ละ Lab **ได้รับมาจาก Lab ก่อน** แล้ว **ได้เพิ่ม** ทักษะใหม่ — ไม่รีเซ็ตโจทย์  
@@ -29,6 +32,26 @@ Interview → Plan → Build → Test → Ship
 ```
 
 Kanban (**Flux**) บังคับใน Lab 10 — เป็นบอร์ดงานของ Agent Cost Board
+
+## JSON vs Kanban
+
+| เมื่อไหร่ | ใช้อะไร |
+|---|---|
+| ownership / ส่งงานต่อ / ด่าน / ship | สัญญา JSON ใน `workspace/contracts/` |
+| มอบหมายใครทำ / ขั้นไหน / มองเห็นคิว | Flux Kanban (Lab 10) |
+
+```text
+Lab 10 climax:
+  แตกการ์ดบน Flux
+    → ลงมือด้วย Claude / OpenCode ตาม ownership
+    → เขียน/อัปเดตสัญญา JSON
+    → เลื่อนการ์ดตามสถานะจริง
+    → ด่านผ่านแล้วค่อย Ship (Lab 11)
+```
+
+ห้ามผ่าน Lab 10 ด้วย `kanban-snapshot.json` โดยไม่มีบอร์ดสด
+
+**มาตรฐานคอร์ส = go-live ไม่ใช่ POC:** การ์ดต้องมอบหมายชัด (บทบาท + เครื่องมือ) ทำงานจริงแล้วค่อยเลื่อน — ห้ามสร้างการ์ดเพื่องานนับ validator หรือเลื่อนการ์ดโดยไม่ทำ ownership
 
 ## ชั้น orchestration
 

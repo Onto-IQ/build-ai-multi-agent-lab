@@ -37,5 +37,15 @@
 ## ทีมข้ามเครื่องมือ
 
 - Claude Code และ OpenCode ใช้ role cards ชุดเดียวกัน (`role-cards.json`)
-- ส่งงานต่อด้วย `handoff-fe.json` / `handoff-be.json`
-- มอบหมายงานบน Flux (Lab 10) — การ์ดต้องตรงงาน Agent Cost Board
+- ส่งงานต่อด้วย `handoff-fe.json` / `handoff-be.json` (**สัญญา JSON = แหล่งความจริง**)
+- มอบหมายงานบน Flux (Lab 10) — การ์ดต้องตรงงาน Agent Cost Board (**Kanban = คิว/มอบหมาย ไม่แทน handoff**)
+- **Go-live:** การ์ด active หลัก 3 ใบ (FE/BE/QA) มี Assignee + Tool ชัด; เลื่อนหลังทำงานจริงเท่านั้น — ห้าม POC สร้างการ์ดเพื่องานนับ
+
+### JSON vs Kanban
+
+| ชั้น | ใช้เมื่อ | ตัวอย่าง |
+|---|---|---|
+| สัญญา JSON | ตกลง ownership, ส่งงานต่อ, ผ่านด่าน, ship | `role-cards`, `handoff-fe/be`, `audit-result`, `synthesize-report`, `capstone-ship` |
+| Flux Kanban | ใครทำ / ขั้นไหน / มองเห็นคิวบน Interview→Ship | การ์ด Frontend / Backend / QA บนบอร์ด Agent Cost Board |
+
+Lab 06 (Claude) เขียน `handoff-fe.json` → Lab 07 (OpenCode) อ่านแล้วทำต่อ → Lab 10 ผูกการ์ด Flux กับสัญญาชุดเดียวกัน

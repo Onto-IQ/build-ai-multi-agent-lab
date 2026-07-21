@@ -3,29 +3,29 @@
   "project_id": "agent-cost-board",
   "generated_by": "learner",
   "generated_at": "2026-07-20T10:30:00+07:00",
-  "source_mode": "mock",
+  "source_mode": "api",
   "board_tool": "Flux",
   "board_name": "Agent Cost Board",
   "columns": ["Interview", "Plan", "Build", "Test", "Ship"],
   "cards": [
     {
-      "title": "ปรับ Frontend แสดงยอดใช้และรายการรอบ",
+      "title": "Frontend — ชัดเจนตารางรอบบน Agent Cost Board",
       "assignee_role": "Frontend",
       "tool": "Claude Code",
-      "column": "Build"
+      "column": "Test"
     },
     {
-      "title": "เติม runs.json จากรอบ Lab",
+      "title": "Backend — เติม runs.json จากรอบ Lab",
       "assignee_role": "Backend",
       "tool": "OpenCode",
-      "column": "Build"
+      "column": "Test"
     },
     {
-      "title": "รันด่านคุณภาพแล้ว Deploy",
+      "title": "QA — รัน gate-quality แล้วเลื่อนตามผล",
       "assignee_role": "QA",
       "tool": "Claude Code",
-      "column": "Test"
+      "column": "Ship"
     }
   ],
-  "notes": "Board tracks Agent Cost Board work only; JSON contracts remain source of truth."
+  "notes": "Go-live: exactly 3 active cards with clear assignee_role + tool; JSON contracts remain source of truth. Board URL goes here."
 }

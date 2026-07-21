@@ -8,4 +8,8 @@ Roles required: Frontend, Backend, QA
 project_id must be "agent-cost-board".
 Ensure no two roles write the same folder.
 Write a short Thai summary of ownership after saving the file.
+
+Also append to workspace/learning-log.md under "## Lab 05" a markdown table
+foreshadowing Flux Lab 10: each role → write folder → future Flux card title.
+Do NOT open or call Flux in this lab.
 ```

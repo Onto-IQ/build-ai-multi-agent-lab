@@ -2,8 +2,30 @@
 Thumbs.db
 .env
 screenshots/
+
+# Learner workspace outputs (start from zero)
 workspace/contracts/*.json
 !workspace/contracts/.gitkeep
+workspace/e2e-reports/
+workspace/tmp/
+MEMORY.md
+
+# Local backups / editor junk
+*.bak
+*.tmp
+*.swp
 
 # Cursor project rules / local AI config — do not publish
 .cursor/
+
+# Local MCP configs may contain API keys
+.mcp.json
+
+# Node / OS (cross-platform)
+node_modules/
+npm-debug.log*
+.pnpm-store/
+.venv/
+venv/
+__pycache__/
+*.pyc

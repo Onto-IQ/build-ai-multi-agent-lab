@@ -43,8 +43,30 @@ function validateContractShape(file, parsed) {
   if (base === 'audit-result' && parsed.status === 'FAIL' && (!Array.isArray(parsed.violations) || parsed.violations.length === 0)) {
     throw new Error('FAIL audit must include at least one violation');
   }
-  if (base === 'kanban-snapshot' && (!Array.isArray(parsed.cards) || parsed.cards.length < 3)) {
-    throw new Error('cards must contain at least 3 items');
+  if (base === 'kanban-snapshot') {
+    if (!Array.isArray(parsed.cards) || parsed.cards.length < 3) {
+      throw new Error('cards must contain at least 3 items');
+    }
+    if (parsed.cards.length > 6) {
+      throw new Error('cards must contain at most 6 items (go-live: prefer exactly 3 active FE/BE/QA; trash extras on the board)');
+    }
+    const roles = new Set();
+    for (const card of parsed.cards) {
+      if (!card || typeof card !== 'object') throw new Error('each card must be an object');
+      if (!card.assignee_role) throw new Error('each card requires assignee_role (Frontend|Backend|QA)');
+      if (!card.tool) throw new Error('each card requires tool (e.g. Claude Code|OpenCode)');
+      if (!card.column) throw new Error('each card requires column');
+      if (!card.title) throw new Error('each card requires title');
+      roles.add(String(card.assignee_role));
+    }
+    for (const need of ['Frontend', 'Backend', 'QA']) {
+      if (![...roles].some((r) => r.toLowerCase() === need.toLowerCase())) {
+        throw new Error(`cards must include assignee_role ${need} (go-live assignment)`);
+      }
+    }
+    if (parsed.source_mode === 'mock' && /go-?live|lab\s*10/i.test(String(parsed.notes || ''))) {
+      throw new Error('Lab 10 go-live snapshot should use source_mode api|manual from a live board, not mock');
+    }
   }
   if (base === 'capstone-ship' && !String(parsed.public_url).startsWith('http')) {
     throw new Error('public_url must start with http');

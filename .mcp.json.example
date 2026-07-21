@@ -1,0 +1,11 @@
+{
+  "mcpServers": {
+    "flux": {
+      "type": "http",
+      "url": "https://flux.umin.ai/api/mcp",
+      "headers": {
+        "Authorization": "Bearer ${FLUX_API_KEY}"
+      }
+    }
+  }
+}
