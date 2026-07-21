@@ -3,6 +3,16 @@
 **Outline 4:** OpenCode Setup & Multi-model  
 **ลำดับงาน:** Plan
 
+### คุณอยู่ตรงไหน
+
+`Interview → **Plan** → Build → Test → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | OpenCode · agent `specialist` — **ใช้ใน Lab 02 เท่านั้น** ไม่ใช่ทางหลักของ Lab 07/10 |
+| **ส่งต่อไป** | ตารางเทียบใน learning-log → Lab 03 (สิทธิ์) |
+| **ภาพรวมทีม** | ทีมจริง (FE=Claude, BE/QA=OpenCode) แตกที่ Lab 05 — ห้ามใช้ `specialist` สลับหมวกปิดงานทีม |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - Code Reviewer บน Claude Code + `workspace/contracts/code-review.json` (Lab 01)

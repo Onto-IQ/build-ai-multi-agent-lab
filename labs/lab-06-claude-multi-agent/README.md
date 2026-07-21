@@ -3,39 +3,54 @@
 **Outline 8:** Multi-Agent on Claude Code  
 **ลำดับงาน:** Build
 
+### คุณอยู่ตรงไหน
+
+`Interview → Plan → **Build** → Test → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | Claude เท่านั้น · ≥2 named: `frontend` + `code-reviewer` (Teams หรือ Subagents) |
+| **ส่งต่อไป** | `handoff-fe.json` → Lab 07 OpenCode `backend` (แล้ว `qa`) |
+| **ห้าม** | สร้าง/เรียก `backend` หรือ `qa` บน Claude — บทบาทเหล่านั้นอยู่ OpenCode |
+
 ## ได้รับมาจาก Lab ก่อน
 
-- `workspace/contracts/role-cards.json` (Lab 05)
-- สิทธิ์ + memory + specialist Claude
+- `workspace/contracts/role-cards.json` + named agents จาก Lab 05
+- `.claude/agents/frontend.md`, `.claude/agents/code-reviewer.md`
 
 ## ได้เพิ่มใน Lab นี้
 
-**รันหลาย agent บน Claude Code** (ลอง Agent Teams — ถ้าไม่ขึ้นใช้ Subagents) + สร้าง `handoff-fe.json` ให้ **OpenCode รับต่อใน Lab 07**
+รัน **≥ 2 named agent identities บน Claude** (`frontend` + `code-reviewer`) แล้วเขียน `handoff-fe.json` ให้ **OpenCode รับต่อใน Lab 07**
 
 ## เป้าหมาย
 
-ให้ทีมช่วยงาน Agent Cost Board บน Claude โดยแยก context และไม่แย่งไฟล์ — แล้ว**ส่งต่อด้วยสัญญา JSON** ไม่ใช่ด้วยการ์ด Kanban
+แยก context บน Claude ด้วยชื่อ agent จริง แล้ว**ส่งต่อด้วยสัญญา JSON** ไม่ใช่การ์ด Kanban และไม่ bicopy บทบาทไป OpenCode
 
-**จุดที่ควรรู้สึกว้าว:** หลายตัวทำงานโดยมีสัญญาชัด
+**จุดที่ควรรู้สึกว้าว:** `frontend` ทำงาน → มี handoff ให้ `backend` บนเครื่องมืออื่นอ่านต่อได้
 
 ## ผลลัพธ์รูปธรรม
 
 1. **ต้องมีไฟล์/หลักฐานเหล่านี้**
+   - หลักฐานใช้ **`frontend` และ `code-reviewer`** (Teams หรือ Subagents) — ไม่ใช่แชทเดียวสลับหมวกเป็นหลัก
+   - งาน FE ตาม ownership (หรือสรุปผล FE ใน handoff ชัด)
    - `workspace/contracts/handoff-fe.json`
-   - learning-log ระบุ Teams หรือ Subagents + ข้อความว่าส่งต่อ Lab 07 (OpenCode)
+   - learning-log ระบุชื่อ agent ที่ใช้ + ส่งต่อ Lab 07 (OpenCode `backend`)
 2. **ต้องเห็นด้วยตาอะไร**
-   - หลักฐานรันทีม/subagent (stdout หรือ TUI)
+   - stdout/TUI ระบุ named agents ≥ 2
 3. **เช็คผ่านด้วยคำสั่งนี้**
 
 ```powershell
+Test-Path .\.claude\agents\frontend.md
+Test-Path .\.claude\agents\code-reviewer.md
 node shared/scripts/validate-json.mjs workspace/contracts/handoff-fe.json
-Select-String -Path workspace/learning-log.md -Pattern "Lab 0[67]|OpenCode|Subagent|Teams" 
+Select-String -Path workspace/learning-log.md -Pattern "frontend|code-reviewer|Lab 07|OpenCode|Subagent|Teams"
 ```
 
 4. **ยังไม่ผ่านถ้า…**
-   - ไม่มี handoff-fe / ไม่ระบุวิธีรัน / แย่ง ownership ข้ามโฟลเดอร์
+   - ไม่มี `.claude/agents/frontend.md` / ไม่มี handoff-fe / ใช้แค่แชทเดียวไม่มี named identities / แย่ง ownership backend/qa บน Claude
+   - แผงยังไม่แสดง**แถบขัดแย้ง**เมื่องบเกินหรือมี `gate_status=pending` (ดูโจทย์ multi-round ใน `apps/sample-dashboard/README.md`)
 
-> **สะพานข้ามเครื่องมือ:** Lab 06 = Claude เขียน handoff → Lab 07 = OpenCode อ่าน `handoff-fe.json` ก่อนลงมือ  
+> **สะพานข้ามเครื่องมือ:** Lab 06 = Claude เขียน handoff → Lab 07 = OpenCode อ่านแล้วรัน `backend` → `qa`  
 > Flux ยังไม่บังคับจนกว่า Lab 10 — อย่าใช้การ์ดแทน handoff
 
 ## เลือกวิธีรัน
@@ -43,12 +58,12 @@ Select-String -Path workspace/learning-log.md -Pattern "Lab 0[67]|OpenCode|Subag
 | ทาง | เหมาะกับ | หมายเหตุ |
 |---|---|---|
 | **A — TUI** | ลอง **Agent Teams** จริงในห้อง | ต้องมี flag ใน `.env` |
-| **B — CLI** (`claude -p`) | ทำซ้ำ / เก็บ stdout | มักใช้ **Subagents** (Teams ต้องการโต้ตอบ) — **ยังผ่าน Lab** |
+| **B — CLI** (`claude -p`) | ทำซ้ำ / เก็บ stdout | มักใช้ **Subagents** — **ยังผ่าน Lab** |
 
 ไฟล์ร่วม:
 
 - `.env` → `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1`
-- [`workspace/contracts/role-cards.json`](../../workspace/contracts/role-cards.json) (จาก Lab 05)
+- Agents: `.claude/agents/frontend.md`, `.claude/agents/code-reviewer.md`
 - [`shared/contracts/handoff-fe.example.json`](../../shared/contracts/handoff-fe.example.json)
 - Prompt: [`01-teams-or-subagents.md`](prompts/01-teams-or-subagents.md), [`02-handoff.md`](prompts/02-handoff.md)
 
@@ -58,35 +73,38 @@ Select-String -Path workspace/learning-log.md -Pattern "Lab 0[67]|OpenCode|Subag
 
 ```powershell
 Test-Path .\.env
-# ตรวจว่ามีคีย์ (ไม่ต้องพิมพ์ค่า)
 Select-String -Path .\.env -Pattern '^CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS='
 Test-Path .\workspace\contracts\role-cards.json
+Test-Path .\.claude\agents\frontend.md
+Test-Path .\.claude\agents\code-reviewer.md
 Test-Path .\shared\contracts\handoff-fe.example.json
 claude --version
 node --version
 ```
 
-ถ้ายังไม่มี `role-cards.json` → กลับ Lab 05  
-ถ้าไม่มี `node` → ยังเขียน handoff ได้ แต่ validator จะรันไม่ได้จนกว่าจะติด Node
+**ถ้า `Test-Path .\.claude\agents\frontend.md` เป็น False → หยุด**  
+สร้างตาม [`../lab-05-solo-to-team-roles/prompts/00a-create-frontend.md`](../lab-05-solo-to-team-roles/prompts/00a-create-frontend.md) (TUI + Approve) แล้วค่อยกลับมา Lab 06  
+ห้ามใช้แชทเดียวสลับหมวกแทน `--agent frontend`
+
+ถ้า `node` ไม่เจอ → ดูนโยบาย Node ใน `AGENTS.md` (เสนอคำสั่งติดตั้งแล้ว**ถามคน** — ห้ามติดตั้งเงียบ)
 
 ---
 
 ## ทาง A — TUI (ลอง Agent Teams)
 
-### A1) เปิด Claude ที่ root พร้อม flag
-
-ให้แน่ใจว่าโหลด `.env` (เปิด Terminal จาก VS Code ที่ root หรือ set เองใน session)
+### A1) เปิด Claude ที่ root
 
 ```powershell
 claude
 ```
 
-### A2) วางแผนทีม
+### A2) รัน named identities
 
 วาง [`prompts/01-teams-or-subagents.md`](prompts/01-teams-or-subagents.md)
 
-- ถ้า Teams ขึ้น → ใช้ทีม ≤ 3–4 ตาม role-cards  
-- ถ้าไม่ขึ้น → บอกชัดว่าใช้ Subagents แล้วทำต่อ
+- ใช้ **`frontend` + `code-reviewer`** (Teams หรือ Subagents)
+- ถ้า Teams ไม่ขึ้น → บอกชัดว่าใช้ Subagents แล้วทำต่อ
+- งาน FE อยู่ใน `apps/sample-dashboard/frontend/` เท่านั้น
 
 ### A3) Handoff contract
 
@@ -98,19 +116,17 @@ node shared/scripts/validate-json.mjs workspace/contracts/handoff-fe.json
 
 ### A4) learning-log
 
-จดว่าเลือก Teams หรือ Subagents เพราะอะไร + โน้ตต้นทุนสั้น ๆ
+จด: ใช้ Teams หรือ Subagents · ชื่อ agent ที่เรียก · ส่งต่อ OpenCode `backend` Lab 07
 
 ---
 
 ## ทาง B — CLI
 
-> ส่ง prompt ผ่าน **stdin pipeline** เสมอ  
-> ในโหมด `-p` ถ้า Teams ใช้ไม่ได้ ให้ใช้ Subagents / แผนทีมเล็ก — **ถือว่าผ่าน** ตาม README เกณฑ์ทางเลือก
+> ส่ง prompt ผ่าน **stdin pipeline** เสมอ
 
-### B1) แผน Teams หรือ Subagents
+### B1) frontend + code-reviewer (Subagents / Teams)
 
 ```powershell
-# โหลด .env เข้า process (ไม่ echo ค่า)
 Get-Content .env | ForEach-Object {
   if ($_ -match '^\s*#' -or $_ -match '^\s*$') { return }
   if ($_ -match '^\s*([A-Za-z0-9_]+)\s*=\s*(.*)$') {
@@ -119,41 +135,41 @@ Get-Content .env | ForEach-Object {
 }
 
 $p1 = @'
-Read workspace/contracts/role-cards.json and CLAUDE.md.
+Read workspace/contracts/role-cards.json, AGENTS.md, and .claude/agents/frontend.md.
 
-Goal: improve Agent Cost Board with at most 3-4 agents on Claude Code.
+You MUST use at least two named Claude identities: frontend and code-reviewer
+(Agent Teams if enabled, otherwise Subagents). Say clearly in Thai which mode you used.
 
-Prefer Agent Teams if enabled (CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1).
-If Teams are unavailable in this non-interactive CLI session, use Subagents instead and say so clearly in Thai.
+- frontend: improve Agent Cost Board UI under apps/sample-dashboard/frontend/ only
+- code-reviewer: review FE changes; write/update workspace/contracts/code-review.json if needed; do NOT edit app source
 
-Respect ownership folders. Do not let two agents write the same path.
+Do NOT create or impersonate backend/qa agents on Claude — those roles are OpenCode-only.
 Keep the team small to control cost.
-Do NOT edit apps/sample-dashboard/ in this turn.
 '@
 
-$p1 | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+$p1 | claude -p --agent frontend --permission-mode acceptEdits --output-format text --no-session-persistence
 ```
+
+ถ้า `--agent frontend` not found → ตรวจไฟล์ Lab 05 แล้วใช้ prompt เดียวกันโดยไม่ใส่ `--agent` แต่ย้ำให้อ่านไฟล์ agent ทั้งสอง
 
 ### B2) เขียน handoff-fe.json
 
 ```powershell
 $p2 = @'
-Read handoff rules: JSON contracts are the source of truth for handoffs (not Kanban cards).
+Read handoff rules: JSON contracts are the source of truth (not Kanban).
 
 Write workspace/contracts/handoff-fe.json using
 shared/contracts/handoff-fe.example.json as the schema.
 
-Describe what Frontend finished and what Backend should do next
-for Agent Cost Board. project_id = agent-cost-board.
-State clearly in the handoff (or notes) that OpenCode will pick this up in Lab 07.
+Describe what Claude frontend finished and what OpenCode backend should do next.
+project_id = agent-cost-board.
+State clearly that OpenCode --agent backend will pick this up in Lab 07 (then qa).
 Validate with: node shared/scripts/validate-json.mjs workspace/contracts/handoff-fe.json
-Do not edit apps/sample-dashboard/ beyond what ownership already allows for documenting handoff.
 '@
 
-$p2 | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+$p2 | claude -p --agent frontend --permission-mode acceptEdits --output-format text --no-session-persistence
 
 Test-Path .\workspace\contracts\handoff-fe.json
-Get-Content .\workspace\contracts\handoff-fe.json
 ```
 
 ### B3) learning-log
@@ -161,8 +177,7 @@ Get-Content .\workspace\contracts\handoff-fe.json
 ```powershell
 $plog = @'
 Append "## Lab 06" to workspace/learning-log.md only.
-Record whether Agent Teams or Subagents was used and why.
-State that handoff-fe.json is ready for OpenCode Lab 07. Short Thai.
+Record named agents used (frontend, code-reviewer), Teams or Subagents, and that handoff-fe.json is ready for OpenCode backend Lab 07. Short Thai.
 '@
 
 $plog | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
@@ -172,19 +187,16 @@ $plog | claude -p --permission-mode acceptEdits --output-format text --no-sessio
 
 ## ผลที่คาดหวัง
 
-- มีหลักฐานรัน Teams หรือ Subagents (stdout / learning-log)
-- มี `workspace/contracts/handoff-fe.json` ผ่าน validator
-- learning-log ระบุว่าส่งต่อ OpenCode Lab 07
-- ไม่แย่ง ownership
+- หลักฐาน named agents ≥ 2 บน Claude
+- `handoff-fe.json` ผ่าน validator
+- learning-log ระบุส่งต่อ OpenCode `backend`
 
 ## เกณฑ์ผ่าน Lab
 
-ต้องตรงกับ **ผลลัพธ์รูปธรรม** ด้านบน 1:1
-
-- [ ] มีหลักฐานรัน Teams หรือ Subagents
-- [ ] learning-log ระบุวิธีรัน + ส่งต่อ Lab 07
-- [ ] ไม่แย่งไฟล์คนละ ownership
+- [ ] ใช้ `frontend` + `code-reviewer` (Teams หรือ Subagents)
 - [ ] มี `handoff-fe.json` ผ่าน `validate-json.mjs`
+- [ ] learning-log ระบุวิธีรัน + ส่งต่อ Lab 07
+- [ ] ไม่แย่ง ownership backend/qa บน Claude
 
 ## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
@@ -194,9 +206,6 @@ Teams ล่ม → Subagents ผ่าน Lab ได้ถ้ามีสัญ
 
 | อาการ | ทำอะไร |
 |---|---|
-| Teams ไม่เปิด | ตรวจ `.env` flag แล้วสลับ Subagents |
-| CLI บอกอ่าน `.env` ไม่ได้ / ติด permission | ใช้ Subagents; ใน TUI ลอง Teams อีกครั้ง |
-| ไฟล์ชนกัน | ย้ำ role-cards และให้เขียนแค่โฟลเดอร์ตัวเอง |
-| `node` missing | เขียน handoff ตาม schema ก่อน แล้วติด Node เพื่อ validator |
-| CLI ค้างตอนเขียน learning-log | `Ctrl+C` แล้วรัน B3 ใหม่ด้วย prompt สั้น |
-| PowerShell ค้างตอนส่ง prompt ยาวเป็น argument | ใช้ pipeline `"..." \| claude -p ...` |
+| `--agent frontend` not found | กลับ Lab 05 สร้าง `.claude/agents/frontend.md` ผ่าน CLI/TUI |
+| Teams ไม่เปิด | ตรวจ `.env` แล้วสลับ Subagents |
+| PowerShell ค้าง | ใช้ pipeline `"..." \| claude -p ...` |

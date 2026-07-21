@@ -1,8 +1,8 @@
 {
-  "status": "ok",
-  "message": "Agent Cost Board backend ready",
+  "status": "degraded",
+  "message": "Seed conflict: FE/BE/QA must align budget, run gates, and qa_ready across rounds",
   "schema_version": "1.0.0",
-  "project_id": "agent-cost-board",
-  "budget_tokens_limit": 50000,
-  "updated_at": "2026-07-20T09:00:00+07:00"
+  "budget_tokens_limit": 8000,
+  "qa_ready": false,
+  "updated_at": "2026-07-21T09:00:00+07:00"
 }

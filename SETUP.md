@@ -26,7 +26,8 @@ git --version
 
 - **Node บังคับ** สำหรับ `shared/scripts/validate-json.mjs` และ `gate-quality.mjs`  
 - ไม่ต้อง `npm install` ที่ root และ**ไม่ต้อง**สร้าง Python venv  
-- ถ้าไม่มี Node หรือ Git ให้ติดตั้งก่อน — **ห้ามข้าม validator** ในเกณฑ์ผ่านเต็ม
+- ถ้าไม่มี Node หรือ Git ให้ติดตั้งก่อน — **ห้ามข้าม validator** ในเกณฑ์ผ่านเต็ม  
+- **นโยบาย agent:** เจอ `NODE_MISSING` → เสนอคำสั่งจากหน้านี้/`SETUP` แล้ว**ถามคน** ก่อนติดตั้ง (ดู `AGENTS.md`) — ห้ามติดตั้งเงียบ
 
 ## 3) Claude Code
 
@@ -106,14 +107,18 @@ Test-Path .env
 
 ## ผลงานผู้เรียน (เริ่มจากศูนย์)
 
-โฟลเดอร์เหล่านี้ถูก gitignore — สร้างเองระหว่าง Lab:
+หลัง `git clone` ต้องว่าง — สร้างเองระหว่าง Lab (ถูก gitignore):
 
 | path | หมายเหตุ |
 |---|---|
 | `workspace/contracts/*.json` | สัญญาผลงาน |
-| `workspace/e2e-reports/` | หลักฐานทดสอบ (ถ้ามี) |
+| `workspace/learning-log.md` | กรอกหลังแต่ละ Lab (เทมเพลตว่างมากับ repo) |
 | `MEMORY.md` | Lab 04 (คัดลอกจาก starter) |
+| `.claude/agents/{frontend,synthesizer}.md` | Lab 05 — สร้างผ่าน Claude จาก `shared/agent-starters/` |
+| `.opencode/agents/{backend,qa}.md` | Lab 05 — สร้างผ่าน OpenCode จาก starters |
 | `.env` / `.mcp.json` | ความลับ — ห้าม commit |
+
+**มากับ repo แล้ว (อย่าลบ):** `.claude/agents/code-reviewer.md`, `.opencode/agents/specialist.md`, `shared/agent-starters/`
 
 ## แก้ปัญหาเบื้องต้น
 

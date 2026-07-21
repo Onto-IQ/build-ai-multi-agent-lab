@@ -3,6 +3,16 @@
 **Outline 5:** Permission Boundary  
 **ลำดับงาน:** Plan / Build
 
+### คุณอยู่ตรงไหน
+
+`Interview → **Plan** → Build → Test → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | ยังไม่สร้าง agent ใหม่ — ฝึกสิทธิ์บนเครื่องมือที่มีจาก Lab 01–02 |
+| **ส่งต่อไป** | เครื่องพร้อมสิทธิ์ → Lab 04 (memory) แล้ว Lab 05 (แตก named agents คนละเครื่องมือ) |
+| **ภาพรวมทีม** | Lab 05 จะ**สร้าง** artifact `frontend`/`synthesizer` บน Claude และ `backend`/`qa` บน OpenCode ผ่าน CLI/TUI (ไม่ทับซ้อน) |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - Agent บน Claude Code และ/หรือ OpenCode (Lab 01–02)

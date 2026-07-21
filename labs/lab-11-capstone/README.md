@@ -3,10 +3,20 @@
 **Outline 13:** Capstone  
 **ลำดับงาน:** Ship
 
+### คุณอยู่ตรงไหน
+
+`Interview → Plan → Build → Test → **Ship**`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | พึ่งสถานะ Lab 10 — การ์ดเลื่อนจาก named agents แล้ว (FE=Claude `frontend`, BE/QA=OpenCode) |
+| **รับมาจาก** | Lab 10 บอร์ดสด + snapshot + การ์ด QA พร้อม Ship |
+| **ส่งต่อไป** | สูตรนำไปใช้ปิดงานจริงนอกห้อง — ต้องมี `public_url` จริง |
+
 ## ได้รับมาจาก Lab ก่อน
 
-- ทั้งบันได Lab 01–10: specialist, สิทธิ์, memory, ทีมสองเครื่องมือ, ด่าน, รวมผล, Flux
-- บอร์ด Flux ของ Agent Cost Board
+- ทั้งบันได Lab 01–10: specialist, สิทธิ์, memory, named agents ไม่ทับซ้อน, ด่าน, รวมผล, Flux go-live
+- บอร์ด Flux ของ Agent Cost Board ที่การ์ดเลื่อนจากงานจริงแล้ว
 
 ## ได้เพิ่มใน Lab นี้
 

@@ -3,6 +3,16 @@
 **Outline 11:** Synthesize Pattern  
 **ลำดับงาน:** Test → Ship
 
+### คุณอยู่ตรงไหน
+
+`Interview → Plan → Build → **Test** → Ship` (เตรียมเปิดแผง — URL สาธารณะอยู่ Lab 11)
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | Claude Code · `--agent synthesizer` เท่านั้น (ไม่มี synthesizer บน OpenCode) |
+| **รับมาจาก** | Lab 08 gate PASS + FE/BE พร้อม |
+| **ส่งต่อไป** | `synthesize-report.json` + แผงเปิดได้ → Lab 10 (ไม่เป็นใบ WIP ที่ 4) |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - โมดูล Frontend / Backend ที่ทีมสร้าง + ด่านจาก Lab 08
@@ -41,14 +51,17 @@ node shared/scripts/validate-json.mjs workspace/contracts/synthesize-report.json
 
 | ทาง | เหมาะกับ | หมายเหตุ |
 |---|---|---|
-| **A — TUI** | เปิดพรีวิวใน VS Code พร้อม Claude | เห็น UI จริง |
-| **B — CLI** | ตรวจ wiring + เขียน synthesize-report | ถ้าเปิดเบราว์เซอร์ไม่ได้ ให้จดใน `notes` |
+| **A — TUI** | เปิดพรีวิวใน VS Code พร้อม Claude | เลือก agent `synthesizer` |
+| **B — CLI** | ตรวจ wiring + เขียน synthesize-report | `claude -p --agent synthesizer ...` |
+
+> synthesizer **ไม่** เป็นใบ WIP ที่ 4 บน Flux Lab 10
 
 ---
 
 ## 0) Preflight
 
 ```powershell
+Test-Path .\.claude\agents\synthesizer.md
 Get-Content .\apps\sample-dashboard\backend\status.json
 Get-Content .\apps\sample-dashboard\backend\runs.json | Select-Object -First 20
 Test-Path .\shared\contracts\synthesize-report.example.json
@@ -62,7 +75,7 @@ node shared/scripts/gate-quality.mjs
 
 ## ทาง A — TUI
 
-1. เปิด `claude` ที่ root  
+1. เปิด `claude` ที่ root — เลือก / ใช้ agent **`synthesizer`**  
 2. วาง [`prompts/01-synthesize.md`](prompts/01-synthesize.md)  
 3. เปิดแผงบน **localhost** (อย่าใช้ `file://`):
 
@@ -78,7 +91,7 @@ npx --yes serve apps/sample-dashboard -p 4173
 
 ```powershell
 $p = @'
-You are the Synthesizer for Agent Cost Board.
+You are Claude Code agent synthesizer for Agent Cost Board (not OpenCode).
 Confirm frontend can read backend status.json and runs.json by reading the files and app.js fetch paths.
 Fix only what is required to make the board render, without breaking ownership rules.
 If nothing is broken, do not change apps/sample-dashboard/.
@@ -87,9 +100,10 @@ shared/contracts/synthesize-report.example.json.
 Set open_path to apps/sample-dashboard/frontend/index.html.
 If you cannot literally open a browser in this CLI session, set ui_shows_* from code+data readiness and note limits in notes.
 Append a short "## Lab 09" to workspace/learning-log.md.
+Do not create a fourth Flux WIP card for synthesizer.
 '@
 
-$p | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+$p | claude -p --agent synthesizer --permission-mode acceptEdits --output-format text --no-session-persistence
 
 Get-Content .\workspace\contracts\synthesize-report.json
 ```
@@ -119,7 +133,7 @@ npx --yes serve apps/sample-dashboard -p 4173
 
 ต้องตรงกับ **ผลลัพธ์รูปธรรม** ด้านบน 1:1
 
-- [ ] มี synthesizer prompt หรือ agent
+- [ ] ใช้ Claude `--agent synthesizer` (หรือ TUI เลือก synthesizer)
 - [ ] เปิดแผงแล้วเห็นสถานะ + ตารางรอบจาก backend (หรือบันทึกเหตุผลพร้อมแผนแก้)
 - [ ] มี `synthesize-report.json` ผ่าน validator
 

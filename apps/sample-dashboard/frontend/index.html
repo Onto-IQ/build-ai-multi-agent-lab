@@ -36,41 +36,59 @@
     .value { font-size: 1.35rem; font-weight: 650; }
     .ok { color: var(--ok); }
     .warn { color: var(--warn); }
+    .conflict {
+      display: none;
+      margin: 0 0 1.25rem;
+      padding: 0.85rem 1rem;
+      border-radius: 10px;
+      border: 1px solid color-mix(in srgb, var(--warn) 55%, var(--line));
+      background: color-mix(in srgb, var(--warn) 14%, var(--panel));
+      color: var(--text);
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+    .conflict.is-visible { display: block; }
+    .conflict strong { color: var(--warn); }
     table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; font-size: 0.95rem; }
+    caption { text-align: left; color: var(--muted); font-size: 0.85rem; padding-bottom: 0.35rem; }
     th, td { text-align: left; padding: 0.55rem 0.4rem; border-bottom: 1px solid var(--line); }
     th { color: var(--muted); font-weight: 600; }
+    th.num, td.num { text-align: right; font-variant-numeric: tabular-nums; }
     .note { margin-top: 1.25rem; color: var(--muted); font-size: 0.9rem; }
   </style>
 </head>
 <body>
   <main>
     <h1>Agent Cost Board</h1>
-    <p class="lead">แผงต้นทุนและสถานะทีม AI ของผู้เรียน — Frontend ownership only</p>
+    <p class="lead">แผงต้นทุนและสถานะทีม AI ของผู้เรียน — Frontend ownership only · หลายรอบก่อนปล่อยผ่าน</p>
+
+    <div id="conflict-banner" class="conflict" role="alert" aria-live="assertive"></div>
 
     <div class="grid">
       <section class="card">
         <div class="label">สถานะ Backend</div>
-        <div class="value" id="backend-status">กำลังโหลด…</div>
+        <div class="value" id="backend-status" role="status" aria-live="polite">กำลังโหลด…</div>
       </section>
       <section class="card">
         <div class="label">ยอดโทเคนโดยประมาณ (รอบที่บันทึก)</div>
-        <div class="value" id="token-total">—</div>
+        <div class="value" id="token-total" role="status" aria-live="polite">—</div>
       </section>
       <section class="card">
         <div class="label">เพดานงบโทเคน</div>
-        <div class="value" id="token-limit">—</div>
+        <div class="value" id="token-limit" role="status" aria-live="polite">—</div>
       </section>
     </div>
 
     <section class="card" style="margin-top: 1rem;">
       <div class="label">รายการรอบ agent ของทีมตัวเอง</div>
       <table>
+        <caption>โทเคนและผลด่านของแต่ละรอบ — ข้อมูลจาก backend/runs.json</caption>
         <thead>
           <tr>
-            <th>Agent</th>
-            <th>เครื่องมือ</th>
-            <th>โทเคน</th>
-            <th>ด่าน</th>
+            <th scope="col">Agent</th>
+            <th scope="col">เครื่องมือ</th>
+            <th scope="col" class="num">โทเคน</th>
+            <th scope="col">ด่าน</th>
           </tr>
         </thead>
         <tbody id="runs-body">

@@ -3,6 +3,16 @@
 **Outline 3:** Claude Code Specialist  
 **ลำดับงาน:** Interview / Plan
 
+### คุณอยู่ตรงไหน
+
+`**Interview** → Plan → Build → Test → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | Claude Code · agent `code-reviewer` (`.claude/agents/code-reviewer.md`) |
+| **ส่งต่อไป** | `workspace/contracts/code-review.json` → Lab 02 (OpenCode `specialist`) |
+| **ภาพรวมทีม** | Lab นี้ยังเป็น specialist เดี่ยว — ทีม named agents แตกที่ Lab 05 (ไม่ทับซ้อนข้ามเครื่องมือ) |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - เครื่องพร้อมจาก [`SETUP.md`](../../SETUP.md) (Outline 2)

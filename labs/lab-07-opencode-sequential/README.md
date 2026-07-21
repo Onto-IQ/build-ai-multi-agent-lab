@@ -3,57 +3,70 @@
 **Outline 9:** Multi-Agent on OpenCode  
 **ลำดับงาน:** Build → Test
 
+### คุณอยู่ตรงไหน
+
+`Interview → Plan → **Build** → **Test** → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | OpenCode เท่านั้น · `--agent backend` → `--agent qa` (ห้าม `specialist` เป็นทางหลัก) |
+| **รับมาจาก** | อ่าน `handoff-fe.json` ที่ Claude Lab 06 เขียนก่อนลงมือ |
+| **ส่งต่อไป** | `handoff-be.json` + `runs.json` → Lab 08 (`--agent qa` ด่าน) |
+| **ห้าม** | ทำ Frontend ซ้ำบน OpenCode — FE อยู่ Claude แล้ว |
+
 ## ได้รับมาจาก Lab ก่อน
 
-- role cards + handoff จาก Lab 05–06
-- OpenCode specialist จาก Lab 02
+- `handoff-fe.json` จาก Lab 06 (Claude `frontend`)
+- `.opencode/agents/backend.md`, `.opencode/agents/qa.md` (artifact จาก Lab 05)
 
 ## ได้เพิ่มใน Lab นี้
 
-รันทีมบน OpenCode แบบ**ลำดับ** โดย**อ่าน `handoff-fe.json` จาก Lab 06 (Claude) ก่อน** แล้ว Frontend → Backend → QA + เขียน `handoff-be.json`
+รันทีมบน OpenCode แบบ**ลำดับ**: อ่าน handoff จาก Claude → **Backend → QA** + เขียน `handoff-be.json`
 
 ## เป้าหมาย
 
-เห็นลำดับชัดบน Agent Cost Board และให้ QA ใช้เช็กลิสต์จริง — สะพานข้ามเครื่องมือผ่าน **JSON ไม่ใช่ Kanban**
+เห็นสะพานข้ามเครื่องมือผ่าน **JSON** — OpenCode ไม่ bicopy Frontend แต่รับงานต่อจาก Claude
 
-**จุดที่ควรรู้สึกว้าว:** FE → BE → QA เห็นคิวงานชัด
+**จุดที่ควรรู้สึกว้าว:** อ่าน handoff ของ Claude แล้ว `backend` / `qa` คนละรอบปิดงานได้จริง
 
 ## ผลลัพธ์รูปธรรม
 
 1. **ต้องมีไฟล์/หลักฐานเหล่านี้**
    - อ่าน `workspace/contracts/handoff-fe.json` ก่อนลงมือ
-   - diff ตาม ownership; `apps/sample-dashboard/backend/runs.json` มีรอบใหม่ ≥ 1
+   - รัน `--agent backend` แล้ว `--agent qa` คนละรอบ (ไม่ใช้ `--agent specialist` เป็นทางหลัก)
+   - `apps/sample-dashboard/backend/runs.json` มีรอบใหม่ ≥ 1
    - `workspace/contracts/handoff-be.json`
    - QA โน้ตใน learning-log จาก `CHECKLIST.md`
 2. **ต้องเห็นด้วยตาอะไร**
-   - ลำดับ FE→BE→QA จบจริง (คนละรอบ / คนละคำสั่ง)
+   - ลำดับ Backend → QA จบจริง (คนละคำสั่ง)
 3. **เช็คผ่านด้วยคำสั่งนี้**
 
 ```powershell
 Test-Path .\workspace\contracts\handoff-fe.json
+opencode agent list 2>&1 | Select-String -Pattern '^(backend|qa) '
 node shared/scripts/validate-json.mjs workspace/contracts/handoff-be.json
-git status -- apps/sample-dashboard/frontend apps/sample-dashboard/backend apps/sample-dashboard/qa
+git status -- apps/sample-dashboard/backend apps/sample-dashboard/qa
 ```
 
 4. **ยังไม่ผ่านถ้า…**
-   - ข้ามการอ่าน handoff-fe / ทำ FE+BE พร้อมกันแล้วชนไฟล์ / ไม่มี handoff-be / QA แก้โค้ดแอปเพื่อบังคับผ่าน
+   - ข้ามการอ่าน handoff-fe / ใช้ `specialist` สลับหมวกเป็นทางหลัก / ไม่มี handoff-be / QA แก้โค้ดแอปเพื่อบังคับผ่าน / ทำ FE บน OpenCode เป็นขั้นบังคับ
 
-> ใน Lab 10 การ์ดบน Flux จะสะท้อนสถานะงานเดียวกัน — แต่การส่งงานข้ามเครื่องมือยังใช้ JSON
+> ใน Lab 10 การ์ด BE/QA บน Flux ใช้ agent ชื่อเดียวกัน — การส่งงานข้ามเครื่องมือยังใช้ JSON
 
 ## เลือกวิธีรัน
 
 | ทาง | เหมาะกับ | คำสั่งหลัก |
 |---|---|---|
-| **A — TUI** | เรียนในห้องทีละขั้น | `opencode` แล้ววาง prompt คนละรอบ |
-| **B — CLI** | ทำซ้ำ / สคริปต์ | สามครั้ง `opencode run` **ตามลำดับ** (รอจบก่อนเริ่มอันถัดไป) |
+| **A — TUI** | เรียนในห้องทีละขั้น | `opencode` เลือก agent `backend` แล้ว `qa` |
+| **B — CLI** | ทำซ้ำ / สคริปต์ | สองครั้ง `opencode run --agent backend` แล้ว `--agent qa` |
 
-> **PowerShell:** ส่ง prompt ผ่าน stdin เท่านั้น — อย่าใช้ `opencode run $prompt` แบบ argument ยาว (จะค้าง — ดู Lab 02)  
+> **PowerShell:** ส่ง prompt ผ่าน stdin เท่านั้น — อย่าใช้ argument ยาว (จะค้าง — ดู Lab 02)  
 > งานที่เขียนไฟล์: ใส่ `--auto`
 
 ไฟล์ร่วม:
 
 - [`apps/sample-dashboard/qa/CHECKLIST.md`](../../apps/sample-dashboard/qa/CHECKLIST.md)
-- [`prompts/01-frontend.md`](prompts/01-frontend.md) → [`02-backend.md`](prompts/02-backend.md) → [`03-qa.md`](prompts/03-qa.md)
+- [`prompts/01-read-handoff.md`](prompts/01-read-handoff.md) → [`02-backend.md`](prompts/02-backend.md) → [`03-qa.md`](prompts/03-qa.md)
 - ผล handoff: `workspace/contracts/handoff-be.json`
 
 ---
@@ -62,35 +75,35 @@ git status -- apps/sample-dashboard/frontend apps/sample-dashboard/backend apps/
 
 ```powershell
 opencode --version
-opencode models 2>&1 | Select-Object -First 8
+opencode agent list 2>&1 | Select-String -Pattern 'backend|qa|specialist'
+Test-Path .\.opencode\agents\backend.md
+Test-Path .\.opencode\agents\qa.md
 Test-Path .\apps\sample-dashboard\qa\CHECKLIST.md
 Test-Path .\workspace\contracts\handoff-fe.json
-# บังคับ: อ่าน handoff จาก Lab 06 ก่อนเริ่ม FE
 Get-Content .\workspace\contracts\handoff-fe.json
 ```
 
-ถ้ายังไม่มี `handoff-fe.json` → กลับ Lab 06 ให้ Claude เขียนก่อน
+ถ้ายังไม่มี `handoff-fe.json` → กลับ Lab 06  
+ถ้า `backend`/`qa` ไม่ขึ้น list → กลับ Lab 05 สร้าง artifacts ผ่าน CLI/TUI
 
-ทดสอบสั้น ๆ ก่อนเริ่มลำดับ:
+ทดสอบสั้น ๆ:
 
 ```powershell
-"Reply with exactly: OC_OK" | opencode run --auto --format default -m "opencode/mimo-v2.5-free"
+"Reply with exactly: OC_OK" | opencode run --agent backend --auto --format default -m "opencode/mimo-v2.5-free"
 ```
-
-ถ้าขึ้น `Error: No provider available` → สลับ `-m` เป็นโมเดลอื่นจาก `opencode models` แล้วลองใหม่ **ก่อน**เริ่ม FE
 
 ---
 
 ## ทาง A — TUI
 
-### A1) อ่าน handoff แล้ว Frontend
+### A1) อ่าน handoff
 
 ```powershell
 opencode
 ```
 
-สั่งก่อนลงมือ: อ่าน `workspace/contracts/handoff-fe.json` ให้จบ  
-แล้ววาง [`prompts/01-frontend.md`](prompts/01-frontend.md) — รอจบ ห้ามเริ่ม Backend กลางคัน
+เลือก agent **backend** — สั่งอ่าน `workspace/contracts/handoff-fe.json` ให้จบ (ดู [`prompts/01-read-handoff.md`](prompts/01-read-handoff.md))  
+**ห้าม**เริ่มงานก่อนอ่านจบ
 
 ### A2) Backend
 
@@ -99,45 +112,41 @@ opencode
 
 ### A3) QA
 
-วาง [`prompts/03-qa.md`](prompts/03-qa.md)  
-QA ต้องอ่าน CHECKLIST — **ห้าม**แก้ frontend/backend เพื่อบังคับผ่าน
+สลับ agent เป็น **qa** — วาง [`prompts/03-qa.md`](prompts/03-qa.md)  
+QA อ่าน CHECKLIST — **ห้าม**แก้ frontend/backend เพื่อบังคับผ่าน
 
 ### A4) learning-log
 
-จดว่าใช้ **manual sequential** หรือ plugin
+จดว่าใช้ `--agent backend` แล้ว `--agent qa` (manual sequential) และอ่าน handoff จาก Claude แล้ว
 
 ---
 
 ## ทาง B — CLI (ลำดับมือ)
 
-รันทีละบล็อก — ดูให้จบก่อนคัดลอกบล็อกถัดไป
+รันทีละบล็อก — รอจบก่อนบล็อกถัดไป
 
-### B1) Frontend
+### B1) อ่าน handoff (บังคับก่อน Backend)
 
 ```powershell
-$fe = @'
-Read workspace/contracts/handoff-fe.json FIRST. Do not start without it.
-You are Frontend only for Agent Cost Board. Respect ownership — do not edit backend/ or qa/.
-Improve clarity of the runs table or status cards in apps/sample-dashboard/frontend/.
-When done, summarize files touched for the next handoff.
-'@
-
-$fe | opencode run --agent specialist --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-07-frontend"
+Get-Content .\workspace\contracts\handoff-fe.json
+# หรือวาง prompts/01-read-handoff.md ในรอบ backend แรก
 ```
 
 ### B2) Backend
 
 ```powershell
+$be = Get-Content -Raw .\labs\lab-07-opencode-sequential\prompts\02-backend.md
+# หรือใช้ข้อความด้านล่าง
+
 $be = @'
-Read workspace/contracts/handoff-fe.json and any Frontend summary first.
-You are Backend only for Agent Cost Board. Do not edit frontend/.
-Update apps/sample-dashboard/backend/runs.json to include at least one new run
-from this classroom session (Claude Code or OpenCode).
-Keep status.json with status = "ok".
-Write workspace/contracts/handoff-be.json when finished (schema: shared/contracts/handoff-be.example.json).
+Read workspace/contracts/handoff-fe.json FIRST (from Claude Lab 06). Do not start without it.
+You are OpenCode agent backend only. Do not edit frontend/. Do not use specialist.
+Update apps/sample-dashboard/backend/runs.json with at least one new run from this session.
+Keep status.json status = "ok".
+Write workspace/contracts/handoff-be.json (schema: shared/contracts/handoff-be.example.json).
 '@
 
-$be | opencode run --agent specialist --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-07-backend"
+$be | opencode run --agent backend --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-07-backend"
 ```
 
 ตรวจ:
@@ -145,58 +154,53 @@ $be | opencode run --agent specialist --auto --format default -m "opencode/mimo-
 ```powershell
 Get-Content .\apps\sample-dashboard\backend\runs.json
 Test-Path .\workspace\contracts\handoff-be.json
+node shared/scripts/validate-json.mjs workspace/contracts/handoff-be.json
 ```
 
 ### B3) QA
 
 ```powershell
 $qa = @'
-You are QA only.
+You are OpenCode agent qa only. Do not use specialist.
 Use apps/sample-dashboard/qa/CHECKLIST.md.
-Mark what passes/fails in a short note in workspace/learning-log.md under Lab 07.
+Mark what passes/fails in workspace/learning-log.md under Lab 07.
 Do not edit frontend/ or backend/ source to force a pass.
-Note that this Lab used manual sequential OpenCode CLI (not plugin).
+Note this Lab used --agent backend then --agent qa after reading handoff-fe from Claude.
 '@
 
-$qa | opencode run --agent specialist --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-07-qa"
+$qa | opencode run --agent qa --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-07-qa"
 ```
 
-### B4) ถ้าขั้นไหนขึ้น `No provider available`
+### B4) Fallback ถ้า named agent โหลดไม่ขึ้น
 
-1. รอสักครู่ แล้วรันขั้นนั้นซ้ำ  
-2. หรือเปลี่ยน `-m` (ดู `opencode models`)  
-3. หรือรันขั้นนั้นใน **TUI** แทน — ลำดับ FE→BE→QA ยังเหมือนเดิม  
-4. จดใน learning-log ว่าขั้นไหน flake
+อ่านไฟล์ `.opencode/agents/backend.md` (หรือ `qa.md`) ใน prompt **ชั่วคราว** + จด learning-log  
+**ไม่** นับ `--agent specialist` เป็นทางหลักของเกณฑ์ผ่าน
 
 ---
 
 ## ผลที่คาดหวัง
 
-- อ่าน `handoff-fe.json` ก่อนลงมือ
-- มีการเปลี่ยนแปลงตาม ownership คนละโฟลเดอร์ (อย่างน้อย Backend มีรอบใน `runs.json`)
-- มี `handoff-be.json` ผ่าน validator
-- QA อ้างอิง CHECKLIST.md ใน learning-log
-- learning-log ระบุ plugin หรือ manual sequential
+- อ่าน `handoff-fe.json` ก่อน
+- Backend มีรอบใน `runs.json` + `handoff-be.json`
+- QA อ้าง CHECKLIST ใน learning-log
+- ไม่ใช้ `specialist` เป็นทางหลัก
 
 ## เกณฑ์ผ่าน Lab
 
-ต้องตรงกับ **ผลลัพธ์รูปธรรม** ด้านบน 1:1
-
-- [ ] อ่าน `handoff-fe.json` ก่อน แล้วมีลำดับ Frontend → Backend → QA ที่ทำจริง
+- [ ] อ่าน `handoff-fe.json` ก่อน แล้วลำดับ `backend` → `qa`
 - [ ] `runs.json` มีรอบใหม่ ≥ 1 และ `handoff-be.json` ผ่าน validator
-- [ ] QA ใช้ `apps/sample-dashboard/qa/CHECKLIST.md` (ไม่แก้โค้ดแอปเพื่อบังคับผ่าน)
-- [ ] learning-log ระบุวิธีรัน
+- [ ] QA ใช้ CHECKLIST (ไม่แก้โค้ดแอปเพื่อบังคับผ่าน)
+- [ ] learning-log ระบุ named agents ที่ใช้
 
 ## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
-ติดตั้ง plugin ไม่ได้ → รันลำดับมือตาม prompts นี้ยังผ่าน  
-ขั้น FE/BE flake บน CLI → ทำขั้นนั้นใน TUI แล้วกลับมา CLI ต่อได้
+ขั้น flake บน CLI → ทำขั้นนั้นใน TUI ด้วย agent ชื่อเดียวกัน
 
 ## แก้ปัญหาเบื้องต้น
 
 | อาการ | ทำอะไร |
 |---|---|
-| ทำพร้อมกันแล้วไฟล์ชน | กลับไปทำทีละ prompt ตามลำดับ |
-| CLI ค้าง | ใช้ stdin pipeline + `--auto` (Lab 02) |
-| `Error: No provider available` | สลับ model / รอ / ใช้ TUI สำหรับขั้นนั้น |
-| `node` missing ตอน QA รัน validator | จด BLOCKED ใน checklist แล้วตรวจสัญญาด้วยตา — ติด Node ก่อน Lab 08 |
+| `backend`/`qa` ไม่ใน list | กลับ Lab 05 สร้าง artifacts + ตรวจ YAML frontmatter |
+| ใช้ `specialist` ไปแล้ว | รันซ้ำด้วย `--agent backend` / `qa` แล้วจดใน log |
+| CLI ค้าง | stdin pipeline + `--auto` (Lab 02) |
+| ไม่มี handoff-fe | กลับ Lab 06 |

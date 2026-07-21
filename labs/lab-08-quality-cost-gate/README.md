@@ -3,6 +3,16 @@
 **Outline 10:** Gate / Guardrails  
 **ลำดับงาน:** Test
 
+### คุณอยู่ตรงไหน
+
+`Interview → Plan → Build → **Test** → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | OpenCode · `--agent qa` (ทางหลัก) — ด่านยังยึดสคริปต์ + `audit-result.json` |
+| **รับมาจาก** | Lab 07 `handoff-be` + checklist |
+| **ส่งต่อไป** | `audit-result.json` PASS → Lab 09 Claude `synthesizer` / Lab 10 การ์ด QA |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - ผลงาน Frontend / Backend / QA จาก Lab 05–07
@@ -42,10 +52,13 @@ node shared/scripts/validate-json.mjs workspace/contracts/audit-result.json
 
 | ทาง | เหมาะกับ | หมายเหตุ |
 |---|---|---|
-| **A — TUI** | เห็น FAIL ชัดในห้อง | `claude` + รัน `node ...gate-quality.mjs` ใน Terminal |
-| **B — CLI** | เก็บ stdout เป็นหลักฐาน | คัดลอก broken → auditor FAIL → แก้ → PASS |
+| **A — TUI** | เห็น FAIL ชัดในห้อง | OpenCode เลือก agent `qa` + รัน `node ...gate-quality.mjs` ใน Terminal |
+| **B — CLI** | เก็บ stdout เป็นหลักฐาน | คัดลอก broken → `opencode run --agent qa` FAIL → แก้ → PASS |
 
 ต้องมี `node` เพื่อรัน gate จริง — ถ้าไม่มี ใช้ทางเลือกด้านล่าง (ยังต้องมี `audit-result.json`)
+
+> ทางหลักของ Lab นี้คือ **OpenCode `--agent qa`** ตามแมปไม่ทับซ้อน (QA ไม่อยู่บน Claude)  
+> ถ้า OpenCode ไม่พร้อมชั่วคราว: รัน gate ด้วยมือ + เขียน `audit-result.json` ตาม schema แล้วยังต้องผ่านเกณฑ์ด่าน
 
 ---
 
@@ -55,8 +68,10 @@ node shared/scripts/validate-json.mjs workspace/contracts/audit-result.json
 Test-Path .\apps\sample-dashboard\backend\status.broken.json
 Test-Path .\shared\scripts\gate-quality.mjs
 Test-Path .\shared\contracts\audit-result.example.json
+Test-Path .\.opencode\agents\qa.md
+opencode agent list 2>&1 | Select-String -Pattern '^qa '
 node --version
-claude --version
+opencode --version
 ```
 
 ---
@@ -76,10 +91,10 @@ node shared/scripts/gate-quality.mjs
 ### A2) Auditor FAIL
 
 ```powershell
-claude
+opencode
 ```
 
-วาง [`prompts/01-auditor-fail.md`](prompts/01-auditor-fail.md)
+เลือก agent **qa** — วาง [`prompts/01-auditor-fail.md`](prompts/01-auditor-fail.md)
 
 ### A3) แก้ภายใน 2 รอบ แล้ว PASS
 
@@ -113,7 +128,7 @@ node shared/scripts/gate-quality.mjs
 
 ```powershell
 $p1 = @'
-You are the Auditor for Agent Cost Board.
+You are OpenCode agent qa (Auditor) for Agent Cost Board.
 Assume quality gate just failed because status.json is broken (status is not ok).
 
 Write workspace/contracts/audit-result.json with status FAIL,
@@ -121,25 +136,27 @@ at least one violation, round = 1, max_refinement_rounds = 2.
 Follow shared/contracts/audit-result.example.json fields.
 recommended_action should tell humans what to fix.
 Do not start endless retries. Do not fix status.json in this turn.
+Do not use --agent specialist.
 '@
 
-$p1 | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+$p1 | opencode run --agent qa --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-08-audit-fail"
 ```
 
 ### B3) แก้ + PASS (≤ 2 รอบ)
 
 ```powershell
 $p2 = @'
-Fix apps/sample-dashboard/backend/status.json so the quality gate can pass (status must be "ok" with a clear message).
+You are OpenCode agent qa. Fix apps/sample-dashboard/backend/status.json so the quality gate can pass (status must be "ok" with a clear message).
 Keep this within refinement round 2 maximum.
 If node is available run: node shared/scripts/gate-quality.mjs
 If node is missing, verify status.json by eye and say NODE_MISSING.
 Update workspace/contracts/audit-result.json to PASS if checks pass (round = 2).
 If you would need a 3rd refinement round, stop and ask the human instead.
 Append "## Lab 08" to workspace/learning-log.md: when to ask a human (round 3).
+Do not use --agent specialist.
 '@
 
-$p2 | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+$p2 | opencode run --agent qa --auto --format default -m "opencode/mimo-v2.5-free" --title "lab-08-audit-pass"
 ```
 
 ตรวจ:

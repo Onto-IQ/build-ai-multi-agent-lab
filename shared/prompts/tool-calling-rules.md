@@ -23,9 +23,28 @@
 | `shared/scripts/gate-cost.md` | กฎปรับแก้ไม่เกิน 2 รอบ |
 | Flux (Lab 10) | มอบหมายงานบนบอร์ดโปรเจกต์ |
 
+## Named agents (ไม่ทับซ้อน)
+
+| บทบาท | เครื่องมือ | Agent |
+|---|---|---|
+| Frontend | Claude Code | `frontend` |
+| Backend | OpenCode | `backend` |
+| QA | OpenCode | `qa` |
+| Synthesizer | Claude Code | `synthesizer` |
+
+ส่งงานข้ามเครื่องมือด้วย `handoff-*.json` — ห้าม bicopy agent ชื่อเดียวกันทั้งสองฝั่ง  
+Lab 10: เรียก named agent ตามการ์ดก่อนเลื่อนคอลัมน์
+
 Lab เสริม MCP vs CLI อยู่ที่ `labs/lab-optional-mcp-vs-cli/` — ไม่ใช่เกณฑ์ผ่านหลัก
 
-## สิทธิ์เขียนไฟล์ (ย่อ)
+## เมื่อเครื่องมือขาด (เช่น ไม่มี Node)
+
+| สถานการณ์ | ทำ |
+|---|---|
+| ต้องรัน `validate-json` / `gate-quality` / `npx serve` แต่ไม่มี `node` | จด `NODE_MISSING` · เสนอคำสั่งจาก `SETUP.md` · **ถามคน** ก่อนติดตั้ง |
+| คนยังไม่ติดตั้ง | ห้ามเคลมด่าน PASS / ห้ามข้าม gate |
+
+ห้ามติดตั้ง Node (หรือแพ็กเกจระบบอื่น) เงียบ ๆ
 
 | บทบาท | เขียนได้ |
 |---|---|

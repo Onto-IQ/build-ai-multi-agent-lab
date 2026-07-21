@@ -34,7 +34,9 @@ Interview → Plan → Build → Test → Ship
 | มอบหมายใครทำ / ขั้นไหน / มองเห็นคิว | **Flux Kanban** (บังคับ Lab 10) |
 
 ห้าม: ใช้การ์ด Flux แทน `handoff-*.json`; ผ่าน Lab 10 ด้วย snapshot โดยไม่มีบอร์ดสด  
-ลำดับที่ต้องการใน Lab 10: แตกการ์ด → Claude/OpenCode ตาม ownership → เขียน/อัปเดต JSON → เลื่อนการ์ดตามสถานะจริง → ด่านผ่านแล้วค่อย Ship (Lab 11)
+ลำดับที่ต้องการใน Lab 10: แตกการ์ด → เรียก named agent ตามแมป (FE=Claude `frontend`, BE=OpenCode `backend`, QA=OpenCode `qa`) → เขียน/อัปเดต JSON → เลื่อนการ์ดตามสถานะจริง → ด่านผ่านแล้วค่อย Ship (Lab 11)
+
+**Named agents ไม่ทับซ้อน:** ดูตารางใน `AGENTS.md` — starters ที่ `shared/agent-starters/`; artifacts สร้างใน Lab 05 ผ่าน CLI/TUI
 
 ## กฎสำคัญ
 
@@ -43,7 +45,8 @@ Interview → Plan → Build → Test → Ship
 3. ห้ามยืนยันว่า deploy สำเร็จถ้ายังไม่มี URL จริง
 4. เริ่มที่ `SETUP.md` แล้วทำ Lab ตามลำดับบันไดความรู้
 5. **มาตรฐาน go-live ไม่ใช่ POC:** ผู้เรียนต้องนำสูตรกลับไปใช้ปิดงานจริงได้ — ห้ามผ่าน Lab ด้วยการสาธิต MCP / สร้างการ์ดเท็จ / เลื่อนการ์ดโดยไม่ทำงานตาม ownership
-6. **Runtime:** Node + git บน Windows/macOS/Linux — ไม่ใช้ Python venv ใน lab นี้; ดูแผงด้วย localhost (`npx serve apps/sample-dashboard`)
+6. **Runtime:** Node + git บน Windows/macOS/Linux — ไม่ใช้ Python venv ใน lab นี้; ดูแผงด้วย localhost (`npx serve apps/sample-dashboard`)  
+   ถ้า agent เจอว่าไม่มี Node: เสนอคำสั่งติดตั้งแล้วถามคน — ห้ามติดตั้งเงียบ (`AGENTS.md`)
 
 ## Go-live (บังคับทั้งคอร์ส)
 

@@ -10,6 +10,16 @@ workspace/e2e-reports/
 workspace/tmp/
 MEMORY.md
 
+# Lab 05+ named team agents (learner artifacts — create via CLI/TUI from shared/agent-starters/)
+.claude/agents/frontend.md
+.claude/agents/synthesizer.md
+.claude/agents/backend.md
+.claude/agents/qa.md
+.opencode/agents/frontend.md
+.opencode/agents/backend.md
+.opencode/agents/qa.md
+.opencode/agents/synthesizer.md
+
 # Local backups / editor junk
 *.bak
 *.tmp

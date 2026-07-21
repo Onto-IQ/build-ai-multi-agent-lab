@@ -7,21 +7,24 @@
   "roles": [
     {
       "name": "Frontend",
-      "tool": "Claude Code or OpenCode",
+      "tool": "Claude Code",
+      "agent": "frontend",
       "writes": ["apps/sample-dashboard/frontend/"],
       "reads": ["apps/sample-dashboard/backend/", "shared/contracts/"],
       "must_not_write": ["apps/sample-dashboard/backend/", "apps/sample-dashboard/qa/"]
     },
     {
       "name": "Backend",
-      "tool": "OpenCode or Claude Code",
+      "tool": "OpenCode",
+      "agent": "backend",
       "writes": ["apps/sample-dashboard/backend/"],
       "reads": ["apps/sample-dashboard/frontend/", "shared/contracts/"],
       "must_not_write": ["apps/sample-dashboard/frontend/"]
     },
     {
       "name": "QA",
-      "tool": "Claude Code or OpenCode",
+      "tool": "OpenCode",
+      "agent": "qa",
       "writes": ["apps/sample-dashboard/qa/", "workspace/contracts/"],
       "reads": ["apps/sample-dashboard/"],
       "must_not_write": ["apps/sample-dashboard/frontend/", "apps/sample-dashboard/backend/"]

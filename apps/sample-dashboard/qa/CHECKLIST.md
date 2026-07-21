@@ -1,19 +1,27 @@
 # QA Checklist — Agent Cost Board
 
-ติ๊กโดยบทบาท QA / Tester ก่อนผ่านด่านและก่อน Ship
+ติ๊กโดยบทบาท **qa** (OpenCode) ก่อนผ่านด่านและก่อน Ship  
+มาตรฐานคอร์ส: **หลายรอบ** — FE/BE/QA ขัดแย้งกันได้จนกว่าข้อมูลกับ UI จะสอดคล้อง แล้วค่อย PASS
 
-## คุณภาพ
+## รอบที่ 1 (คาดว่า FAIL ได้)
 
-- [ ] `backend/status.json` มี `status` เป็น `ok` และมี `message`
-- [ ] `backend/runs.json` มี `runs` อย่างน้อย 1 รายการ
-- [ ] Frontend เปิดแล้วแสดงสถานะ Backend ได้
-- [ ] Frontend แสดงยอดโทเคนและตารางรอบได้
+- [ ] อ่าน `handoff-fe.json` / `handoff-be.json` แล้วรู้ว่าใครค้างเรื่องอะไร
+- [ ] แผงแสดง**แถบขัดแย้ง**เมื่องบเกิน / มี `pending`|`fail` / `qa_ready` ยังไม่ true
+- [ ] `gate-quality.mjs` **FAILED** อย่างน้อยหนึ่งครั้งก่อนรอบแก้ (หลักฐาน stdout)
+
+## คุณภาพ (ต้องครบก่อน PASS)
+
+- [ ] `backend/status.json` มี `status=ok`, `message`, `budget_tokens_limit` (ตัวเลข), `qa_ready=true`
+- [ ] `backend/runs.json` มี `runs` ≥ 1 และ**ไม่มี** `gate_status` เป็น `pending` หรือ `fail`
+- [ ] ยอดโทเคนรวม ≤ `budget_tokens_limit` **หรือ** มี `budget_exception_ack=true` หลังคุยคน/QA
+- [ ] Frontend เปิดแล้วแสดงสถานะ + ยอดโทเคน + เพดาน + ตารางรอบ + แถบขัดแย้งเมื่อยังไม่พร้อม
 - [ ] สัญญาใน `workspace/contracts/` ผ่าน `node shared/scripts/validate-json.mjs`
 
-## ต้นทุน
+## ต้นทุน / รอบปรับแก้
 
 - [ ] รอบปรับแก้ของงานเดียวกันไม่เกิน 2 (ดู `shared/scripts/gate-cost.md`)
-- [ ] ถ้างบใกล้เพดานใน `status.json` → แจ้งคนก่อน Ship
+- [ ] รอบที่ 3 → หยุดถามคน
+- [ ] มีบันทึกรอบใน `runs.json` และ learning-log
 
 ## สิทธิ์เขียนไฟล์
 
@@ -26,3 +34,5 @@
 ```bash
 node shared/scripts/gate-quality.mjs
 ```
+
+ถ้าขึ้น `NODE_MISSING` / ไม่เจอ `node` → เสนอติดตั้งตาม `SETUP.md` แล้ว**ถามคน** ห้ามติดตั้งเงียบ

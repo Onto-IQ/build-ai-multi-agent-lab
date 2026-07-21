@@ -8,17 +8,26 @@
       "tool": "Claude Code",
       "model": "claude-sonnet",
       "tokens_estimate": 3500,
-      "gate_status": "n/a",
-      "notes": "Lab 01 sample run — replace with your real lab runs"
+      "gate_status": "pass",
+      "notes": "Lab 01 sample — replace with your real lab runs"
     },
     {
       "id": "run-002",
       "agent": "frontend",
-      "tool": "OpenCode",
+      "tool": "Claude Code",
       "model": "classroom-default",
       "tokens_estimate": 4200,
-      "gate_status": "n/a",
-      "notes": "Sample Frontend run"
+      "gate_status": "pending",
+      "notes": "Intentionally pending — Backend/QA must clear across rounds"
+    },
+    {
+      "id": "run-003",
+      "agent": "backend",
+      "tool": "OpenCode",
+      "model": "classroom-default",
+      "tokens_estimate": 2800,
+      "gate_status": "fail",
+      "notes": "Intentionally fail — forces multi-round disagreement before Ship"
     }
   ]
 }

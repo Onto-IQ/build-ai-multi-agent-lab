@@ -3,6 +3,16 @@
 **Outline 6:** Persistent Memory  
 **ลำดับงาน:** Plan
 
+### คุณอยู่ตรงไหน
+
+`Interview → **Plan** → Build → Test → Ship`
+
+| | |
+|---|---|
+| **Identity + เครื่องมือ** | ยังไม่สร้าง agent ใหม่ — ฝึก memory ข้าม session |
+| **ส่งต่อไป** | `MEMORY.md` + learning-log → Lab 05 แตกทีม named agents |
+| **ภาพรวมทีม** | ถัดไป Lab 05: สร้าง artifact ผ่าน CLI/TUI — Claude รับ `frontend`+`synthesizer`; OpenCode รับ `backend`+`qa` |
+
 ## ได้รับมาจาก Lab ก่อน
 
 - Agent + สิทธิ์จาก Lab 01–03
