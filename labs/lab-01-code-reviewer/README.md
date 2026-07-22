@@ -152,7 +152,7 @@ git status --porcelain apps/sample-dashboard/frontend/
 node shared/scripts/validate-json.mjs workspace/contracts/code-review.json
 ```
 
-เปิด `workspace/learning-log.md` เขียนอย่างน้อย 1 ย่อหน้า (เช่น รู้สึกอย่างไรตอนโดน deny)
+วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md) ในแชท (หรือเขียนมืออย่างน้อย 1 ย่อหน้าไทยภายใต้ `## Lab 01`)
 
 ---
 
@@ -241,7 +241,7 @@ node shared/scripts/validate-json.mjs workspace/contracts/code-review.json
 ให้ Claude ช่วยจด log (ยังเป็น Reviewer — เขียนได้แค่ workspace):
 
 ```powershell
-"Append one short Thai paragraph to workspace/learning-log.md about what happened when I asked you to edit the frontend. Do not edit apps/sample-dashboard/." |
+Get-Content -Raw .\labs\lab-01-code-reviewer\prompts\03-learning-log.md |
   claude -p --agent code-reviewer --permission-mode acceptEdits --output-format text
 ```
 
@@ -253,6 +253,7 @@ node shared/scripts/validate-json.mjs workspace/contracts/code-review.json
 
 - [`prompts/01-review.md`](prompts/01-review.md) — ใช้กับ TUI หรือแปะเข้า CLI
 - [`prompts/02-deny-edit.md`](prompts/02-deny-edit.md) — ทดสอบขอบเขตสิทธิ์
+- [`prompts/03-learning-log.md`](prompts/03-learning-log.md) — บันทึก learning-log (TUI/CLI)
 
 ## ผลที่คาดหวัง
 

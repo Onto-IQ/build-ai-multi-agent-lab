@@ -87,23 +87,16 @@ npx --yes serve apps/sample-dashboard -p 4173
 เปิด [http://localhost:4173/frontend/](http://localhost:4173/frontend/)  
 ทางเลือก: VS Code Live Preview ที่โฟลเดอร์ `apps/sample-dashboard`  
 4. ตรวจว่าการ์ดสถานะ + ตารางรอบขึ้น  
-5. มี `workspace/contracts/synthesize-report.json`
+5. มี `workspace/contracts/synthesize-report.json`  
+6. (ถ้ายังไม่มีหัวข้อ Lab 09 ใน log) วาง [`prompts/02-learning-log.md`](prompts/02-learning-log.md)
+
+---
+
+## ทาง B — CLI
 
 ```powershell
-$p = @'
-You are Claude Code agent synthesizer for Agent Cost Board (not OpenCode).
-Confirm frontend can read backend status.json and runs.json by reading the files and app.js fetch paths.
-Fix only what is required to make the board render, without breaking ownership rules.
-If nothing is broken, do not change apps/sample-dashboard/.
-Then write workspace/contracts/synthesize-report.json using
-shared/contracts/synthesize-report.example.json.
-Set open_path to apps/sample-dashboard/frontend/index.html.
-If you cannot literally open a browser in this CLI session, set ui_shows_* from code+data readiness and note limits in notes.
-Append a short "## Lab 09" to workspace/learning-log.md.
-Do not create a fourth Flux WIP card for synthesizer.
-'@
-
-$p | claude -p --agent synthesizer --permission-mode acceptEdits --output-format text --no-session-persistence
+Get-Content -Raw .\labs\lab-09-synthesizer\prompts\01-synthesize.md |
+  claude -p --agent synthesizer --permission-mode acceptEdits --output-format text --no-session-persistence
 
 Get-Content .\workspace\contracts\synthesize-report.json
 ```
@@ -115,11 +108,19 @@ npx --yes serve apps/sample-dashboard -p 4173
 # เปิด http://localhost:4173/frontend/
 ```
 
+ถ้าต้องการรอบแยกเฉพาะ log:
+
+```powershell
+Get-Content -Raw .\labs\lab-09-synthesizer\prompts\02-learning-log.md |
+  claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+```
+
 ---
 
 ## ข้อความพร้อมวาง
 
-[`prompts/01-synthesize.md`](prompts/01-synthesize.md)
+- [`prompts/01-synthesize.md`](prompts/01-synthesize.md) — synthesize + รายงาน (TUI/CLI)
+- [`prompts/02-learning-log.md`](prompts/02-learning-log.md) — บันทึก learning-log แยก (ถ้าต้องการ)
 
 ## ผลที่คาดหวัง
 

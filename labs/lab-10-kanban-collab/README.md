@@ -175,7 +175,8 @@ node shared/scripts/validate-json.mjs workspace/contracts/kanban-snapshot.json
 2. Claude `--agent frontend`: รับ FE → ทำงาน → อัป JSON → เลื่อน  
 3. OpenCode `--agent backend`: รับ BE → ทำงาน → อัป JSON → เลื่อน  
 4. OpenCode `--agent qa`: gate → อัป `audit-result` → เลื่อนตามผล  
-5. Snapshot + URL ใน learning-log  
+5. Snapshot — วาง [`prompts/05-kanban-snapshot.md`](prompts/05-kanban-snapshot.md)  
+6. learning-log — วาง [`prompts/06-learning-log.md`](prompts/06-learning-log.md) (หรือข้ามได้ถ้า snapshot อัป log + URL ครบแล้ว) 
 
 ### ตัวอย่าง Claude
 
@@ -222,6 +223,15 @@ $p | opencode run --agent qa --auto -m opencode/big-pickle
 รายละเอียด: [`FLUX-SETUP.md`](FLUX-SETUP.md)
 
 ---
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-create-cards.md`](prompts/01-create-cards.md)
+- [`prompts/02-claude-frontend-card.md`](prompts/02-claude-frontend-card.md)
+- [`prompts/03-opencode-backend-card.md`](prompts/03-opencode-backend-card.md)
+- [`prompts/04-qa-gate-card.md`](prompts/04-qa-gate-card.md)
+- [`prompts/05-kanban-snapshot.md`](prompts/05-kanban-snapshot.md)
+- [`prompts/06-learning-log.md`](prompts/06-learning-log.md) — URL + สรุป go-live ใน learning-log
 
 ## ผลที่คาดหวัง
 

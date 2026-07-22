@@ -66,6 +66,7 @@ node shared/scripts/validate-json.mjs workspace/contracts/capstone-ship.json
 - [ ] Flux มีการ์ดถึงคอลัมน์ใกล้ Ship
 - [ ] Synthesize แล้วเปิดแผงได้ (`synthesize-report.json`)
 - [ ] บันทึกต้นทุน: ใช้ Subagents หรือ Teams เพราะอะไร
+- [ ] (ในห้อง) ได้ slot Hostinger จากวิทยากร แล้วทำตาม [`prompts/02-hostinger-deploy.md`](prompts/02-hostinger-deploy.md)
 
 ```powershell
 Test-Path .\workspace\contracts\role-cards.json
@@ -79,28 +80,50 @@ Select-String -Path .\.env -Pattern '^FLUX_WORKSPACE_URL='
 
 ---
 
+## Classroom Hostinger (แนะนำในห้อง)
+
+โฮสต์ห้อง: `9expert.online` — ผู้เรียนคนละ subdomain (`learner01`…`07`)  
+**วิทยากรเตรียม DNS + user บน VPS ไว้แล้ว** (เล่าในห้อง) — ผู้เรียนไม่ต้องสร้าง user / ตั้ง DNS
+
+รายละเอียดสั้น + ตาราง slot: [`HOSTINGER-SETUP.md`](HOSTINGER-SETUP.md)
+
+1. ได้ slot จากวิทยากร + ส่ง `.pub`  
+2. ทำตาม [`prompts/02-hostinger-deploy.md`](prompts/02-hostinger-deploy.md) — SSH แล้วอัปทั้ง `apps/sample-dashboard/`  
+3. `public_url` ตัวอย่าง: `http://learnerNN.9expert.online/` (redirect → `/frontend/`)  
+4. `deploy_target` ตัวอย่าง: `Hostinger classroom (learnerNN.9expert.online)`  
+5. มี URL จริงแล้ว → วาง [`prompts/01-capstone-ship.md`](prompts/01-capstone-ship.md)
+
+---
+
 ## ทาง A — TUI
 
 1. เลื่อนการ์ดบน Flux ไป Ship เมื่อด่านผ่าน  
-2. Deploy **ทั้ง** `apps/sample-dashboard/` (มี `frontend/` + `backend/`) — Cloudflare Pages / Netlify / Azure Static Web Apps / host ห้อง  
+2. Deploy **ทั้ง** `apps/sample-dashboard/` (มี `frontend/` + `backend/`) — **Hostinger classroom (แนะนำในห้อง)** / Cloudflare Pages / Netlify / Azure Static Web Apps  
    อย่าอัปแค่ `frontend/` อย่างเดียว (path `../backend` จะพัง)  
-3. คัดลอก **public URL จริง** (หน้า `/frontend/` ที่แผงโหลดได้)  
+   ในห้อง: ทำตาม [`HOSTINGER-SETUP.md`](HOSTINGER-SETUP.md) จนเปิด subdomain ของตัวเองได้  
+3. คัดลอก **public URL จริง** (เช่น `http://learnerNN.9expert.online/` ที่แผงโหลดได้)  
 4. เปิด `claude` วาง [`prompts/01-capstone-ship.md`](prompts/01-capstone-ship.md)  
 5. แชร์ลิงก์ให้เพื่อนอย่างน้อย 1 คน  
 6. Git: `status` → `add` → `commit` (push ตามที่ห้องอนุญาต)  
-7. จดสูตรนำไปใช้ใน learning-log
+7. วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md) ส่วน **DONE + สูตรนำไปใช้**
 
----
+Deploy ในห้อง (PowerShell พร้อมวาง): [`prompts/02-hostinger-deploy.md`](prompts/02-hostinger-deploy.md)
+
+> ยังไม่มี URL จริง — อย่าเขียน `capstone-ship.json` ปลอม; วางส่วน **BLOCKED** ใน [`prompts/03-learning-log.md`](prompts/03-learning-log.md) แทน
 
 ## ทาง B — CLI
 
 ### B1) ยังไม่มี URL — บันทึก BLOCKED (ถูกต้องตามกฎ)
 
+วางส่วน **BLOCKED** จาก [`prompts/03-learning-log.md`](prompts/03-learning-log.md) หรือ:
+
 ```powershell
 $p = @'
 IMPORTANT: do NOT claim deploy succeeded without a real public URL.
 If no real URL exists, do NOT write capstone-ship.json with a fake URL.
-Append "## Lab 11" to workspace/learning-log.md with status BLOCKED and pre-flight checklist from existing artifacts.
+Append "## Lab 11" to workspace/learning-log.md with status BLOCKED
+and pre-flight checklist from existing artifacts.
+Only edit workspace/learning-log.md.
 '@
 
 $p | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
@@ -116,8 +139,8 @@ Write workspace/contracts/capstone-ship.json using
 shared/contracts/capstone-ship.example.json.
 
 Fill in:
-- public_url = https://YOUR-REAL-URL
-- deploy_target (Vercel or Netlify or classroom host)
+- public_url = http://learnerNN.9expert.online/  (or your real host URL)
+- deploy_target (Hostinger classroom (learnerNN.9expert.online) or Vercel/Netlify)
 - gate_status PASS
 - kanban_column Ship
 - cost_note explaining Subagents vs Teams choice
@@ -146,7 +169,9 @@ $p | claude -p --permission-mode acceptEdits --output-format text --no-session-p
 
 ## ข้อความพร้อมวาง
 
-[`prompts/01-capstone-ship.md`](prompts/01-capstone-ship.md)
+- Deploy Hostinger (ผู้เรียน): [`prompts/02-hostinger-deploy.md`](prompts/02-hostinger-deploy.md)
+- เขียน `capstone-ship.json`: [`prompts/01-capstone-ship.md`](prompts/01-capstone-ship.md)
+- บันทึก learning-log (BLOCKED / DONE + สูตร): [`prompts/03-learning-log.md`](prompts/03-learning-log.md)
 
 ## ผลที่คาดหวัง
 
@@ -159,14 +184,14 @@ $p | claude -p --permission-mode acceptEdits --output-format text --no-session-p
 ต้องตรงกับ **ผลลัพธ์รูปธรรม** ด้านบน 1:1
 
 - [ ] Pre-flight ผ่าน (รวม Lab 10 บอร์ดสด)
-- [ ] มี public URL จริงขึ้นต้น `http` และแผงโหลดได้
+- [ ] มี public URL จริงขึ้นต้น `http` และแผงโหลดได้ (ในห้อง: subdomain `learnerNN.9expert.online`)
 - [ ] มีบันทึกต้นทุน + หลักฐานบอร์ด
 - [ ] มี `capstone-ship.json` ผ่าน validator
 - [ ] นำเสนอได้สั้น ๆ + สูตรนำไปใช้ใน learning-log
 
 ## ทางเลือกเมื่อเครื่องมือไม่พร้อม
 
-Vercel/Netlify ล็อกอินไม่ได้ — ใช้ static host ที่ห้องเตรียม หรือแชร์ zip + บันทึกเหตุผล (ถามวิทยากรว่าผ่านแทนได้หรือไม่)
+Hostinger classroom / Vercel / Netlify ใช้ไม่ได้ — ใช้ static host สำรองที่ห้องเตรียม หรือแชร์ zip + บันทึกเหตุผล (ถามวิทยากรว่าผ่านแทนได้หรือไม่)
 
 ## แก้ปัญหาเบื้องต้น
 

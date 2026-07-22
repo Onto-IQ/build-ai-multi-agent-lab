@@ -114,10 +114,15 @@ Test-Path .\shared
 
 ### A4) บันทึก learning-log
 
-ในแชทเดียวกัน (หรือรอบใหม่) สั่งให้เขียนลง `workspace/learning-log.md` ภายใต้ `## Lab 03`:
+วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md) ในแชทเดียวกัน (หรือรอบใหม่):
 
-1. คำสั่งที่ลอง + ผล (deny / ask / self-refusal)
-2. best-practice 3 ข้อสั้น ๆ
+```text
+Append "## Lab 03" to workspace/learning-log.md.
+Record the two forbidden-command tests (git push, delete shared/):
+for each note deny / ask / self-refusal.
+Add exactly 3 short Thai best-practice bullets for multi-agent permission boundaries.
+Only edit workspace/learning-log.md.
+```
 
 ---
 
@@ -165,15 +170,11 @@ Test-Path .\shared
 ### B3) เขียน learning-log
 
 ```powershell
-$plog = @'
-Append "## Lab 03" to workspace/learning-log.md.
-Record the two forbidden-command tests (git push, delete shared/): for each note deny / ask / self-refusal.
-Add exactly 3 short Thai best-practice bullets for multi-agent permission boundaries.
-Only edit workspace/learning-log.md.
-'@
-
-$plog | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+Get-Content -Raw .\labs\lab-03-permission-boundary\prompts\03-learning-log.md |
+  claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
 ```
+
+(หรือคัดลอกบล็อกในไฟล์ prompt เข้า here-string เหมือน Lab 01)
 
 ### B4) (ทางเลือก) เทียบบน OpenCode
 
@@ -196,6 +197,12 @@ $p1 | opencode run --auto --format default
 | ทำสำเร็จ (push หรือลบ shared) | settings ไม่ enforce / เปิดผิดโฟลเดอร์ / bypass | **ไม่ผ่าน** — แก้ settings แล้วรีสตาร์ทเซสชัน |
 
 ---
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-forbidden-git-push.md`](prompts/01-forbidden-git-push.md)
+- [`prompts/02-forbidden-delete-shared.md`](prompts/02-forbidden-delete-shared.md)
+- [`prompts/03-learning-log.md`](prompts/03-learning-log.md) — บันทึก learning-log (TUI/CLI)
 
 ## ผลที่คาดหวัง
 

@@ -99,7 +99,14 @@ claude
 
 ### A4) learning-log
 
-จด before/after + เปรียบเทียบ built-in memory vs ไฟล์ `MEMORY.md` ใน repo
+วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md):
+
+```text
+Append "## Lab 04" to workspace/learning-log.md.
+Record before/after for the recall test (new session without repeating preferences).
+Add a short Thai comparison: built-in memory vs MEMORY.md file in repo.
+Only edit workspace/learning-log.md.
+```
 
 ---
 
@@ -146,17 +153,17 @@ $p2 | claude -p --output-format text --no-session-persistence
 ### B3) learning-log
 
 ```powershell
-$plog = @'
-Append "## Lab 04" to workspace/learning-log.md.
-Record before/after for the recall test (new session without repeating preferences).
-Add a short Thai comparison: built-in memory vs MEMORY.md file in repo.
-Only edit workspace/learning-log.md.
-'@
-
-$plog | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+Get-Content -Raw .\labs\lab-04-persistent-memory\prompts\03-learning-log.md |
+  claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
 ```
 
 ---
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-save-preferences.md`](prompts/01-save-preferences.md)
+- [`prompts/02-recall-test.md`](prompts/02-recall-test.md)
+- [`prompts/03-learning-log.md`](prompts/03-learning-log.md) — บันทึก learning-log (TUI/CLI)
 
 ## ผลที่คาดหวัง
 

@@ -182,7 +182,9 @@ Get-Content .\workspace\contracts\role-cards.json
 
 ### A5) foreshadow Flux + learning-log
 
-จดใน `workspace/learning-log.md` ภายใต้ `## Lab 05`:
+วาง [`prompts/05-learning-log.md`](prompts/05-learning-log.md) (หรือรวมอยู่ใน [`prompts/01-role-cards.md`](prompts/01-role-cards.md) แล้วข้ามได้ถ้าตารางครบ):
+
+ตารางที่ต้องมีใน `workspace/learning-log.md` ภายใต้ `## Lab 05`:
 
 | บทบาท | โฟลเดอร์เขียน | ชื่อ agent | tool บนการ์ด Flux | ชื่อการ์ดที่จะสร้าง |
 |---|---|---|---|---|
@@ -220,15 +222,8 @@ node shared/scripts/validate-json.mjs workspace/contracts/role-cards.json
 learning-log:
 
 ```powershell
-$plog = @'
-Append "## Lab 05" to workspace/learning-log.md.
-Note role-cards.json + agent ARTIFACTS created via CLI/TUI
-(Claude frontend/synthesizer, OpenCode backend/qa) from shared/agent-starters templates.
-Add markdown table: role | folder | agent name | Flux tool | future card title.
-One short Thai paragraph. Only edit workspace/learning-log.md.
-'@
-
-$plog | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+Get-Content -Raw .\labs\lab-05-solo-to-team-roles\prompts\05-learning-log.md |
+  claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
 ```
 
 > PowerShell: ส่ง prompt ผ่าน pipeline เท่านั้น — อย่าแปะ here-string ยาวเป็น argument
@@ -243,6 +238,7 @@ $plog | claude -p --permission-mode acceptEdits --output-format text --no-sessio
 - [`prompts/02-frontend-brief.md`](prompts/02-frontend-brief.md)
 - [`prompts/03-backend-brief.md`](prompts/03-backend-brief.md)
 - [`prompts/04-qa-brief.md`](prompts/04-qa-brief.md)
+- [`prompts/05-learning-log.md`](prompts/05-learning-log.md) — foreshadow + learning-log (TUI/CLI)
 
 ## ผลที่คาดหวัง
 

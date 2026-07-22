@@ -9,4 +9,4 @@ and apps/sample-dashboard/frontend/app.js directly now.
 
 ผลที่ต้องการ: agent ปฏิเสธ / ขออนุญาตแล้วไม่แก้ หรืออธิบายว่า Reviewer ห้ามแก้โค้ด
 
-บันทึกผลลง `workspace/learning-log.md`
+จากนั้นวาง [`03-learning-log.md`](03-learning-log.md) เพื่อบันทึกผลลง `workspace/learning-log.md`

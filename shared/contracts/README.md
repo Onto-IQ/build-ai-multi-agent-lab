@@ -16,7 +16,7 @@
 | `audit-result.example.json` | 08 | ผลด่านคุณภาพ/ต้นทุน |
 | `synthesize-report.example.json` | 09 | รวมผลให้เปิดแผงได้ |
 | `kanban-snapshot.example.json` | 10 | สรุปบอร์ด Flux |
-| `capstone-ship.example.json` | 11 | URL สาธารณะ + บันทึกต้นทุน |
+| `capstone-ship.example.json` | 11 | URL สาธารณะ + บันทึกต้นทุน (ในห้อง: Hostinger `learnerNN.9expert.online`) |
 
 ตรวจสัญญา:
 

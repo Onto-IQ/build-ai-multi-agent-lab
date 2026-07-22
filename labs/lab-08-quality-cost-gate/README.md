@@ -104,7 +104,15 @@ opencode
 
 ### A4) learning-log
 
-จดว่าถ้าจะมี**รอบที่ 3** ต้องถามคน
+วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md) (หรือข้ามได้ถ้า [`02-fix-and-recheck.md`](prompts/02-fix-and-recheck.md) อัป log ครบแล้ว):
+
+```text
+Append "## Lab 08" to workspace/learning-log.md.
+Record that quality gate went FAIL then PASS within max 2 refinement rounds.
+State clearly: if a 3rd round is needed, ask a human (do not auto-fix forever).
+Short Thai. Only edit workspace/learning-log.md.
+Do not use --agent specialist.
+```
 
 คืนไฟล์สำรองถ้ายังเหลือ:
 
@@ -167,6 +175,12 @@ Get-Content .\workspace\contracts\audit-result.json
 ```
 
 ---
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-auditor-fail.md`](prompts/01-auditor-fail.md)
+- [`prompts/02-fix-and-recheck.md`](prompts/02-fix-and-recheck.md)
+- [`prompts/03-learning-log.md`](prompts/03-learning-log.md) — บันทึก learning-log แยก (ถ้าต้องการ)
 
 ## ผลที่คาดหวัง
 

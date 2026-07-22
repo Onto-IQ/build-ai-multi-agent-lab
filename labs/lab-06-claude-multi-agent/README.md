@@ -116,7 +116,14 @@ node shared/scripts/validate-json.mjs workspace/contracts/handoff-fe.json
 
 ### A4) learning-log
 
-จด: ใช้ Teams หรือ Subagents · ชื่อ agent ที่เรียก · ส่งต่อ OpenCode `backend` Lab 07
+วาง [`prompts/03-learning-log.md`](prompts/03-learning-log.md):
+
+```text
+Append "## Lab 06" to workspace/learning-log.md only.
+Record named agents used (frontend, code-reviewer), Teams or Subagents,
+and that handoff-fe.json is ready for OpenCode backend Lab 07.
+Short Thai. Only edit workspace/learning-log.md.
+```
 
 ---
 
@@ -175,15 +182,17 @@ Test-Path .\workspace\contracts\handoff-fe.json
 ### B3) learning-log
 
 ```powershell
-$plog = @'
-Append "## Lab 06" to workspace/learning-log.md only.
-Record named agents used (frontend, code-reviewer), Teams or Subagents, and that handoff-fe.json is ready for OpenCode backend Lab 07. Short Thai.
-'@
-
-$plog | claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
+Get-Content -Raw .\labs\lab-06-claude-multi-agent\prompts\03-learning-log.md |
+  claude -p --permission-mode acceptEdits --output-format text --no-session-persistence
 ```
 
 ---
+
+## ข้อความพร้อมวาง
+
+- [`prompts/01-teams-or-subagents.md`](prompts/01-teams-or-subagents.md)
+- [`prompts/02-handoff.md`](prompts/02-handoff.md)
+- [`prompts/03-learning-log.md`](prompts/03-learning-log.md) — บันทึก learning-log (TUI/CLI)
 
 ## ผลที่คาดหวัง
 
