@@ -1,42 +1,29 @@
-# Lab architecture — Agent Cost Board
+# Lab Architecture (V2)
 
-## Modular layout
+## Product
+
+- `apps/trade-desk` — Paper Crypto Trade Desk (Vite/React + Express)
+- `apps/command-center` — thin cross-tool watch UI
+
+## Harness
+
+- Claude: `.claude/agents`, `.claude/skills`, `claude agents`, Teams/Subagents
+- OpenCode: `.opencode/agents`, built-in Build/Plan, reads `.claude/skills`
+- Bridge: CLI only (`opencode run` / `claude -p`) + `log-dispatch` events
+
+## Watch
 
 ```text
-apps/sample-dashboard/   # ชื่อแสดงผล: Agent Cost Board
-  frontend/
-  backend/
-  qa/
-labs/lab-XX-*/           # workbook บันไดความรู้
-shared/                  # สัญญาตัวอย่าง, prompts, สคริปต์ด่าน
-workspace/               # ผลงานผู้เรียน
-SETUP.md / CLAUDE.md / AGENTS.md
+Learner machine
+├── Windows Terminal: claude / claude agents / opencode   (near view)
+├── Browser :4173 Trade Desk                              (product)
+└── Browser :4174 Command Center                          (far view)
 ```
 
-## Ownership
+## Labs
 
-| Path | Writer |
-|---|---|
-| `apps/sample-dashboard/frontend/**` | Frontend |
-| `apps/sample-dashboard/backend/**` | Backend |
-| `apps/sample-dashboard/qa/**` | QA / Reviewer |
-| `workspace/contracts/**` | ตาม `generated_by` |
+01 Claude harness → 02 OpenCode → 03 cross CLI → 04 permission → 05 Claude swarm → 06 cross-tool until done-when → 07 ship
 
-## ด่านในห้อง
+## Retired (V1)
 
-- `node shared/scripts/validate-json.mjs`
-- `node shared/scripts/gate-quality.mjs`
-- ปรับแก้ไม่เกิน 2 รอบ (`shared/scripts/gate-cost.md`)
-- สิทธิ์ deny คำสั่งทำลายไฟล์สำคัญ
-
-## ทางเลือกเมื่อเครื่องมือไม่พร้อม
-
-| ชั้น | ทางเลือก |
-|---|---|
-| Claude Agent Teams | Subagents + สัญญา |
-| OpenCode plugin | ลำดับมือ Frontend→Backend→QA |
-| Flux | บอร์ดที่ห้องอนุญาต + kanban-snapshot |
-
-## ลำดับงานบน Kanban
-
-Interview → Plan → Build → Test → Ship
+`apps/sample-dashboard`, labs 08–11, optional A2A/MCP, JSON contract orchestration, Flux-required Lab 10

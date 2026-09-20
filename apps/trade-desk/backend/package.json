@@ -1,0 +1,14 @@
+{
+  "name": "trade-desk-backend",
+  "private": true,
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "start": "node src/server.mjs"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^5.1.0"
+  }
+}

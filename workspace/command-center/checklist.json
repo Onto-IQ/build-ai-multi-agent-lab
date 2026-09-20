@@ -1,0 +1,8 @@
+{
+  "prices": false,
+  "wallet": false,
+  "order": false,
+  "mtm": false,
+  "history": false,
+  "ship": false
+}

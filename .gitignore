@@ -6,9 +6,11 @@ screenshots/
 # Learner workspace outputs (start from zero)
 workspace/contracts/*.json
 !workspace/contracts/.gitkeep
+workspace/command-center/events.jsonl
 workspace/e2e-reports/
 workspace/tmp/
 MEMORY.md
+apps/trade-desk/backend/data/ledger.json
 
 # Local backups / editor junk
 *.bak

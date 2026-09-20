@@ -1,103 +1,135 @@
-# Build AI Multi-Agent Lab
+# Build AI Multi-Agent Lab (V2)
 
-Lab repo สำหรับหลักสูตร **Build AI Multi-Agent with Claude Code** (VIBE-CODE-L2)
+ยินดีต้อนรับสู่ Lab หลักสูตร **Build AI Multi-Agent with Claude Code & OpenCode**  
+เป้าหมายของคอร์สนี้ไม่ใช่แค่การนั่งดู AI ตอบแชท แต่คือการ **สวมบทบาท Lead Architect สั่งงานทีม AI Multi-Agent บนเครื่องตัวเอง** เพื่อสร้างเว็บเทรดจำลองระดับโปรดักชัน (**Paper Crypto Trade Desk**) และพาขึ้นระบบจริง (Ship to Public URL)
 
-GitHub: https://github.com/Onto-IQ/build-ai-multi-agent-lab
+---
 
-โจทย์ทั้งคอร์ส: สร้าง **Agent Cost Board** (แผงต้นทุน/สถานะทีม AI ของตัวเอง)  
-โฟลเดอร์แอป: `apps/sample-dashboard/`
+## 🧭 แผนที่ภาพรวม (Architecture & Mental Model)
 
-## เริ่มต้น (Outline 2)
-
-1. อ่านและทำตาม [`SETUP.md`](SETUP.md)
-2. เปิด root ของ repo นี้ใน **VS Code**
-3. คัดลอก `.env.example` → `.env` (Task: `copy-env-example`)
-4. รัน Task: `env-checklist`
-5. เริ่ม [`labs/lab-01-code-reviewer/README.md`](labs/lab-01-code-reviewer/README.md)
-
-อ่านกฎโปรเจกต์: [`CLAUDE.md`](CLAUDE.md) · [`AGENTS.md`](AGENTS.md)
-
-**ข้ามแพลตฟอร์ม:** ใช้ Node + git (ไม่ใช้ Python venv)  
-**ดูแผง localhost:** `npx --yes serve apps/sample-dashboard -p 4173` → `/frontend/`
-
-## บันไดความรู้
-
-แต่ละ Lab **ได้รับมาจาก Lab ก่อน** แล้ว **ได้เพิ่ม** ทักษะใหม่ — ไม่รีเซ็ตโจทย์  
-จบ Lab 11 = ครบสูตร (specialist → สิทธิ์ → memory → ทีม → ด่าน → รวมผล → Flux → Ship)
-
-## ลำดับงาน
+ระบบที่เราจะสร้างและใช้งานตลอด 2 วันประกอบด้วย 3 เลเยอร์หลัก:
 
 ```text
-Interview → Plan → Build → Test → Ship
+┌────────────────────────────────────────────────────────────────────────┐
+│                        WATCH LAYER (จอมอนิเตอร์)                        │
+│   [จอใกล้: เครื่องมือแท้]                  [จอรวม: ภาพรวมข้ามเครื่องมือ]   │
+│   • claude agents (Agent View)          • Command Center (:4174)       │
+│   • OpenCode TUI sessions                 - เส้นเวลา & ลูกศร CLI         │
+│                                           - done-when Checklist        │
+└───────────────────▲──────────────────────────────────▲─────────────────┘
+                    │                                  │
+┌───────────────────┴──────────────────────────────────┴─────────────────┐
+│                    NATIVE AGENT HARNESS (ตัวขับเคลื่อน)                 │
+│   Claude Code (Frontend / Reviewer)     OpenCode (Backend / QA)        │
+│   • .claude/agents/frontend.md          • .opencode/agents/backend.md  │
+│   • .claude/skills/paper-only           • Build Mode vs Plan Mode (Tab)│
+│   • Claude Agent Teams / Subagents      • Multi-model & @ references   │
+│         ▲                                      ▲                       │
+│         └─────── opencode run (CLI) ───────────┘                       │
+│         ┌─────── claude -p    (CLI) ───────────┐                       │
+└─────────┼──────────────────────────────────────┼───────────────────────┘
+          │                                      │
+┌─────────▼──────────────────────────────────────▼───────────────────────┐
+│                       PRODUCT (สินค้าจริงที่ต้องส่งมอบ)                   │
+│   Paper Crypto Trade Desk (Vite + React + Express + JSON Ledger)       │
+│   • Frontend (:4173) : Ticker, Order Ticket, Portfolio, History        │
+│   • Backend (:4180)  : CoinGecko Feed / Fixture Fallback / Ledger API  │
+└────────────────────────────────────────────────────────────────────────┘
 ```
 
-Kanban (**Flux**) บังคับใน Lab 10 — เป็นบอร์ดงานของ Agent Cost Board
+---
 
-## JSON vs Kanban
+## 🖥️ วิธีจัดโต๊ะทำงาน (Recommended Workspace Layout)
 
-| เมื่อไหร่ | ใช้อะไร |
+เพื่อให้ทำงานกับ Multi-Agent ได้อย่างราบรื่น ไม่งงหน้าต่าง แนะนำจัดพื้นที่หน้าจอดังนี้:
+
+```text
+┌───────────────────────────┬────────────────────────────────────────────┐
+│      VS Code (จอซ้าย)     │         Windows Terminal (จอรอบข้าง/ขวา)    │
+│  • เปิดโฟลเดอร์ lab root   │  [Tab 1]: BE  (node server :4180)          │
+│  • ดูโค้ด Git, diff, ไฟล์  │  [Tab 2]: FE  (vite dev :4173)             │
+│  • เปิดเบราว์เซอร์ดูผลงาน   │  [Tab 3]: CC  (API :4181 + UI :4174)       │
+│                           │  [Tab 4]: AGENT 1 (claude / claude agents) │
+│                           │  [Tab 5]: AGENT 2 (opencode TUI)           │
+└───────────────────────────┴────────────────────────────────────────────┘
+```
+
+---
+
+## 🎯 โครงห้อง vs งานของผู้เรียน (เราเตรียมอะไร คุณทำอะไร)
+
+| สิ่งที่ห้องเตรียมให้ (Scaffolding) | สิ่งที่ผู้เรียนต้องลงมือทำเอง (Learner's Drive) |
 |---|---|
-| ownership / ส่งงานต่อ / ด่าน / ship | สัญญา JSON ใน `workspace/contracts/` |
-| มอบหมายใครทำ / ขั้นไหน / มองเห็นคิว | Flux Kanban (Lab 10) |
+| • แผง UI โครงสร้างพร้อม แต่จงใจเว้นว่างไว้<br>• Specialist Agents & Skills ประจำเครื่องมือ<br>• พรอมต์ตั้งต้นสำหรับแต่ละขั้นตอน (`labs/*/prompts/`)<br>• เกณฑ์วัดความสำเร็จร่วมกัน (`done-when` Checklist) | • **คุยและสัมภาษณ์ต่อกับ Agent** (ไม่หยุดแค่ Copy-Paste พรอมต์แรก)<br>• **ตัดสินใจ Plan & Approve** สถาปัตยกรรมย่อยของแอป<br>• **ทดลองสั่งงานหลาย Turn** และแก้ไขเมื่อ Agent หลงทาง<br>• **แข่งขันปรับแต่ง UX/UI & ฟีเจอร์ Paper** เพื่อนำไปโชว์ใน Lab 07 |
+
+---
+
+## 🏆 เกณฑ์การแข่งขันโชว์ของ (Showcase & Competition Rubric - Lab 07)
+
+ตอนท้ายของคอร์ส ทุกคนจะมีสิทธิ์นำเสนอ Trade Desk ของตัวเองบน Public URL จริง 3–5 นาที โดยให้คะแนนตาม 4 มิติ:
+
+1. **Functional Completion (ความครบถ้วน):** เกณฑ์ใน `done-when` ทั้ง 6 ข้อเขียวครบ ทำงานได้จริงบน URL สาธารณะ
+2. **UX & UI Craftsmanship (ความประณีต):** การออกแบบหน้าจอให้อ่านง่าย มีสถานะ Loading/Error/Feed badge ที่ชัดเจน สวยงาม
+3. **Agent Orchestration Mastery (ชั้นเชิงการสั่งงาน):** มีบันทึกลูกศร CLI ข้ามเครื่องมือใน Command Center ชัดเจน การใช้ Specialist ได้ถูกงาน
+4. **Architectural Pitch (การนำเสนอ):** เล่ากระบวนการ Interview → Plan → Build → Test → Ship วิธีแก้ปัญหาเวลา Agent ติดขัด
+
+---
+
+## 🗺️ เส้นทางการเรียนรู้ 7 ก้าว (Lab Roadmap)
 
 ```text
-Lab 10 climax:
-  แตกการ์ดบน Flux
-    → ลงมือด้วย Claude / OpenCode ตาม ownership
-    → เขียน/อัปเดตสัญญา JSON
-    → เลื่อนการ์ดตามสถานะจริง
-    → ด่านผ่านแล้วค่อย Ship (Lab 11)
+[SETUP] เตรียม 4 เซิร์ฟเวอร์ + เช็ก claude agents & opencode
+   │
+   ▼
+[Lab 01] Claude Code Harness ──► ปลุก Frontend Specialist + จัดการ Ticker Badge
+   │
+   ▼
+[Lab 02] OpenCode Harness   ──► ใช้ Plan Mode วิเคราะห์ + ปลุก Backend Feed & Wallet
+   │
+   ▼
+[Lab 03] Cross-CLI Dispatch ──► สะพานข้ามเครื่องมือ Claude สั่ง OpenCode ผ่าน CLI
+   │
+   ▼
+[Lab 04] Security & Paper   ──► ทดสอบขอบเขต Deny Rules & Safe Paper Trading
+   │
+   ▼
+[Lab 05] Claude Swarm       ──► ปล่อยทีมหลาย Turn (Teams / Subagents) เติมออเดอร์
+   │
+   ▼
+[Lab 06] Cross-Tool Swarm   ──► ผสานสองเครื่องมือนำทัพจน done-when ครบทุกข้อ
+   │
+   ▼
+[Lab 07] Ship & Showcase    ──► Build + Deploy URL จริง + ขึ้นเวทีโชว์แข่งขัน
 ```
 
-ห้ามผ่าน Lab 10 ด้วย `kanban-snapshot.json` โดยไม่มีบอร์ดสด
+---
 
-**มาตรฐานคอร์ส = go-live ไม่ใช่ POC:** การ์ดต้องมอบหมายชัด (บทบาท + เครื่องมือ) ทำงานจริงแล้วค่อยเลื่อน — ห้ามสร้างการ์ดเพื่องานนับ validator หรือเลื่อนการ์ดโดยไม่ทำ ownership
-
-## ชั้น orchestration
-
-| ชั้น | เกณฑ์ผ่าน Lab |
-|---|---|
-| Specialist + สิทธิ์ + สัญญา + หยุด | บังคับ |
-| Claude Agent Teams | ลองได้ — ทางเลือก Subagents ยังผ่าน |
-| OpenCode plugins | pin ในห้อง — ทางเลือกลำดับมือยังผ่าน |
-| Kanban (Flux) | บังคับ Lab 10 |
-
-## Mapping Lab (ตรง Outline)
-
-| Lab | โฟลเดอร์ | โฟกัส |
-|---|---|---|
-| 1 | [lab-01-code-reviewer](labs/lab-01-code-reviewer/README.md) | Code Reviewer (Claude Code) |
-| 2 | [lab-02-opencode-specialist](labs/lab-02-opencode-specialist/README.md) | OpenCode + เทียบ |
-| 3 | [lab-03-permission-boundary](labs/lab-03-permission-boundary/README.md) | สิทธิ์ |
-| 4 | [lab-04-persistent-memory](labs/lab-04-persistent-memory/README.md) | Memory |
-| 5 | [lab-05-solo-to-team-roles](labs/lab-05-solo-to-team-roles/README.md) | บทบาท Frontend / Backend / QA |
-| 6 | [lab-06-claude-multi-agent](labs/lab-06-claude-multi-agent/README.md) | ทีมบน Claude |
-| 7 | [lab-07-opencode-sequential](labs/lab-07-opencode-sequential/README.md) | ลำดับบน OpenCode |
-| 8 | [lab-08-quality-cost-gate](labs/lab-08-quality-cost-gate/README.md) | ด่านคุณภาพ + ต้นทุน |
-| 9 | [lab-09-synthesizer](labs/lab-09-synthesizer/README.md) | รวมผล |
-| 10 | [lab-10-kanban-collab](labs/lab-10-kanban-collab/README.md) | Flux บอร์ดโปรเจกต์นี้ |
-| 11 | [lab-11-capstone](labs/lab-11-capstone/README.md) | Capstone + Deploy |
-| เสริม | [lab-optional-mcp-vs-cli](labs/lab-optional-mcp-vs-cli/README.md) | MCP vs คำสั่งใน repo |
-| เสริม | [lab-optional-a2a](labs/lab-optional-a2a/README.md) | A2A vs สัญญาไฟล์ |
-
-## โครงสร้าง
+## 📁 โครงสร้างโฟลเดอร์
 
 ```text
-apps/sample-dashboard/   Agent Cost Board (frontend / backend / qa)
-labs/                    Lab 01–11 ตาม Outline
-shared/                  สัญญาตัวอย่าง, prompts, สคริปต์ด่าน
-workspace/               ผลงานผู้เรียน
-SETUP.md                 Outline 2
-CLAUDE.md / AGENTS.md    กฎโปรเจกต์และบทบาท
-.env.example             → .env (อย่า commit)
-.vscode/                 settings, extensions, tasks
+build-ai-multi-agent-lab/
+├── apps/
+│   ├── trade-desk/           # แอปสินค้าหลัก (Frontend Vite + Backend Express)
+│   │   ├── frontend/         # โค้ด UI (เจ้าของหลัก: Claude Code / Frontend Agent)
+│   │   └── backend/          # โค้ด API & Ledger (เจ้าของหลัก: OpenCode / Backend Agent)
+│   └── command-center/       # จอภาพรวมข้ามเครื่องมือ (บาง ไม่เก็บ state ซับซ้อน)
+├── .claude/
+│   ├── agents/               # นิยาม Specialist ของ Claude (frontend.md, reviewer.md)
+│   ├── skills/               # Reusable Skills (paper-only, done-when, dispatch-*, log-dispatch)
+│   └── settings.json         # สิทธิ์ Native Deny Rules (ความปลอดภัย)
+├── .opencode/
+│   └── agents/               # นิยาม Specialist ของ OpenCode (backend.md, qa.md)
+├── labs/                     # คำแนะนำและพรอมต์ประจำแต่ละ Lab (lab-01 ถึง lab-07)
+├── workspace/
+│   ├── command-center/       # events.jsonl (ประวัติ CLI) และ checklist.json
+│   └── learning-log.md       # สมุดบันทึกผลการทดลองประจำตัวผู้เรียน
+├── AGENTS.md                 # กติการ่วมข้ามเครื่องมือ (Specialist boundary)
+├── CLAUDE.md                 # กฎประจำโปรเจกต์สำหรับ Claude Code
+└── SETUP.md                  # คู่มือเตรียมเครื่องเริ่มต้นอย่างละเอียด
 ```
 
-## แก้ปัญหาเบื้องต้น (ผู้ที่ไม่ใช่โปรแกรมเมอร์)
+---
 
-1. อ่านข้อความ error ทั้งก้อน  
-2. คัดลอกใส่แชท AI  
-3. สั่งให้แก้ทีละจุด พร้อมบอกไฟล์ที่เกี่ยวข้อง  
-4. รันซ้ำ / ตรวจ QA checklist  
+## 🚀 เริ่มต้นใช้งาน
 
-อย่าพิมพ์แค่ “แก้ให้หน่อย” แบบไม่มี error
+เปิดอ่านคู่มือเตรียมเครื่องที่ [`SETUP.md`](SETUP.md) แล้วเริ่มลงมือได้ทันที!

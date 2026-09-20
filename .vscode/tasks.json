@@ -9,25 +9,43 @@
       "presentation": { "reveal": "always" }
     },
     {
-      "label": "validate-json",
-      "type": "shell",
-      "command": "node shared/scripts/validate-json.mjs",
-      "problemMatcher": [],
-      "presentation": { "reveal": "always" }
-    },
-    {
-      "label": "gate-quality",
-      "type": "shell",
-      "command": "node shared/scripts/gate-quality.mjs",
-      "problemMatcher": [],
-      "presentation": { "reveal": "always" }
-    },
-    {
       "label": "env-checklist",
       "type": "shell",
-      "command": "Write-Host 'node:' (node --version); Write-Host 'git:' (git --version); Write-Host 'claude:' (if (Get-Command claude -ErrorAction SilentlyContinue) { 'found' } else { 'missing' }); Write-Host 'opencode:' (if (Get-Command opencode -ErrorAction SilentlyContinue) { 'found' } else { 'missing' }); Write-Host '.env:' (Test-Path .env)",
+      "command": "Write-Host 'node:' (node --version); Write-Host 'git:' (git --version); Write-Host 'claude:' (if (Get-Command claude -ErrorAction SilentlyContinue) { (claude --version) } else { 'missing' }); Write-Host 'opencode:' (if (Get-Command opencode -ErrorAction SilentlyContinue) { 'found' } else { 'missing' }); Write-Host '.env:' (Test-Path .env)",
       "problemMatcher": [],
       "presentation": { "reveal": "always" }
+    },
+    {
+      "label": "dev-trade-desk-backend",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/apps/trade-desk/backend" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "dev-trade-desk-frontend",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/apps/trade-desk/frontend" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "dev-command-center-api",
+      "type": "shell",
+      "command": "npm run server",
+      "options": { "cwd": "${workspaceFolder}/apps/command-center" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
+    },
+    {
+      "label": "dev-command-center-ui",
+      "type": "shell",
+      "command": "npm run dev",
+      "options": { "cwd": "${workspaceFolder}/apps/command-center" },
+      "problemMatcher": [],
+      "presentation": { "reveal": "always", "panel": "dedicated" }
     }
   ]
 }

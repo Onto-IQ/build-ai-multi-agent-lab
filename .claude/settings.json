@@ -4,7 +4,12 @@
     "deny": [
       "Bash(git push *)",
       "Bash(rm -rf shared*)",
-      "Bash(Remove-Item -Recurse *shared*)"
+      "Bash(Remove-Item -Recurse *shared*)",
+      "Bash(rm -rf apps/trade-desk*)",
+      "Bash(Remove-Item -Recurse *trade-desk*)"
     ]
+  },
+  "env": {
+    "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS": "1"
   }
 }
