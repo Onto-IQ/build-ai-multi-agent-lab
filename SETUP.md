@@ -43,20 +43,44 @@ node scripts/create-course-issues.mjs
 
 ## 2) ติดตั้ง Actual (ใน repo สินค้า)
 
+### Windows — PATH ที่ต้องมีก่อน `yarn start`
+
+PowerShell อย่างเดียว**ไม่พอ**: สคริปต์ของ Actual เรียก `sh` และ spawn `yarn`
+
+```powershell
+# 1) ใส่ Git Bash ไว้ใน PATH ของ session นี้
+$env:PATH = "C:\Program Files\Git\bin;" + $env:PATH
+
+# 2) ทำ yarn shim (ครั้งเดียวต่อเครื่อง) — corepack อาจติด EPERM บน Windows
+$npmBin = "$env:APPDATA\npm"
+New-Item -ItemType Directory -Force -Path $npmBin | Out-Null
+Copy-Item .\.yarn\releases\yarn-*.cjs "$npmBin\yarn.cjs" -Force
+"@echo off`r`nnode `"%~dp0yarn.cjs`" %*" | Set-Content "$npmBin\yarn.cmd" -Encoding ASCII
+$env:PATH = "$npmBin;" + $env:PATH
+yarn --version
+where.exe sh
+```
+
 จาก root ของ repo สินค้า:
 
 ```powershell
-# Yarn มากับ repo แล้ว (.yarn/releases)
-node .\.yarn\releases\yarn-*.cjs --version
-node .\.yarn\releases\yarn-*.cjs install
-node .\.yarn\releases\yarn-*.cjs workspace @actual-app/core rebuild
-node .\.yarn\releases\yarn-*.cjs start
+yarn install
+yarn workspace @actual-app/core rebuild
+yarn start
 ```
 
-เปิดเบราว์เซอร์ตามที่เอกสาร Actual บอก (มักเป็น browser mode บนพอร์ต dev)  
+ตรวจ: เปิด http://localhost:3001/ ควรได้ HTTP 200  
 **ใช้ข้อมูลตัวอย่างเท่านั้น** — ห้ามใส่รหัสธนาคารจริง / ห้าม bank sync จริง
 
-ค่าติดตั้งอ้างอิง (เครื่องวิทยากร): `yarn install` ~3–4 นาทีบน Windows หลัง shallow clone
+### ปัญหาที่เจอบน Windows (วิทยากรตรวจแล้ว)
+
+| อาการ | ความหมาย | ทางออก |
+|---|---|---|
+| `'sh' is not recognized` | ไม่มี Git Bash ใน PATH | ใส่ `C:\Program Files\Git\bin` |
+| `loot-core backend failed to spawn: spawn yarn ENOENT` | โปรเซสลูกหา `yarn` ไม่เจอ | ทำ yarn shim ตามด้านบน · หรือเปิด **Dev Container** (`.devcontainer/`) · หรือ `docker compose` เมื่อ Docker Desktop รันอยู่ |
+| UI ขึ้นแต่แอปขึ้น `BackendInitFailure` | frontend พร้อม แต่ backend ไม่ขึ้น | Lab 01 ยังผ่านได้ด้วยการแก้โค้ด + PR (ดู Lab 01) · Labs 02–06 ใช้ `course/` ไม่ต้องพึ่ง UI |
+
+ค่าติดตั้งอ้างอิง (เครื่องวิทยากร): `yarn install` ~3–4 นาทีบน Windows หลัง shallow clone · Vite พร้อมที่ `:3001`
 
 ทดสอบ course stubs:
 
