@@ -1,6 +1,6 @@
 /**
  * SQLite helpers for contact + guestbook.
- * Lab 05 (OpenCode) implements persistence. Stubs return null until finishe.
+ * Implemented (Lab 05 / coach run).
  */
 import Database from 'better-sqlite3';
 import { mkdirSync } from 'node:fs';
@@ -46,24 +46,54 @@ export function getDb(): Database.Database {
   return db;
 }
 
-/** Stub: Lab 05 must implement validation + insert. */
-export function insertContact(_input: {
+function requireText(value: unknown, field: string): string {
+  if (typeof value !== 'string' || !value.trim()) {
+    throw new Error(`Invalid ${field}`);
+  }
+  return value.trim();
+}
+
+export function insertContact(input: {
   name: string;
   email: string;
   message: string;
 }): ContactMessage {
-  throw new Error('NOT_IMPLEMENTED: insertContact — Lab 05 OpenCode');
+  const name = requireText(input?.name, 'name');
+  const email = requireText(input?.email, 'email');
+  const message = requireText(input?.message, 'message');
+  if (!email.includes('@')) throw new Error('Invalid email');
+  const database = getDb();
+  const info = database
+    .prepare(
+      'INSERT INTO contact_messages (name, email, message) VALUES (@name, @email, @message)',
+    )
+    .run({ name, email, message });
+  const row = database
+    .prepare('SELECT id, name, email, message, created_at FROM contact_messages WHERE id = ?')
+    .get(info.lastInsertRowid) as ContactMessage;
+  return row;
 }
 
-/** Stub: Lab 05 must implement. */
 export function listGuestbook(): GuestbookEntry[] {
-  throw new Error('NOT_IMPLEMENTED: listGuestbook — Lab 05 OpenCode');
+  const database = getDb();
+  return database
+    .prepare(
+      'SELECT id, name, message, created_at FROM guestbook ORDER BY id DESC',
+    )
+    .all() as GuestbookEntry[];
 }
 
-/** Stub: Lab 05 must implement. */
-export function insertGuestbook(_input: {
+export function insertGuestbook(input: {
   name: string;
   message: string;
 }): GuestbookEntry {
-  throw new Error('NOT_IMPLEMENTED: insertGuestbook — Lab 05 OpenCode');
+  const name = requireText(input?.name, 'name');
+  const message = requireText(input?.message, 'message');
+  const database = getDb();
+  const info = database
+    .prepare('INSERT INTO guestbook (name, message) VALUES (@name, @message)')
+    .run({ name, message });
+  return database
+    .prepare('SELECT id, name, message, created_at FROM guestbook WHERE id = ?')
+    .get(info.lastInsertRowid) as GuestbookEntry;
 }
