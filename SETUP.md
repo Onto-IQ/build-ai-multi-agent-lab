@@ -1,18 +1,37 @@
-# SETUP — Build AI Multi-Agent Lab (V3)
+# SETUP — Build AI Multi-Agent Lab (V4)
 
-ที่นั่ง: **VS Code** + **Windows Terminal** แยก (`claude` / `claude agents` / `opencode`)  
-สินค้า: แอปจาก template **[Onto-IQ/course-actual-budget](https://github.com/Onto-IQ/course-actual-budget)** (pinned Actual Budget fork)  
+ที่นั่ง: **VS Code** + **Windows Terminal** แยกแท็บ (`claude` / `claude agents` / `opencode`)  
+สินค้า: เว็บจาก template **[Onto-IQ/course-personal-site](https://github.com/Onto-IQ/course-personal-site)** (Astro personal branding)  
 Lab นี้ (`build-ai-multi-agent-lab`) = คู่มือ + labs + Command Center ทางเลือก — **ไม่ใช่ตัวสินค้า**
 
-## 0) สิ่งที่ต้องมี
+Deploy ปลายทาง: `https://<STUDENT_SLUG>.9expert.online` (Coolify บน VPS ของคอร์ส)
 
-- Windows 10/11, Git, GitHub account, `gh` CLI
-- Node.js **22+** (แนะนำ LTS 22 หรือ 24) — ตอนติดตั้งเลือก Tools for Native Modules
-- Claude Code และ OpenCode ล็อกอินได้
-- Bun (สำหรับติดตั้ง oh-my-openagent)
-- (แนะนำ) Docker Desktop ถ้าจะใช้ GitHub MCP แบบ local — ปกติใช้ remote ก็พอ
+เวอร์ชันที่ยืนยันในห้อง (อัปเดต 2026-09-23):
 
-ตรวจ:
+| เครื่องมือ | เวอร์ชัน |
+|---|---|
+| Node.js | 22+ (แนะนำ 22 หรือ 24 LTS) |
+| Claude Code | 2.1.278+ |
+| OpenCode | 2.0.6+ |
+| Bun | 1.3.x (ติดตั้ง oh-my-openagent) |
+| gh | 2.x |
+| Playwright MCP | `@playwright/mcp@0.0.82` |
+| oh-my-openagent | `4.19.4` |
+| superpowers | ผ่าน `/plugin install superpowers@claude-plugins-official` |
+
+---
+
+## 0) สิ่งที่ต้องมีก่อนเข้าห้อง
+
+- Windows 10/11
+- Git for Windows (ต้องมี Git Bash — ใช้ `sh` ได้)
+- บัญชี GitHub + `gh` CLI ล็อกอินแล้ว
+- Claude Code ล็อกอินแล้ว (`claude`)
+- OpenCode ล็อกอินแล้ว (`opencode`)
+- Bun
+- วิทยากรแจก **STUDENT_SLUG** (`user01` … `user30`)
+
+### ตรวจเครื่องมือ (ต้องผ่านทุกบรรทัด)
 
 ```powershell
 node -v
@@ -20,150 +39,237 @@ git --version
 gh auth status
 claude --version
 opencode --version
+bun --version
 ```
 
-## 1) สร้าง repo สินค้าของตัวเอง (Template ไม่ใช่ Fork)
+**ยังไม่ผ่านถ้า…**
 
-1. เปิด https://github.com/Onto-IQ/course-actual-budget
-2. กด **Use this template** → Create a new repository (ตั้งชื่อ เช่น `my-paper-budget`)
+- `claude` / `opencode` / `gh` ไม่เจอใน PATH
+- `gh auth status` ยังไม่ล็อกอิน
+- Node ต่ำกว่า 22
+
+รันเช็กเร็ว:
+
+```powershell
+# จาก root ของ build-ai-multi-agent-lab
+.\scripts\preflight.ps1
+```
+
+---
+
+## 1) สร้าง repo สินค้าของตัวเอง (Use this template — ห้าม Fork)
+
+1. เปิด https://github.com/Onto-IQ/course-personal-site
+2. กด **Use this template** → **Create a new repository**
+   - ชื่อแนะนำ: `my-personal-site` หรือ `personal-site-<ชื่อ>`
+   - Visibility: Public หรือ Private ก็ได้
 3. Clone **repo ของคุณ** แล้วตั้ง default ให้ `gh`:
 
 ```powershell
-gh repo clone <you>/<my-paper-budget>
-cd <my-paper-budget>
-gh repo set-default <you>/<my-paper-budget>
+gh repo clone <you>/<your-repo>
+cd <your-repo>
+gh repo set-default <you>/<your-repo>
 ```
 
-4. เปิด GitHub Actions ใน repo ใหม่ถ้ายังไม่เปิด
-5. สร้าง issues จากไฟล์คอร์ส (ครั้งเดียว):
+4. เปิด GitHub Actions ใน Settings → Actions ถ้ายังปิดอยู่
+5. สร้าง course issues (ครั้งเดียว):
 
 ```powershell
 node scripts/create-course-issues.mjs
 ```
 
-## 2) ติดตั้ง Actual (ใน repo สินค้า)
+ผลที่ควรเห็น: URL ของ issue 8 อันใน repo ของคุณ
 
-### Windows — PATH ที่ต้องมีก่อน `yarn start`
+**ยังไม่ผ่านถ้า…**
 
-PowerShell อย่างเดียว**ไม่พอ**: สคริปต์ของ Actual เรียก `sh` และ spawn `yarn`
+- สร้างจาก Fork แทน Template (issues/workflow อาจเพี้ยน และ PR อาจเผลอชี้ไป Onto-IQ)
+- `gh repo set-default` ยังไม่ชี้ repo ของคุณ
+- `create-course-issues` ล้มเพราะยังไม่ล็อกอิน `gh`
 
-```powershell
-# 1) ใส่ Git Bash ไว้ใน PATH ของ session นี้
-$env:PATH = "C:\Program Files\Git\bin;" + $env:PATH
+---
 
-# 2) ทำ yarn shim (ครั้งเดียวต่อเครื่อง) — corepack อาจติด EPERM บน Windows
-$npmBin = "$env:APPDATA\npm"
-New-Item -ItemType Directory -Force -Path $npmBin | Out-Null
-Copy-Item .\.yarn\releases\yarn-*.cjs "$npmBin\yarn.cjs" -Force
-"@echo off`r`nnode `"%~dp0yarn.cjs`" %*" | Set-Content "$npmBin\yarn.cmd" -Encoding ASCII
-$env:PATH = "$npmBin;" + $env:PATH
-yarn --version
-where.exe sh
-```
+## 2) ติดตั้ง dependencies และรันเว็บ
 
-จาก root ของ repo สินค้า:
+ใน root ของ **repo สินค้า** (ไม่ใช่ lab repo):
 
 ```powershell
-yarn install
-yarn workspace @actual-app/core rebuild
-yarn start
+npm install
+npm test
+npm run dev
 ```
 
-ตรวจ: เปิด http://localhost:3001/ ควรได้ HTTP 200  
-**ใช้ข้อมูลตัวอย่างเท่านั้น** — ห้ามใส่รหัสธนาคารจริง / ห้าม bank sync จริง
+เปิดเบราว์เซอร์: http://localhost:4321
 
-### ปัญหาที่เจอบน Windows (วิทยากรตรวจแล้ว)
+ผลที่ควรเห็น:
 
-| อาการ | ความหมาย | ทางออก |
-|---|---|---|
-| `'sh' is not recognized` | ไม่มี Git Bash ใน PATH | ใส่ `C:\Program Files\Git\bin` |
-| `loot-core backend failed to spawn: spawn yarn ENOENT` | โปรเซสลูกหา `yarn` ไม่เจอ | ทำ yarn shim ตามด้านบน · หรือเปิด **Dev Container** (`.devcontainer/`) · หรือ `docker compose` เมื่อ Docker Desktop รันอยู่ |
-| UI ขึ้นแต่แอปขึ้น `BackendInitFailure` | frontend พร้อม แต่ backend ไม่ขึ้น | Lab 01 ยังผ่านได้ด้วยการแก้โค้ด + PR (ดู Lab 01) · Labs 02–06 ใช้ `course/` ไม่ต้องพึ่ง UI |
+- หน้า Home มีชื่อ / headline จาก `docs/PROFILE.md`
+- เมนู Home / About / Interests / Contact / Guestbook
+- `npm test` เขียว (smoke)
+- `npm run test:labs` **แดง** จนกว่าจะทำ Lab 05 — เป็นเรื่องปกติ
 
-ค่าติดตั้งอ้างอิง (เครื่องวิทยากร): `yarn install` ~3–4 นาทีบน Windows หลัง shallow clone · Vite พร้อมที่ `:3001`
+**ยังไม่ผ่านถ้า…**
 
-ทดสอบ course stubs:
+- พอร์ต 4321 ถูกใช้แล้ว → เปลี่ยนใน `.env` เป็น `PORT=4322` แล้วรันใหม่
+- `npm install` พังที่ `better-sqlite3` → ติดตั้ง Build Tools for Visual Studio หรือใช้เครื่องที่มี `python` + `make` แล้ว `npm approve-scripts better-sqlite3` + `npm rebuild better-sqlite3`
+
+หยุด dev server ด้วย `Ctrl+C` เมื่อไม่ใช้
+
+---
+
+## 3) `.env` ให้ครบ (บังคับ)
 
 ```powershell
-cd course
-npm test          # เขียวบน template (fxRate stretch)
-npm run test:labs # Lab 02–06 — แดงจนกว่าจะทำ issue สำเร็จ (เรื่องปกติ)
+copy .env.example .env
+notepad .env
 ```
 
-## 3) โคลน lab repo (คู่มือ)
+ใส่ค่าอย่างน้อย:
+
+```env
+STUDENT_SLUG=userNN
+SITE_URL=https://userNN.9expert.online
+GITHUB_PERSONAL_ACCESS_TOKEN=github_pat_...
+CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1
+```
+
+### วิธีได้ GitHub PAT (fine-grained)
+
+1. https://github.com/settings/personal-access-tokens
+2. Generate new token → เลือก **เฉพาะ repo ของคุณ**
+3. Permissions: Issues Read/Write, Pull requests Read/Write, Contents Read
+4. วางใน `.env` — **ห้าม commit**
+
+ตรวจว่า git ไม่ติดตาม `.env`:
 
 ```powershell
-gh repo clone Onto-IQ/build-ai-multi-agent-lab
-cd build-ai-multi-agent-lab
-git checkout v3
-code .
+git check-ignore -v .env
+git status --short
 ```
 
-เปิด Command Center ทางเลือกได้ทีหลัง (Lab optional) — **ไม่ใช่เกณฑ์ผ่าน**
+**ยังไม่ผ่านถ้า…** `.env` โผล่ใน `git status` เป็นไฟล์ใหม่ที่ยังไม่ ignore
 
-## 4) Community plugins (pin)
+---
 
-### Superpowers (Claude Code)
+## 4) MCP — GitHub + Playwright (งานผลิต ไม่ใช่ท่อส่งข้าม CLI)
 
-ในเซสชัน Claude Code:
+### Claude Code
+
+```powershell
+# จาก root ของ repo สินค้า
+copy .mcp.json.example .mcp.json
+# แก้ token ใน .mcp.json หรือ export จาก .env ก่อนเปิด claude
+claude mcp list
+```
+
+หรือเพิ่มทีละตัว:
+
+```powershell
+claude mcp add --transport http github https://api.githubcopilot.com/mcp/
+```
+
+(ใส่ Authorization header ตามเอกสาร Claude MCP ของคุณ)
+
+Playwright:
+
+```powershell
+claude mcp add playwright -- npx -y @playwright/mcp@0.0.82
+```
+
+### OpenCode
+
+ไฟล์ `opencode.json` ใน template มี mcp github + playwright อยู่แล้ว  
+ตรวจว่า env `GITHUB_PERSONAL_ACCESS_TOKEN` ถูกโหลดก่อน `opencode`
+
+```powershell
+opencode mcp list
+```
+
+**ยังไม่ผ่านถ้า…**
+
+- MCP ใช้ส่งงานระหว่าง Claude ↔ OpenCode (ผิดจุดประสงค์คอร์ส)
+- Playwright MCP ไม่ขึ้น — ลอง `npx -y @playwright/mcp@0.0.82 --help`
+
+---
+
+## 5) Community plugins (pin)
+
+### Claude — superpowers
+
+ในเซสชัน `claude`:
 
 ```text
 /plugin install superpowers@claude-plugins-official
 ```
 
-Fallback: `/plugin marketplace add obra/superpowers-marketplace` แล้วติดตั้งจาก marketplace นั้น  
-OpenCode pin อ้างอิง: `v6.4.1` (ดู `.opencode` INSTALL ของ superpowers)
+ตรวจ: มี skill brainstorming ใช้งานได้
 
-### oh-my-openagent (เดิมเรียก oh-my-opencode)
-
-```powershell
-bunx oh-my-openagent@4.19.4 install --no-tui --platform=opencode --claude=yes --openai=no --gemini=no --copilot=no
-opencode --version   # ต้องการ >= 1.4.0
-bunx oh-my-openagent doctor
-```
-
-Fallback Lab 06: ใช้ native OpenCode `@` subagents อย่างเดียว
-
-## 5) MCP (งานผลิต — ไม่ใช่ท่อส่งงานข้าม CLI)
-
-### GitHub MCP (Claude)
+### OpenCode — oh-my-openagent (optional แต่แนะนำ Lab 05+)
 
 ```powershell
-$pat = $env:GITHUB_PERSONAL_ACCESS_TOKEN  # สร้าง PAT แล้วใส่ใน env — ห้าม commit
-claude mcp add github --transport http https://api.githubcopilot.com/mcp/ -H "Authorization: Bearer $pat"
+bunx oh-my-openagent@4.19.4 install --no-tui --platform=opencode
 ```
 
-### GitHub MCP (OpenCode) — ใน `opencode.json`
+ถ้าพัง → ใช้ native `@` subagents ของ OpenCode (ไม่มี oh-my ก็ผ่าน Lab ได้)
 
-```json
-{
-  "mcp": {
-    "github": {
-      "type": "remote",
-      "url": "https://api.githubcopilot.com/mcp/",
-      "enabled": true,
-      "oauth": false,
-      "headers": {
-        "Authorization": "Bearer {env:GITHUB_PERSONAL_ACCESS_TOKEN}"
-      }
-    }
-  }
-}
-```
+**ยังไม่ผ่านถ้า…** บังคับตัวเองติด plugin จนเสียเวลาเกิน 15 นาที — ใช้ fallback native แล้วไปต่อ
 
-### Playwright MCP
+---
+
+## 6) Permissions / Agent Teams (Windows)
+
+- อย่าบังคับ `tmux` ในห้อง Windows
+- Agent Teams: ใส่ `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` ใน `.env` แล้วเปิด `claude` ใหม่
+- ถ้า Teams ไม่เสถียร → Lab 02 ใช้ **Subagents 3 ตัว** เป็นทางหลัก
+
+---
+
+## 7) โคลนคู่มือ Lab (repo นี้) คู่กัน
 
 ```powershell
-claude mcp add --scope project playwright npx -y @playwright/mcp@0.0.82
+gh repo clone Onto-IQ/build-ai-multi-agent-lab
+cd build-ai-multi-agent-lab
+git checkout v4
 ```
 
-OpenCode: ใส่ `mcp.playwright` เป็น local command `npx -y @playwright/mcp@0.0.82`
+เปิด VS Code workspace ที่ชี้ทั้ง **repo สินค้า** และ **lab repo**  
+ทำ Lab จาก `labs/lab-01-…` โดยรันคำสั่งใน **repo สินค้า**
 
-## 6) กฎที่ต้องจำ
+---
 
-- PR เปิดเข้า **repo ของคุณ** เท่านั้น
-- ไม่สร้าง harness แข่ง (ไม่มี JSON contract / dispatch skill ของห้อง)
-- สั่งข้าม Claude ↔ OpenCode ได้เฉพาะตอน **รีวิวด้วยโมเดลอีกตัว** (Lab 07)
-- ห้ามยืนยัน deploy สำเร็จถ้ายังไม่มี URL จริง
+## 8) Preflight สรุปก่อน Lab 01
 
-เมื่อพร้อม → เริ่ม [`labs/lab-01-claude-native/README.md`](labs/lab-01-claude-native/README.md)
+ใน repo สินค้า:
+
+```powershell
+npm test
+Test-Path .\.env
+Test-Path .\docs\PROFILE.md
+gh issue list --limit 10
+claude --version
+opencode --version
+```
+
+ใน lab repo:
+
+```powershell
+.\scripts\preflight.ps1
+```
+
+เมื่อครบแล้วไปที่ [`labs/README.md`](labs/README.md)
+
+---
+
+## Troubleshooting เร็ว
+
+| อาการ | แก้ |
+|---|---|
+| `claude` ไม่เจอ | ปิดเปิด Terminal / ตรวจ PATH `%USERPROFILE%\.local\bin` |
+| GitHub MCP 401 | PAT หมดอายุ หรือ scope ไม่ครบ |
+| พอร์ต 4321 ซ้ำ | เปลี่ยน `PORT` ใน `.env` |
+| Coolify deploy ภายหลัง (Lab 08) | ตรวจ DNS `userNN.9expert.online` ชี้ VPS แล้วค่อย deploy |
+| อยาก static สำรอง | `astro build` แบบ static + GitHub Pages (ไม่มี API) |
+
+## ความลับ
+
+- ห้าม commit `.env`, PAT, Coolify webhook, รหัส FTP
+- หลังจบคอร์ส: หมุน/ลบ PAT และแจ้งวิทยากรถ้าต้องการปิด slug

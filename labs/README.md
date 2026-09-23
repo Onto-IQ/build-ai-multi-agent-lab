@@ -1,18 +1,20 @@
-# Labs V3 — index
+# Labs V4 — index
 
-Product template: https://github.com/Onto-IQ/course-actual-budget  
-Companion SETUP: [`../SETUP.md`](../SETUP.md)
+Product template: https://github.com/Onto-IQ/course-personal-site  
+Companion SETUP: [`../SETUP.md`](../SETUP.md)  
+Deploy: `https://<STUDENT_SLUG>.9expert.online` (Coolify)
 
-| Lab | Folder | Pass evidence (on learner machine) |
+| Lab | Folder | Pass evidence |
 |---|---|---|
-| 01 | [`lab-01-claude-native`](lab-01-claude-native/) | PR for issue Lab 01 + GitHub MCP vs `gh` note |
-| 02 | [`lab-02-superpowers`](lab-02-superpowers/) | PR; `course` moneyFormat tests green |
-| 03 | [`lab-03-opencode-native`](lab-03-opencode-native/) | PR; categoryRollup tests green |
-| 04 | [`lab-04-permissions`](lab-04-permissions/) | Permission configs + deny evidence |
-| 05 | [`lab-05-claude-swarm`](lab-05-claude-swarm/) | PR; spending summary + Playwright screenshot |
-| 06 | [`lab-06-oh-my-openagent`](lab-06-oh-my-openagent/) | PR; savingsGoal tests; plugin or native fallback |
-| 07 | [`lab-07-cross-model-review`](lab-07-cross-model-review/) | Review comment from the other tool |
-| 08 | [`lab-08-capstone-ship`](lab-08-capstone-ship/) | Merged capstone + **public URL** |
-| Optional | [`lab-optional-command-center`](lab-optional-command-center/) | Never required to pass |
+| 01 | [`lab-01-interview`](lab-01-interview/) | `docs/PROFILE.md` ครบ section |
+| 02 | [`lab-02-debate`](lab-02-debate/) | `docs/DEBATE.md` + `docs/DECISIONS.md` |
+| 03 | [`lab-03-plan-issues`](lab-03-plan-issues/) | GitHub issues จาก DECISIONS (MCP) |
+| 04 | [`lab-04-frontend`](lab-04-frontend/) | Pages + PR (Claude) |
+| 05 | [`lab-05-backend`](lab-05-backend/) | `npm run test:labs` เขียว + PR (OpenCode) |
+| 06 | [`lab-06-playwright`](lab-06-playwright/) | e2e + `docs/QA.md` |
+| 07 | [`lab-07-cross-model-review`](lab-07-cross-model-review/) | PR comment จาก cross-model debate |
+| 08 | [`lab-08-ship`](lab-08-ship/) | URL จริง 200 + API ใช้งานได้ |
+| Optional | [`lab-optional-command-center`](lab-optional-command-center/) | ไม่บังคับ |
 
-Archived V1/V2 workbooks: [`_archive/`](_archive/)
+Archived V1/V2/V3: [`_archive/`](_archive/) · [`_archive/v3/`](_archive/v3/)  
+Coach transcripts: [`../docs/coach-runs/`](../docs/coach-runs/)

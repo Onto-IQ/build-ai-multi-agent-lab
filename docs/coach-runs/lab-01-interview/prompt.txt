@@ -1,0 +1,4 @@
+You are coaching a learner building a personal branding site.
+Write docs/PROFILE.md for a fictional Thai instructor named "Phak" who teaches AI multi-agent workshops.
+Required sections exactly: ## Name, ## Headline, ## Bio, ## Audience, ## Interests (bullet list, >=3).
+Keep it professional, no secrets. Overwrite docs/PROFILE.md. Do not create other files. Reply with a short confirmation when done.
