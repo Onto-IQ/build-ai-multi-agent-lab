@@ -1,28 +1,27 @@
-# Prompt — Claude rebuttal + PR summary (Lab 07)
+# Prompt — Claude rebuttal (Lab 07)
 
-รันในแท็บ **claude** · repo ของคุณ
+คัดลอกเฉพาะบล็อกด้านล่างไปวางใน `claude`  
+**(โพสต์ PR comment ด้วย `gh` — ตาม README)**
 
 ```text
-อ่าน docs/review-opencode.md (ผู้เรียนวาง findings จาก OpenCode)
+อ่าน docs/review-opencode.md และ docs/DECISIONS.md
+ถ้ามี docs/handoffs/07-opencode-to-claude.md — อ่านด้วย
+อ่าน docs/STATUS.md · docs/OPEN_LOOPS.md ก่อนสรุป
 
 งาน:
-1. ตอบทีละ Must fix — แก้โค้ด หรือ rebut ด้วยเหตุผล
-2. ถ้าแก้: รัน npm run test:labs แล้ว push
+1. ตอบทีละ Must fix — แก้โค้ดหรือ rebut ด้วยเหตุผล
+2. ถ้าแก้: ให้แน่ใจว่า npm run test:labs ยังเขียว
 3. เขียน docs/review-claude-rebuttal.md — ยอมรับ / ปฏิเสธ / follow-up
-4. ร่าง PR comment สรุป round-trip ภาษาไทย (OpenCode → Claude) + ทำไม cross-model คุ้ม 2–3 bullet
+4. ร่างข้อความสรุป round-trip ภาษาไทย 2–3 bullet ว่าทำไม cross-model คุ้ม (ฉันจะวางบน PR เอง)
+5. ท้าย rebuttal ใส่หัวข้อ:
 
-ใช้ TUI หรือ claude -p
+## Canonical state updated
+- [ ] docs/STATUS.md
+- [ ] docs/OPEN_LOOPS.md
+- [ ] docs/DECISIONS.md (ถ้ามี decision ใหม่)
 
-ห้าม orchestrate opencode จาก MCP — ผู้เรียน copy findings เอง
-```
+และติ๊กตามที่อัปเดตจริง (single-writer รอบนี้)
 
-**ตัวอย่าง PowerShell:**
-
-```powershell
-$prompt = @'
-Read docs/review-opencode.md and docs/DECISIONS.md.
-Write docs/review-claude-rebuttal.md.
-Fix valid Must items or rebut. Draft PR comment summary in Thai.
-'@
-$prompt | claude -p --permission-mode acceptEdits --output-format text
+ห้ามเรียกหรือ orchestrate opencode
+ห้ามใช้ MCP เป็นท่อไป CLI อื่น
 ```

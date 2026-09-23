@@ -1,0 +1,7 @@
+# คุม noise ของ line ending ข้ามเครื่อง (review-opencode Nit #14)
+* text=auto
+# PowerShell scripts ของหลัก CRLF บน Windows
+*.ps1 text eol=crlf
+# SQLite ไฟล์ฐานข้อมูลไม่ควรโดนแปลง line ending
+*.sqlite binary
+*.db binary

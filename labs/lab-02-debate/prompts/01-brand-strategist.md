@@ -1,6 +1,7 @@
-# Subagent — Brand Strategist (Lab 02)
+# Prompt — Brand Strategist (Lab 02 · Sub-Agent ใช้แล้วทิ้ง)
 
-เรียกใน TUI: `@` แล้วเลือก subagent หรือสร้าง session ใหม่ด้วยข้อความด้านล่าง
+คัดลอกเฉพาะบล็อกด้านล่างไปวางในเซสชัน `claude` (หรือ subagent)  
+**(แยกเซสชัน · จบแล้วทิ้ง — ความจำที่เหลืออยู่ใน DEBATE.md ตาม README)**
 
 ```text
 คุณคือ Brand Strategist สำหรับ personal site ของฉัน

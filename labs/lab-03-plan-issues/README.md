@@ -1,119 +1,116 @@
-# Lab 03 — Plan → GitHub Issues (GitHub MCP)
+# Lab 03 — จากเอกสารตัดสินใจ → Issue บน GitHub
 
-**เวลาเป้าหมาย:** 60–75 นาที  
-**เครื่องมือ:** Claude Code **2.1.278+** · **GitHub MCP** · `gh` CLI  
-**Issue อ้างอิง:** `[Lab 03] Issues from decisions`
+**ใช้เวลาประมาณ:** 60–75 นาที  
+**เครื่องมือ:** Claude Code · **GitHub MCP** · `gh` CLI  
+**ผลลัพธ์หลัก:** Issues ≥ 4 อันใน **repo ของคุณ** + บันทึกเทียบ MCP vs `gh`
 
-## เป้าหมาย
-
-แปลง **`docs/DECISIONS.md`** เป็น **backlog จริงบน GitHub** ด้วย MCP  
-แล้วเทียบประสบการณ์กับ **`gh issue create`**  
-**จุดที่ควรรู้สึกว้าว:** acceptance criteria ใน issue อ่านแล้ว implement ได้โดยไม่ต้องถามซ้ำ
+> จุดนี้คือ “แผนกลายเป็นงานที่ปิดได้” — ไม่ใช่แค่ไฟล์ markdown ในเครื่อง
 
 ---
 
-## ได้รับมาจาก Lab ก่อน
+## คุณจะได้อะไรจาก Lab นี้
 
-- Lab 01–02: `docs/PROFILE.md`, `docs/DECISIONS.md`, `docs/DEBATE.md`
-- SETUP: `.mcp.json`, `GITHUB_PERSONAL_ACCESS_TOKEN`, `gh repo set-default` ชี้ repo คุณ
-- มี issues จาก `create-course-issues` แล้ว (Lab 03 **เพิ่ม** issues จาก decisions)
+1. **สร้าง issue จริง** จาก `docs/DECISIONS.md` ผ่าน GitHub MCP  
+2. **เทียบ MCP กับ `gh`** — เมื่อไหร่ใช้อะไร  
+3. Issue ที่อ่านแล้ว implement ได้โดยไม่ต้องถามซ้ำ (acceptance checklist)
 
-## ได้เพิ่มใน Lab นี้
+**ความรู้ที่ควรติดตัว**
 
-- Issues ≥ 4 อัน จาก decisions D1–D6
-- ส่วน **`## Lab 03 — MCP vs gh`** ท้าย `docs/DECISIONS.md`
+- MCP ในคอร์สนี้ใช้กับ**งานผลิต** (issue / PR / เบราว์เซอร์) — **ไม่**ใช้เป็นท่อ Claude ↔ OpenCode  
+- Issue ดี = มี D-id + acceptance ที่เช็คได้ · ไม่ใช่ epic กว้างไม่จบ  
+- PAT / สิทธิ์ผิด = หยุด อย่าเดาว่าสร้างสำเร็จ
 
----
-
-## ผลลัพธ์รูปธรรม (ไฟล์ที่ต้องมี)
-
-| หลักฐาน | รายละเอียด |
-|---|---|
-| GitHub Issues | ≥ 4 issues ใหม่ใน **repo ของคุณ** · body มี acceptance checklist |
-| เอกสาร | `docs/DECISIONS.md` มีตารางสรุป issue # + MCP vs gh |
-| MCP | ใช้สร้าง issue จริง (ไม่ใช่แค่ draft ในแชท) |
-
-**ยังไม่ผ่านถ้า…**
-
-- issue ไป repo Onto-IQ / upstream
-- MCP 401 แล้วเคลมผ่านโดยไม่แก้ PAT
-- ไม่มี acceptance criteria ใน issue body
+> **ทำไมต้องประสาน (เสา 3):** `DECISIONS.md` → GitHub Issues = สัญญาข้ามคนและข้าม agent  
+> Frontend (Lab 04) กับ Backend (Lab 05) จะปิด issue คนละใบจากเอกสารชุดเดียวกัน — ไม่ต้องนั่งอธิบายซ้ำในแชท
 
 ---
 
-## Preflight
+## ก่อนเริ่ม
+
+ต้องมี [`Lab 02`](../lab-02-debate/README.md) — มี `docs/DECISIONS.md`  
+SETUP: `.mcp.json`, `GITHUB_PERSONAL_ACCESS_TOKEN`, `gh repo set-default` ชี้ repo **คุณ**
 
 ```powershell
-# repo ของคุณ
+cd <โฟลเดอร์-repo-ของคุณ>
 Test-Path .\docs\DECISIONS.md
 gh auth status
 gh repo view --json nameWithOwner
-claude mcp list
-# ต้องเห็น github (หรือชื่อที่ตั้งไว้)
 ```
 
-โหลด token ก่อนเปิด claude (ตัวอย่าง):
+โหลด token แล้วเปิดรายการ MCP:
 
 ```powershell
 Get-Content .\.env | ForEach-Object {
-  if ($_ -match '^GITHUB_PERSONAL_ACCESS_TOKEN=(.+)$') { $env:GITHUB_PERSONAL_ACCESS_TOKEN = $matches[1] }
+  if ($_ -match '^GITHUB_PERSONAL_ACCESS_TOKEN=(.+)$') {
+    $env:GITHUB_PERSONAL_ACCESS_TOKEN = $matches[1]
+  }
 }
 claude mcp list
 ```
 
+ต้องเห็น GitHub MCP · ถ้าไม่เห็น → กลับ [`SETUP.md`](../../SETUP.md)
+
 ---
 
-## เลือกทาง A — TUI vs B — CLI
+## สิ่งที่ต้องมีเมื่อจบ Lab
 
-| ทาง | เหมาะกับ |
+| สิ่งที่ต้องมี | ผ่านเมื่อ |
 |---|---|
-| **A — TUI** | MCP โต้ตอบ · แก้ body issue ทีละข้อ |
-| **B — CLI** | สร้าง issue ด้วย `gh` เป็นหลัก · Claude ช่วยร่าง markdown |
+| Issues บน GitHub | ≥ 4 อันใน repo คุณ · body มี acceptance checklist |
+| เอกสาร | ท้าย `docs/DECISIONS.md` มี `## Lab 03 — MCP vs gh` (≥ 5 bullet) |
+| หลักฐาน MCP | ใช้อย่างน้อย 1 issue สร้างผ่าน MCP (แนะนำทั้งหมด) |
 
-Prompts:
-
-- [`prompts/01-issues-from-decisions.md`](prompts/01-issues-from-decisions.md)
-- [`prompts/02-gh-compare.md`](prompts/02-gh-compare.md)
-
-**หมายเหตุ:** Lab 03 เน้น **MCP สำหรับงาน GitHub** — ไม่ใช้ MCP เป็นท่อส่งงาน Claude ↔ OpenCode
+**ยังไม่ผ่านถ้า…** issue ไป Onto-IQ upstream · MCP 401 แล้วยังเคลมผ่าน · ไม่มี acceptance
 
 ---
 
-## ขั้นตอน
+## เลือกวิธีทำ
 
-### 1) ตรวจ decisions
+| ทาง | เหมาะกับใคร |
+|---|---|
+| **A — TUI + MCP (แนะนำ)** | ให้ Claude สร้าง issue ผ่าน MCP แล้วคุณเปิดเว็บตรวจ |
+| **B — `gh` เป็นหลัก** | คุณสร้าง issue ด้วย CLI · Claude ช่วยร่าง body |
+
+Prompts: [`01-issues-from-decisions.md`](prompts/01-issues-from-decisions.md) · [`02-gh-compare.md`](prompts/02-gh-compare.md)
+
+---
+
+## ทาง A — ทีละขั้น
+
+### ขั้นที่ 1 — ดู decisions
 
 ```powershell
 Select-String -Path .\docs\DECISIONS.md -Pattern "\| D"
 ```
 
-### 2) TUI + MCP
+### ขั้นที่ 2 — สร้าง issues ด้วย MCP
 
 ```powershell
 claude
 ```
 
-วาง [`01-issues-from-decisions.md`](prompts/01-issues-from-decisions.md)
+วาง prompt จาก `01-issues-from-decisions.md`  
+รอจนได้ Issue # แล้วเปิดเบราว์เซอร์ตรวจ title/body
 
-รอจน agent รายงาน Issue # แล้วเปิดเบราว์เซอร์ตรวจ
-
-### 3) ยืนยันด้วย gh
+### ขั้นที่ 3 — ยืนยันด้วย `gh` (คุณทำเอง)
 
 ```powershell
 gh issue list --limit 15
 gh issue view <number> --web
 ```
 
-### 4) เทียบ gh
+### ขั้นที่ 4 — เทียบกับ `gh`
 
-วาง [`02-gh-compare.md`](prompts/02-gh-compare.md)  
-หรือรันเอง:
+วาง `02-gh-compare.md` หรือสร้าง draft เอง:
 
 ```powershell
-gh issue create --title "[Lab 03] Draft compare gh" --body "Draft for learning — close if duplicate" --label enhancement
+gh issue create --title "[Lab 03] Draft compare gh" `
+  --body "Draft for learning — close if duplicate" --label enhancement
 ```
 
-### 5) Commit เอกสาร
+ให้มีหัวข้อ `## Lab 03 — MCP vs gh` ใน DECISIONS
+
+### ขั้นที่ 5 — Commit เอกสาร
 
 ```powershell
 git add docs/DECISIONS.md
@@ -122,21 +119,18 @@ git commit -m "docs: Lab 03 issue planning notes"
 
 ---
 
-### ทาง B — CLI (gh หลัก)
+## ทาง B — CLI (`gh` หลัก)
 
 ```powershell
-# ให้ Claude ร่าง body เป็นไฟล์ชั่วคราว
 claude -p --permission-mode acceptEdits "Read docs/DECISIONS.md. Write issue-bodies/d2-guestbook.md with acceptance criteria for decision D2 only."
 gh issue create --title "[D2] Guestbook scope" --body-file issue-bodies/d2-guestbook.md
 ```
 
-ทำซ้ำสำหรับ decisions อื่น · ยังต้องมีส่วน MCP vs gh ใน DECISIONS
+ทำซ้ำ decisions อื่น · ยังต้องมีส่วน MCP vs gh และควรมีอย่างน้อย 1 issue จาก MCP
 
 ---
 
-## ตัวอย่างผลลัพธ์ที่คาดหวัง
-
-**Issue body (ย่อ)**
+## ตัวอย่าง Issue ที่ดี
 
 ```markdown
 ## Context
@@ -148,81 +142,42 @@ gh issue create --title "[D2] Guestbook scope" --body-file issue-bodies/d2-guest
 - [ ] npm run test:labs ผ่านเมื่อ implement (Lab 05)
 ```
 
-**`docs/DECISIONS.md` ท้ายไฟล์**
+### Mapping แนะนำ Decision → Issue
 
-```markdown
-## Lab 03 — MCP vs gh
-- MCP: สร้าง 4 issues ใน ~3 นาที ...
-- gh: ควบคุม script ได้ ...
-```
+| Decision | Title ตัวอย่าง | ปิดโดย Lab |
+|---|---|---|
+| D1 headline | `[D1] Align Home hero with PROFILE` | 04 |
+| D2 guestbook | `[D2] Guestbook API + validation` | 05 |
+| D3 visual | `[D3] Theme color from tone` | 04 |
+| D4 a11y | `[D4] Form labels and focus` | 04/06 |
 
 ---
 
-## คำสั่งตรวจ
+## ตรวจว่าผ่านหรือยัง
 
 ```powershell
-(gh issue list --state open --limit 50 | Measure-Object -Line).Lines
+gh issue list --state open --limit 50
 Select-String -Path .\docs\DECISIONS.md -Pattern "## Lab 03 — MCP vs gh"
 npm test
 ```
 
----
-
-## เกณฑ์ผ่าน Lab
-
-- [ ] ≥ 4 issues ใหม่ map กับ decisions · มี acceptance checklist
-- [ ] Issues อยู่ repo ของผู้เรียน · ไม่มี secret ใน body
-- [ ] มี `## Lab 03 — MCP vs gh` ≥ 5 bullet
-- [ ] ใช้ GitHub MCP สร้างอย่างน้อย 1 issue (แนะนำทั้งหมด)
-
-## ยังไม่ผ่านถ้า…
-
-- แค่ list ในแชทไม่มี issue บน GitHub
-- copy acceptance จาก template โดยไม่อ้าง D-id
-- ใช้ MCP เรียก OpenCode / Claude อีกฝั่ง (ผิดจุดประสงค์คอร์ส)
+- [ ] ≥ 4 issues map กับ decisions · มี acceptance  
+- [ ] อยู่ repo คุณ · ไม่มี secret ใน body  
+- [ ] มี `## Lab 03 — MCP vs gh`  
+- [ ] ใช้ GitHub MCP จริงอย่างน้อย 1 ครั้ง  
 
 ---
 
-## Troubleshooting Windows
+## ติดปัญหาบ่อย
 
-| อาการ | ทำอะไร |
+| อาการ | ลองทำ |
 |---|---|
-| GitHub MCP 401 | สร้าง PAT ใหม่ · scope Issues R/W · อัป `.mcp.json` |
+| GitHub MCP 401 | PAT ใหม่ · scope Issues · อัป `.mcp.json` · เปิด `claude` ใหม่ |
 | `gh` ชี้ repo ผิด | `gh repo set-default owner/repo` |
 | MCP ไม่ list | `copy .mcp.json.example .mcp.json` · restart `claude` |
-| สร้าง issue ซ้ำ | ปิด duplicate · อ้าง # ใน DECISIONS |
-| fine-grained PAT จำกัด repo | เลือกเฉพาะ repo ของคุณใน token settings |
+| สร้างซ้ำ | ปิด duplicate · อ้าง # ใน DECISIONS |
 
----
-
----
-
-## บทบาท GitHub MCP ในคอร์ส
-
-MCP ใช้กับ **งานผลิต** (อ่าน/สร้าง issue, PR, Playwright) — Lab 03 ฝึก **backlog จากเอกสาร**  
-Issue ที่สร้างควร **ปิดได้ด้วย PR เดียวหรือสอง PR** (FE/BE) ไม่ใช่ epic ใหญ่ไม่จบ
-
-### ตัวอย่าง mapping Decision → Issue
-
-| Decision ID | Title ตัวอย่าง | ปิดโดย Lab |
-|---|---|---|
-| D1 headline/copy | `[D1] Align Home hero with PROFILE` | 04 |
-| D2 guestbook | `[D2] Guestbook API + validation` | 05 |
-| D3 visual tone | `[D3] Theme color from tone.primaryColor` | 04 |
-| D4 a11y | `[D4] Form labels and focus states` | 04/06 |
-
-### คำสั่ง gh เพิ่มเติม
-
-```powershell
-gh issue list --label enhancement
-gh issue view 12 --json title,body,url
-gh api repos/{owner}/{repo}/issues --jq '.[].number' | Select-Object -First 10
-```
-
-### หมายเหตุ PAT
-
-- Fine-grained: เลือก repo เดียว · Issues + Contents + Pull requests
-- หมุน token หลังคอร์ส · อย่า paste ใน issue body
+**หมายเหตุ PAT:** fine-grained เลือก repo เดียว · หมุนหลังคอร์ส · อย่า paste ใน issue
 
 ---
 

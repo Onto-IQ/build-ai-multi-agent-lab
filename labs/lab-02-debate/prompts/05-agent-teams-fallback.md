@@ -1,22 +1,18 @@
-# Fallback — Claude Agent Teams (Lab 02)
+# Prompt — Agent Teams (ทางเลือก Lab 02)
 
-ใช้เมื่อ Subagents 3 รอบเสถียรกว่า หรือเมื่อ `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` ใน `.env`
+ใช้เมื่ออยากลอง Agent Teams แทน Subagents ทีละตัว  
+**(เปิด Teams / กลับไป Subagents — ตาม README ไม่ใส่ในกรอบด้านล่าง)**
 
 ```text
-เปิด claude agents (Agent View) ถ้ามี
-
-จำลองทีม 3 บทบาทในเซสชันเดียวหรือแยก teammate:
-1) Brand Strategist
-2) UX Critic  
-3) Devil's Advocate
+จำลองทีม 3 บทบาท (Brand Strategist, UX Critic, Devil's Advocate)
 
 Input: docs/PROFILE.md
 
 ลำดับ:
 - ให้แต่ละบทบาทพูดสลับกันอย่างน้อย 2 รอบ
-- facilitator สรุปลง docs/DEBATE.md (หัวข้อตาม prompts 01–03)
-- จากนั้นใช้ prompts/04-synthesize-decisions.md
+- facilitator สรุปลง docs/DEBATE.md ภายใต้หัวข้อ ## Brand Strategist, ## UX Critic, ## Devil's Advocate
+- จากนั้นสร้าง docs/DECISIONS.md ตามโครง Lab 02 (ตาราง D1–D6+, Out of scope, เกณฑ์พร้อม Lab 04)
 
-ถ้า Teams ล่มบน Windows: กลับไป Subagents ทีละตัว — ยังผ่าน Lab ได้
-ห้ามบังคับ tmux
+อย่าเขียนโค้ด Astro
+อย่าใส่ความลับ
 ```

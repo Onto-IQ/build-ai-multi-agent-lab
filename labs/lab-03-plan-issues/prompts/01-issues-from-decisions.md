@@ -1,9 +1,10 @@
-# Prompt — GitHub MCP สร้าง issues จาก DECISIONS (Lab 03)
+# Prompt — สร้าง GitHub issues จาก DECISIONS (Lab 03)
 
-รันใน `claude` ที่ repo ของคุณ · ต้องมี GitHub MCP + PAT
+คัดลอกเฉพาะบล็อกด้านล่างไปวางใน `claude`  
+**(ตรวจ PAT / MCP / `gh` — ตาม README ก่อนเริ่ม)**
 
 ```text
-เป้าหมาย Lab 03: แปลง docs/DECISIONS.md เป็น GitHub issues ใน repo นี้เท่านั้น
+เป้าหมาย: แปลง docs/DECISIONS.md เป็น GitHub issues ใน repo นี้เท่านั้น
 
 ขั้นตอน:
 1. อ่าน docs/DECISIONS.md และ docs/PROFILE.md
@@ -12,9 +13,8 @@
    - body: เกณฑ์ผ่าน bullet, ลิงก์ docs/DECISIONS.md, acceptance checklist
    - label: ใช้ที่มีใน repo ถ้ามี (enhancement, docs)
 3. อย่าแก้ issues ของ Onto-IQ template upstream
-4. สรุปตาราง | Issue # | Title | มาจาก Decision |
+4. สรุปตาราง | Issue # | Title | มาจาก Decision | ลงท้าย docs/DECISIONS.md หรือรายงานในแชท
 
-ถ้า MCP 401: หยุดแล้วให้ผู้เรียนตรวจ PAT ใน .env / .mcp.json
-
-หลังสร้างเสร็จ ให้ผู้เรียนรัน gh issue list ยืนยัน
+ถ้า MCP ได้ 401: หยุดทันที แจ้งว่าต้องตรวจ PAT — อย่าเดาว่าสร้างสำเร็จ
+ห้ามใส่ secret / PAT ใน issue body
 ```

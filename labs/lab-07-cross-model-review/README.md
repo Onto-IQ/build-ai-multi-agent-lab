@@ -1,134 +1,145 @@
-# Lab 07 — Cross-Model Review (OpenCode ↔ Claude)
+# Lab 07 — ให้เครื่องมืออีกฝั่งรีวิวงานของคุณ
 
-**เวลาเป้าหมาย:** 60–75 นาที  
-**เครื่องมือ:** OpenCode **2.0.6+** (`opencode run`) · Claude Code **2.1.278+** (`claude -p`)  
-**Issue:** `[Lab 07] Cross-model review`  
-**สินค้า:** [Onto-IQ/build-ai-multi-agent-lab](https://github.com/Onto-IQ/build-ai-multi-agent-lab)
+**ใช้เวลาประมาณ:** 60–75 นาที  
+**เครื่องมือ:** OpenCode (`opencode run`) · Claude Code (`claude`) · `gh`  
+**ผลลัพธ์หลัก:** `docs/review-*.md` + **PR comment จริงบน GitHub**
 
-## เป้าหมาย
-
-ให้ **ฝั่งที่ไม่ได้เขียน PR หลัก** รีวิว diff อย่างอิสระ · โพสต์ **PR comment** · ฝั่งต้นทาง **rebut หรือแก้** · สรุป round-trip  
-นี่คือ **เหตุผลเดียวที่ส่งงานข้าม CLI** ในคอร์ส — ลดจุดบอดด้วยมุมมองคนละโมเดล  
-**จุดที่ควรรู้สึกว้าว:** OpenCode จับความเสี่ยงที่ Claude มองข้าม (หรือกลับกัน) โดยไม่ share context ผ่าน MCP
-
-**ห้าม:** ใช้ MCP เป็นท่อให้ Claude เรียก OpenCode หรือกลับกัน · ห้าม JSON orchestration bus
+> นี่คือครั้งเดียวในคอร์สที่**ตั้งใจส่งงานข้าม CLI** — เพื่อลดจุดบอดด้วยคนละโมเดล  
+> **ห้าม**ใช้ MCP เป็นท่อให้ Claude เรียก OpenCode (หรือกลับกัน)
 
 ---
 
-## ได้รับมาจาก Lab ก่อน
+## คุณจะได้อะไรจาก Lab นี้
 
-- PR จาก [`Lab 04`](../lab-04-frontend/README.md) (Frontend / Claude) และ/หรือ [`Lab 05`](../lab-05-backend/README.md) (Backend / OpenCode)
-- [`Lab 06`](../lab-06-playwright/README.md): `docs/QA.md` อ้างอิงได้
-- `npm run test:labs` เขียวบน branch ที่รีวิว
-- แท็บ Windows Terminal แยก: `claude` กับ `opencode`
+1. ดึง diff จาก PR แล้วให้**ฝั่งที่ไม่ได้เขียน**รีวิว  
+2. ตอบกลับ (rebut) หรือแก้ Must fix  
+3. โพสต์สรุป round-trip บน PR เป็นภาษาไทย
 
-## ได้เพิ่มใน Lab นี้
+**ความรู้ที่ควรติดตัว**
 
-- Review artifact: `docs/review-opencode.md` และ/หรือ `docs/review-claude-rebuttal.md`
-- **≥ 2 PR comments** (review + สรุป round-trip ภาษาไทย)
-- (ถ้ามี) commit แก้ Must fix ที่ยอมรับ
+- Cross-model ≠ orchestration อัตโนมัติ — **คุณ** copy findings เอง  
+- Must / Should / Nit ช่วยจัดลำดับก่อน ship  
+- รีวิวในแชทอย่างเดียวไม่พอ — ต้องเห็นบน GitHub
 
----
-
-## ผลลัพธ์รูปธรรม (ไฟล์ที่ต้องมี)
-
-| รายการ | ที่อยู่ |
-|---|---|
-| Review จาก OpenCode | `docs/review-opencode.md` หรือ stdout ที่ archive ใน repo |
-| Rebuttal จาก Claude | `docs/review-claude-rebuttal.md` |
-| หลักฐาน GitHub | PR comment(s) บน PR จริง |
-| (ชั่วคราว) diff | `docs/_pr-diff.txt` — ลบหรือ gitignore ได้หลัง Lab |
-
-**ต้องเห็นด้วยตา:** บน GitHub PR มี comment ที่แยก Must/Should/Nit และมีสรุปว่ารับ/ไม่รับข้อใด
-
-**ยังไม่ผ่านถ้า…**
-
-- review อยู่แค่ในแชท ไม่ post PR
-- ใช้ MCP ส่งไฟล์ระหว่างสอง CLI
-- รีวิว copy เดียวกันทั้งสองฝั่ง · ไม่มี rebut
+> **ทำไมต้องประสาน (เสา 3):** ประโยชน์คือ**ลดจุดบอด**ด้วยคนละโมเดล โดย**ไม่** share context ผ่าน MCP  
+> **PR comment** = หลักฐานรีวิวบน GitHub · **ไฟล์** `docs/review-*.md` (+ handoff ใน `docs/handoffs/` ถ้าสลับ CLI) = สิ่งที่ agent อ่านต่อ  
+> คนละชั้นกับ handoff 04→05: ที่นั่นส่ง “งานถัดไป” · ที่นี่ส่ง “ผลการรีวิว” ขึ้น PR  
+> **Commit ก่อนสลับ** OpenCode ↔ Claude · single-writer บน STATUS ถ้ามีการอัปเดตสถานะ
 
 ---
 
-## Preflight
+## ก่อนเริ่ม
+
+ต้องมี PR จาก Lab 04 และ/หรือ Lab 05 · `test:labs` เขียวบน branch นั้น · อ่าน STATUS / OPEN_LOOPS
+
+เปิด **2 แท็บ** Windows Terminal: อันหนึ่งพร้อม `claude` อีกอันพร้อม `opencode`
 
 ```powershell
-# repo ของคุณ
-cd <your-personal-site-repo>
+cd <โฟลเดอร์-repo-ของคุณ>
 gh pr list
-gh pr view <num> --json url,headRefName,baseRefName
 claude --version
 opencode --version
 npm run test:labs
-Test-Path .\docs\DECISIONS.md
+Get-Content .\docs\STATUS.md -Head 25
 ```
 
-เลือก PR หนึ่งตัว (เช่น `#3`) จาก Lab 04 หรือ 05
+เลือกหมายเลข PR หนึ่งตัว (เช่น `#3`)
+
+ก่อนสลับไป OpenCode รีวิว: `git status` ควรสะอาด (หรือ commit งานค้างก่อน) — **อย่า**ให้สอง harness เขียนไฟล์ร่วมพร้อมกัน
 
 **แผนที่เครื่องมือ**
 
 ```text
-PR author Claude  → Reviewer: opencode run
-PR author OpenCode → Reviewer: claude -p
+PR ที่ Claude เขียนเป็นหลัก  → ให้ OpenCode รีวิว
+PR ที่ OpenCode เขียนเป็นหลัก → ให้ Claude รีวิว
 ```
 
----
-
-## เลือกทาง A — TUI vs B — CLI
-
-| ทาง | เหมาะกับ | หมายเหตุ |
-|---|---|---|
-| **A — TUI** | วาง prompt ใน `opencode` / `claude` ทีละขั้น | อ่าน [`prompts/`](prompts/) |
-| **B — CLI** | `opencode run` + `claude -p` + `gh pr comment` | แนะนำในห้องเรียน |
-
-Prompts:
-
-- [`prompts/01-opencode-review.md`](prompts/01-opencode-review.md)
-- [`prompts/02-claude-rebuttal.md`](prompts/02-claude-rebuttal.md)
-
-Handoff = **ข้อความ + git + gh** เท่านั้น
+(ในห้องเรียนมักเริ่มจาก PR Frontend ของ Lab 04 → OpenCode รีวิว)
 
 ---
 
-## ขั้นตอน
+## สิ่งที่ต้องมีเมื่อจบ Lab
 
-### 1) ดึง diff
+| สิ่งที่ต้องมี | ผ่านเมื่อ |
+|---|---|
+| Review | `docs/review-opencode.md` (หรือเทียบเท่า) |
+| Rebuttal | `docs/review-claude-rebuttal.md` |
+| Canonical checklist | ท้าย review/rebuttal มีหัวข้อ **Canonical state updated** (STATUS / OPEN_LOOPS / DECISIONS) |
+| หลักฐาน GitHub | ≥ 1–2 PR comments (review + สรุป) |
+| (ชั่วคราว) | `docs/_pr-diff.txt` — ลบหรือไม่ commit ก็ได้ |
+
+**ยังไม่ผ่านถ้า…** รีวิวอยู่แค่ในแชท · ใช้ MCP pipe ระหว่าง CLI · ไม่มี rebut · ไม่มี checklist Canonical state updated
+
+---
+
+## เลือกวิธีทำ
+
+| ทาง | เหมาะกับใคร |
+|---|---|
+| **A — TUI** | วาง prompt ใน `opencode` / `claude` ทีละขั้น |
+| **B — CLI (แนะนำในห้อง)** | `opencode run` + `claude -p` + `gh pr comment` |
+
+Prompts: [`01-opencode-review.md`](prompts/01-opencode-review.md) · [`02-claude-rebuttal.md`](prompts/02-claude-rebuttal.md)  
+
+**อย่าสับสนกับ PR:**  
+- ผลรีวิวหลัก = `docs/review-*.md` แล้ว **โพสต์เป็น PR comment** (เกณฑ์ผ่าน Lab นี้)  
+- `docs/handoffs/07-*.md` = **ทางเลือก** เมื่อต้องการ Request to next agent สั้น ๆ ก่อนสลับ CLI — ไม่แทน PR comment  
+ดูตารางแยกชั้นที่ [`docs/handoffs/README.md`](../../docs/handoffs/README.md)
+
+---
+
+## ทีละขั้น (กรณี OpenCode รีวิว PR ของ Claude)
+
+### ขั้นที่ 1 — ดึง diff (คุณทำ)
 
 ```powershell
 gh pr diff <num> | Out-File -Encoding utf8 .\docs\_pr-diff.txt
 Get-Content .\docs\_pr-diff.txt | Select-Object -First 25
 ```
 
-### 2) OpenCode รีวิว (เมื่อ PR จาก Claude)
+### ขั้นที่ 2 — OpenCode รีวิว
 
-**ทาง B — ตัวอย่าง**
+**ทาง A:** เปิด `opencode` → วาง `01-opencode-review.md`
+
+**ทาง B:**
 
 ```powershell
-opencode run "อ่าน docs/_pr-diff.txt และ docs/DECISIONS.md เขียน docs/review-opencode.md ภาษาไทย หัวข้อ: สรุป, จุดแข็ง, ความเสี่ยง, Must fix, คำถามต่อ Claude. อย่าแก้ src/"
+opencode run "Read docs/_pr-diff.txt and docs/DECISIONS.md. Write docs/review-opencode.md in Thai with Must/Should/Nit. Do not edit src/."
 ```
 
-**ทาง A:** เปิด `opencode` แล้ววาง [`01-opencode-review.md`](prompts/01-opencode-review.md)
-
-ตรวจ:
+ตรวจไฟล์:
 
 ```powershell
-Test-Path .\docs\review-opencode.md
 Get-Content .\docs\review-opencode.md -Head 35
 ```
 
-### 3) Claude rebut / fix
+ถ้าต้องการ handoff ชัดก่อน Claude ตอบ:
 
 ```powershell
-claude -p "อ่าน docs/review-opencode.md และ docs/DECISIONS.md เขียน docs/review-claude-rebuttal.md ระบุยอมรับ/ปฏิเสธ/follow-up — แก้ Must ที่ยอมรับได้ถ้าจำเป็น" --permission-mode acceptEdits
+Copy-Item .\docs\handoffs\TEMPLATE.md .\docs\handoffs\07-opencode-to-claude.md
+# เติม Request = rebut / fix Must · Verification = อ่านอย่างเดียวรอบนี้
+git add docs/review-opencode.md docs/handoffs/07-opencode-to-claude.md
+git commit -m "docs: Lab 07 OpenCode review handoff"
 ```
 
-หรือ TUI + [`02-claude-rebuttal.md`](prompts/02-claude-rebuttal.md)
+### ขั้นที่ 3 — Claude ตอบ / แก้
+
+**ทาง A:** เปิด `claude` → วาง `02-claude-rebuttal.md`
+
+**ทาง B:**
+
+```powershell
+claude -p "Read docs/review-opencode.md and docs/DECISIONS.md. Write docs/review-claude-rebuttal.md. Fix valid Must items or rebut." --permission-mode acceptEdits
+```
+
+แล้ว:
 
 ```powershell
 npm run test:labs
 git push
 ```
 
-### 4) โพสต์ PR comment
+### ขั้นที่ 4 — โพสต์บน PR (คุณทำ)
 
 ```powershell
 @"
@@ -147,19 +158,28 @@ $(Get-Content docs/review-claude-rebuttal.md -Raw)
 gh pr comment <num> --body-file .\docs\_pr-comment.md
 ```
 
-### 5) Commit artifacts (ไม่บังคับ _pr-diff)
+### ขั้นที่ 5 — Commit artifacts
 
 ```powershell
 git add docs/review-opencode.md docs/review-claude-rebuttal.md
+# ถ้าอัปเดต Hot state หลังแก้ Must:
+# git add docs/STATUS.md docs/OPEN_LOOPS.md docs/handoffs/07-opencode-to-claude.md
 git commit -m "docs: Lab 07 cross-model review artifacts"
 git push
 ```
 
+ตรวจท้ายไฟล์ review/rebuttal ว่ามีหัวข้อประมาณนี้:
+
+```markdown
+## Canonical state updated
+- [ ] docs/STATUS.md
+- [ ] docs/OPEN_LOOPS.md
+- [ ] docs/DECISIONS.md (ถ้ามี decision ใหม่)
+```
+
 ---
 
-## ตัวอย่างผลลัพธ์ที่คาดหวัง
-
-**`docs/review-opencode.md` (ย่อ)**
+## ตัวอย่าง Must fix ที่ดี
 
 ```markdown
 ## Must fix
@@ -172,11 +192,9 @@ git push
 - ชื่อ handler ...
 ```
 
-**PR comment:** มีทั้ง review, rebut, bullet "ทำไมคุ้ม"
-
 ---
 
-## คำสั่งตรวจ
+## ตรวจว่าผ่านหรือยัง
 
 ```powershell
 gh pr view <num> --comments
@@ -184,41 +202,23 @@ Test-Path docs/review-opencode.md, docs/review-claude-rebuttal.md
 npm run test:labs
 ```
 
----
-
-## เกณฑ์ผ่าน Lab
-
-- [ ] Review จาก **เครื่องมืออีกฝั่ง** บน PR จริง
-- [ ] Rebuttal หรือ fix อย่างน้อย 1 ประเด็น Must/Should
-- [ ] Summary ภาษาไทยว่าทำไมใช้เครื่องมือที่สองคุ้ม
-- [ ] ไม่มี MCP pipe ระหว่าง CLI
-
-## ยังไม่ผ่านถ้า…
-
-- รีวิว PR ตัวเองในแชทเดียวกับที่ implement โดยไม่แยกโมเดล
-- ไม่มี comment บน GitHub
-- สร้าง custom orchestration / Flux bus
+- [ ] Review จาก**เครื่องมืออีกฝั่ง** บน PR จริง  
+- [ ] Rebut หรือ fix อย่างน้อย 1 ประเด็น  
+- [ ] สรุปภาษาไทยว่าทำไมใช้เครื่องมือที่สองคุ้ม  
+- [ ] มี **Canonical state updated** ใน review หรือ rebuttal  
+- [ ] ไม่มี MCP pipe ระหว่าง CLI · commit ก่อนสลับ harness  
 
 ---
 
-## Troubleshooting Windows
+## ติดปัญหาบ่อย
 
-| อาการ | ทำอะไร |
+| อาการ | ลองทำ |
 |---|---|
-| `opencode run` ยาวเกิน | รีวิวเฉพาะ `course/` + `src/pages/api` |
-| `gh pr comment` encoding พัง | `--body-file` UTF-8 |
+| `opencode run` ช้า/ยาว | รีวิวเฉพาะ `course/` + API routes |
+| encoding เพี้ยนใน PR | ใช้ `--body-file` UTF-8 |
 | ไม่มี PR | เปิดจาก branch Lab 04/05 ก่อน |
-| Claude เรียก opencode ใน subprocess | หยุด — copy findings เอง |
-| diff ว่าง | `gh pr diff` บน PR ที่มี commit |
-
----
-
-## บันทึก issue (แนะนำ)
-
-```powershell
-gh issue list --search "Lab 07"
-gh issue comment <id> --body "Cross-model complete on PR #<num>"
-```
+| Claude พยายามเรียก opencode | หยุด — คุณ copy findings เอง |
+| STATUS ถูกเขียนทับเงียบ ๆ | single-writer — สลับ harness หลัง commit เท่านั้น |
 
 ---
 

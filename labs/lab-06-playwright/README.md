@@ -1,85 +1,80 @@
-# Lab 06 — Playwright MCP · E2E & a11y Debate
+# Lab 06 — เปิดเบราว์เซอร์จริงด้วย Playwright MCP
 
-**เวลาเป้าหมาย:** 75–90 นาที  
-**เครื่องมือ:** Claude Code **2.1.278+** · **Playwright MCP `@playwright/mcp@0.0.82`**  
-**Issue:** `[Lab 06] QA Playwright`
+**ใช้เวลาประมาณ:** 75–90 นาที  
+**เครื่องมือ:** Claude Code · Playwright MCP `@playwright/mcp@0.0.82`  
+**ผลลัพธ์หลัก:** `docs/QA.md` + รูป ≥ 2 ใบใน `docs/screenshots/`
 
-## เป้าหมาย
-
-ใช้ **Playwright MCP** ทดสอบ E2E บน dev server แล้วบันทึก **`docs/QA.md`**  
-ตามด้วย **debate accessibility** (Advocate vs Pragmatist)  
-**จุดที่ควรรู้สึกว้าว:** agent เปิดเบราว์เซอร์จริงผ่าน MCP — ไม่ใช่แค่ assume ว่าหน้า OK
+> Unit test ผ่านแล้วก็ยังต้องเห็นหน้าจริง — Lab นี้ฝึกให้ agent “เปิดเว็บแล้วจดผล”
 
 ---
 
-## ได้รับมาจาก Lab ก่อน
+## คุณจะได้อะไรจาก Lab นี้
 
-- Lab 04–05: UI + guestbook · `npm run test:labs` เขียว
-- SETUP: Playwright MCP ใน `.mcp.json` / `claude mcp add playwright`
+1. ใช้ **Playwright MCP** ไล่หน้า Home → Contact และส่งฟอร์ม demo  
+2. บันทึกหลักฐานใน **QA.md** + screenshot  
+3. ถก **a11y** สองมุม (Advocate vs Pragmatist) แล้วจัด P0/P1/P2
 
-## ได้เพิ่มใน Lab นี้
+**ความรู้ที่ควรติดตัว**
 
-- **`docs/QA.md`** — E2E + a11y debate + action items P0/P1/P2
-- (ควรมี) `docs/screenshots/*.png`
-
----
-
-## ผลลัพธ์รูปธรรม (ไฟล์ที่ต้องมี)
-
-| ไฟล์ | เนื้อหา |
-|---|---|
-| `docs/QA.md` | `## E2E Playwright`, `## a11y Debate`, `## a11y Action items` |
-| Screenshots | ≥ 2 ไฟล์ใต้ `docs/screenshots/` |
-
-**ยังไม่ผ่านถ้า…**
-
-- ไม่มี QA.md หรือไม่มีหลักฐาน E2E
-- ไม่รัน dev server แล้วเทส
-- ใช้ Playwright MCP เป็นท่อส่งงานไป OpenCode
+- MCP เบราว์เซอร์ ≠ unit test — คนละชั้นของความมั่นใจ  
+- ต้องมี **dev server รันอยู่** ก่อนให้ Claude เทส  
+- Playwright MCP **ไม่ใช่** ท่อส่งงานไป OpenCode
 
 ---
 
-## Preflight
+## ก่อนเริ่ม
+
+ควรมี UI + guestbook จาก Lab 04–05 · แนะนำผ่าน [`Lab 05b`](../lab-05b-swarm-to-green/README.md) ถ้าเคย swarm  
+`test:labs` เขียว (หรือช่องว่างถูกบันทึกใน `docs/SWARM.md`)
+
+**Terminal A** — เปิดเว็บทิ้งไว้:
+
+```powershell
+cd <โฟลเดอร์-repo-ของคุณ>
+npm run test:labs
+npm run dev
+```
+
+**Terminal B** — ตรวจ MCP แล้วเปิด Claude:
 
 ```powershell
 claude mcp list    # ต้องมี playwright
 npx -y @playwright/mcp@0.0.82 --help
-npm run test:labs
 ```
 
-Terminal **A** — dev server:
+ถ้ายังไม่มี Playwright MCP → ตาม [`SETUP.md`](../../SETUP.md)  
+เช่น `claude mcp add playwright -- npx -y @playwright/mcp@0.0.82`
 
-```powershell
-npm run dev
-```
-
-Terminal **B** — `claude`
-
-```powershell
-$env:PORT = (Get-Content .env | Where-Object { $_ -match '^PORT=' }) -replace 'PORT=',''
-if (-not $env:PORT) { $env:PORT = '4321' }
-Write-Host "Base URL: http://localhost:$env:PORT"
-```
+จด base URL (ค่าเริ่ม `http://localhost:4321` หรือตาม `PORT` ใน `.env`)
 
 ---
 
-## เลือกทาง A — TUI vs B — CLI
+## สิ่งที่ต้องมีเมื่อจบ Lab
 
-| ทาง | เหมาะกับ |
+| สิ่งที่ต้องมี | ผ่านเมื่อ |
 |---|---|
-| **A — TUI + MCP tools** | ให้ Claude เรียก browser_navigate / snapshot |
-| **B — CLI** | จำกัด — MCP ต้องผ่าน Claude session ที่เปิด MCP |
+| `docs/QA.md` | มี `## E2E Playwright`, `## a11y Debate`, `## a11y Action items` |
+| Screenshots | ≥ 2 ไฟล์ใต้ `docs/screenshots/` |
+| E2E จริง | มี step pass/fail ไม่ใช่สมมติ |
 
-Prompts:
-
-- [`prompts/01-playwright-e2e.md`](prompts/01-playwright-e2e.md)
-- [`prompts/02-a11y-debate.md`](prompts/02-a11y-debate.md)
+**ยังไม่ผ่านถ้า…** ไม่รัน `npm run dev` ตอนเทส · ไม่มีหลักฐาน E2E · ไม่จัดลำดับ P0/P1/P2
 
 ---
 
-## ขั้นตอน
+## เลือกวิธีทำ
 
-### 1) สร้าง QA scaffold
+| ทาง | หมายเหตุ |
+|---|---|
+| **A — TUI + MCP (แนะนำ)** | Claude เรียก browser tools ได้เต็มที่ |
+| **B — CLI** | จำกัด — MCP ต้องผ่าน session ที่เปิด MCP |
+
+Prompts: [`01-playwright-e2e.md`](prompts/01-playwright-e2e.md) · [`02-a11y-debate.md`](prompts/02-a11y-debate.md)
+
+---
+
+## ทาง A — ทีละขั้น
+
+### ขั้นที่ 1 — สร้างโครง QA
 
 ```powershell
 @'
@@ -91,31 +86,32 @@ Prompts:
 New-Item -ItemType Directory -Force -Path .\docs\screenshots | Out-Null
 ```
 
-### 2) E2E ผ่าน Playwright MCP
+### ขั้นที่ 2 — E2E (dev server ต้องยังรันอยู่)
 
-ใน `claude` วาง [`01-playwright-e2e.md`](prompts/01-playwright-e2e.md)
+ใน Terminal B:
 
-ติดตามให้ agent:
+```powershell
+claude
+```
 
-- navigate ทุกหน้าหลัก
-- กรอกฟอร์ม demo
-- บันทึกผลใน QA.md
+วาง `01-playwright-e2e.md`  
+ตามให้ครบ: ทุกหน้าหลัก · ส่งฟอร์ม · screenshot · เขียนลง QA.md
 
-### 3) a11y debate
+### ขั้นที่ 3 — a11y debate
 
-วาง [`02-a11y-debate.md`](prompts/02-a11y-debate.md)  
-แยก subagent 2 รอบถ้าต้องการ context สะอาด
+วาง `02-a11y-debate.md`  
+(แยก subagent 2 รอบได้ถ้าอยาก context สะอาด)
 
-### 4) (ทางเลือก) fix P0 เล็ก ๆ
+### ขั้นที่ 4 — (ทางเลือก) แก้ P0 เล็ก ๆ
 
 ```powershell
 git checkout -b lab-06-qa-fix
-# แก้ label / contrast 1 จุด
+# แก้ label / contrast 1 จุดหลังยืนยัน
 npm test
 git commit -am "fix(a11y): Lab 06 P0 label"
 ```
 
-### 5) Commit QA artifacts
+### ขั้นที่ 5 — Commit หลักฐาน
 
 ```powershell
 git add docs/QA.md docs/screenshots/
@@ -124,21 +120,18 @@ git commit -m "docs: Lab 06 QA and screenshots"
 
 ---
 
-## ตัวอย่างผลลัพธ์ที่คาดหวัง
-
-**`docs/QA.md` (ย่อ)**
+## ตัวอย่าง QA ที่ดี
 
 ```markdown
 ## E2E Playwright
 | Step | Result |
 |------|--------|
 | Home headline | Pass — ตรง PROFILE |
-| Contact submit | Pass — 200 + success message |
+| Contact submit | Pass — success message |
 
 ## a11y Debate
 ### Advocate
 - ปุ่ม submit ไม่มี accessible name ชัด
-
 ### Pragmatist
 - แก้ label ก่อน ship; audit เต็มหลัง deploy
 
@@ -149,78 +142,31 @@ git commit -m "docs: Lab 06 QA and screenshots"
 
 ---
 
-## คำสั่งตรวจ
+## ตรวจว่าผ่านหรือยัง
 
 ```powershell
 Test-Path .\docs\QA.md
 Get-ChildItem .\docs\screenshots\
 Select-String -Path .\docs\QA.md -Pattern "## E2E","## a11y"
-npm run test:labs
 ```
 
----
-
-## เกณฑ์ผ่าน Lab
-
-- [ ] QA.md ครบ 3 หัวข้อหลัก · E2E บันทึก pass/fail ชัด
-- [ ] Screenshots ≥ 2
-- [ ] a11y debate มี Advocate + Pragmatist + ≥ 3 action items
-- [ ] ใช้ Playwright MCP จริง (ไม่ใช่แค่ `npm test` แทน E2E)
-
-## ยังไม่ผ่านถ้า…
-
-- E2E เป็น hypothetical ไม่มี step จริง
-- dev server ไม่รันระหว่างทดสอบ
-- ไม่มี prioritization P0/P1/P2
+- [ ] QA.md ครบ 3 หัวข้อ · E2E มี pass/fail จริง  
+- [ ] Screenshots ≥ 2  
+- [ ] a11y มี Advocate + Pragmatist + ≥ 3 action items  
+- [ ] ใช้ Playwright MCP จริง (ไม่แทนด้วยแค่ `npm test`)  
 
 ---
 
-## Troubleshooting Windows
+## ติดปัญหาบ่อย
 
-| อาการ | ทำอะไร |
+| อาการ | ลองทำ |
 |---|---|
-| Playwright MCP ไม่ขึ้น | `claude mcp add playwright -- npx -y @playwright/mcp@0.0.82` |
-| navigate localhost fail | ตรวจ dev server · firewall · PORT ใน `.env` |
-| screenshot ว่าง | รอ snapshot หลัง load · ลอง `browser_wait_for` |
-| MCP timeout | ลด scope ทดสอบทีละหน้า |
-| path screenshot | ใช้ `docs/screenshots/home.png` relative repo root |
+| Playwright MCP ไม่ขึ้น | เพิ่ม MCP ตาม SETUP · เปิด `claude` ใหม่ |
+| navigate localhost fail | ตรวจว่า Terminal A ยังรัน `npm run dev` · ดู PORT |
+| screenshot ว่าง | รอโหลดหน้า · ลด scope ทีละหน้า |
+| MCP timeout | เทสทีละหน้าแล้วค่อยรวมใน QA.md |
 
----
-
----
-
-## Playwright MCP 0.0.82 — สิ่งที่ควรรู้
-
-- ติดตั้งผ่าน `npx -y @playwright/mcp@0.0.82` ตาม [`SETUP.md`](../../SETUP.md)
-- MCP ควบคุมเบราว์เซอร์ผ่าน Claude — **ไม่แทน** unit test ใน `npm test`
-- ถ้า tool `browser_snapshot` ล้ม: ลด viewport · ปิด animation ใน dev ถ้ามี
-
-### โครง `docs/QA.md` เต็ม (แนะนำ)
-
-```markdown
-# QA — Personal Site
-## Environment
-- Date, Claude version, base URL
-
-## E2E Playwright
-(table steps)
-
-## a11y Debate
-### Advocate
-### Pragmatist
-
-## a11y Action items
-P0 / P1 / P2
-
-## Regressions for Lab 07
-- (เว้นว่างหรือเติมหลัง review)
-```
-
-### ไม่ใช้ Playwright MCP เพื่อ
-
-- ส่ง prompt ไป OpenCode
-- แก้ไฟล์โดยไม่บันทึกใน QA.md
-- ยืนยัน production (ทำใน Lab 08)
+**ไม่ใช้ Playwright MCP เพื่อ:** ส่งงานไป OpenCode · ยืนยัน production (นั้นคือ Lab 08)
 
 ---
 

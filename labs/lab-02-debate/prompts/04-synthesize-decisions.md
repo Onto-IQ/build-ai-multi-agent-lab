@@ -1,6 +1,7 @@
 # Prompt — สรุป Debate → DECISIONS (Lab 02)
 
-รันหลัง subagent ครบ 3 ตัว (หรือหลัง Agent Teams)
+ใช้หลังมีความเห็นครบ 3 บทบาทใน `docs/DEBATE.md`  
+คัดลอกเฉพาะบล็อกด้านล่าง
 
 ```text
 อ่าน docs/PROFILE.md และ docs/DEBATE.md ทั้งไฟล์
@@ -8,7 +9,7 @@
 สร้าง docs/DECISIONS.md ภาษาไทย โครงสร้าง:
 # Decisions — Personal Site
 
-## สรุปการโต้วาถี
+## สรุปการโต้วาที
 (3–5 ประโยค)
 
 ## การตัดสินใจ (ตาราง)

@@ -1,56 +1,43 @@
-# Lab 02 — Multi-Agent Debate (Subagents / Agent Teams)
+# Lab 02 — ให้หลายมุมโต้กัน แล้วตัดสินใจเอง
 
-**เวลาเป้าหมาย:** 75–90 นาที  
-**เครื่องมือ:** Claude Code **2.1.278+** · Subagents (หลัก) · Agent Teams (ทางเลือก)  
-**Issue อ้างอิง:** `[Lab 02] Brand debate`
+**ใช้เวลาประมาณ:** 75–90 นาที  
+**เครื่องมือ:** Claude Code (แนะนำ 2.1.278+) · Subagents (หลัก) · Agent Teams (ทางเลือก)  
+**ผลลัพธ์หลัก:** `docs/DEBATE.md` + `docs/DECISIONS.md`
 
-## เป้าหมาย
-
-ฝึก **หลายตัวตน agent** โต้วาถีจาก `docs/PROFILE.md` แล้วสรุปเป็น **`docs/DEBATE.md`** และ **`docs/DECISIONS.md`**  
-**จุดที่ควรรู้สึกว้าว:** มุม Brand / UX / Devil's Advocate ขัดกันจริง — แล้วคุณตัดสินใจเป็น D1–Dn
+> Lab นี้ยัง**ไม่**แต่งหน้าเว็บ — ฝึก “หลายเสียง agent” แล้ว**คุณ**เป็นคนตัดสินใจ
 
 ---
 
-## ได้รับมาจาก Lab ก่อน
+## คุณจะได้อะไรจาก Lab นี้
 
-- [`Lab 01`](../lab-01-interview/README.md): มี `docs/PROFILE.md` + Brainstorm
-- SETUP: `.env` มี `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` (ถ้าจะลอง Teams)
+1. **ประสบการณ์ multi-agent จริง** — Brand / UX / Devil ไม่ใช่แค่สลับหมวกในแชทเดียว  
+2. **เอกสารตัดสินใจ** ที่ Lab 03–05 จะอ้างเป็น backlog และขอบเขตงาน  
+3. ความรู้สึกว่า “มุมขัดกันได้” แล้วเลือกได้อย่างมีเหตุผล
 
-## ได้เพิ่มใน Lab นี้
+**เสาที่ฝึก:** **Sub-Agent (เสา 2)** — spawn ใช้แล้วทิ้ง
 
-- **`docs/DEBATE.md`** — บันทึกความเห็น 3 บทบาท
-- **`docs/DECISIONS.md`** — ตารางการตัดสินใจ ≥ 6 แถว
-- (ทางเลือก) ปรับ PROFILE เล็กน้อยตาม debate
+**ความรู้ที่ควรติดตัว**
 
----
-
-## ผลลัพธ์รูปธรรม (ไฟล์ที่ต้องมี)
-
-| ไฟล์ | เนื้อหาขั้นต่ำ |
-|---|---|
-| `docs/DEBATE.md` | หัวข้อ `## Brand Strategist`, `## UX Critic`, `## Devil's Advocate` |
-| `docs/DECISIONS.md` | ตาราง D1–D6+, Out of scope, เกณฑ์พร้อม Lab 04 |
-
-**ต้องเห็นด้วยตา:** อ่าน DEBATE แล้วเห็นความขัดแย้งอย่างน้อย 2 จุด · DECISIONS มีคำตัดสินชัด (ไม่ใช่ "แล้วแต่")
-
-**ยังไม่ผ่านถ้า…**
-
-- DEBATE เป็นคนเดียวเขียนคลอ (ไม่มี 3 มุม)
-- ไม่มี DECISIONS หรือไม่มี ID D1–D6
-- แก้โค้ด Astro แทนเอกสาร
+- ทำไมต้อง**แยกบทบาท/แยกเซสชัน** — context สะอาด ลดการประนีประนอมเองของโมเดลเดียว  
+- **Sub-Agent ≠ agent ถาวร:** Brand/UX/Devil จบรอบแล้วทิ้ง · สิ่งที่ต้องจำต่อมีแค่ใน `docs/DEBATE.md` / `DECISIONS.md`  
+- ต่างจาก `.claude/agents/frontend.md` / `.opencode/agents/backend.md` (Lab 00) ที่ใช้ซ้ำทั้งคอร์ส  
+- ห้ามเอา debate persona ไปปนกับเซสชัน implement (Lab 04/05)  
+- Subagents vs Agent Teams — Teams พังได้บน Windows; Subagents ผ่าน Lab ได้เท่ากัน  
+- ความต่างของ **DEBATE (ความเห็น)** กับ **DECISIONS (คำตัดสิน)**
 
 ---
 
-## Preflight
+## ก่อนเริ่ม (ตรวจเร็ว)
+
+ต้องมี [`Lab 01`](../lab-01-interview/README.md) เสร็จ — มี `docs/PROFILE.md`
 
 ```powershell
-# repo ของคุณ
+cd <โฟลเดอร์-repo-ของคุณ>
 Test-Path .\docs\PROFILE.md
-Get-Content .\docs\PROFILE.md | Select-Object -First 15
 claude --version
 ```
 
-เตรียมไฟล์เปล่า:
+เตรียมไฟล์ว่างสำหรับบันทึก:
 
 ```powershell
 @'
@@ -61,92 +48,116 @@ claude --version
 '@ | Set-Content -Encoding utf8 .\docs\DEBATE.md
 ```
 
-ตรวจ Agent Teams (ไม่บังคับ):
-
-```powershell
-Select-String -Path .\.env -Pattern "CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS"
-```
+ถ้าจะลอง Agent Teams (ไม่บังคับ): ใน `.env` ควรมี `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` ตาม [`SETUP.md`](../../SETUP.md)
 
 ---
 
-## เลือกทาง A — TUI vs B — CLI
+## สิ่งที่ต้องมีเมื่อจบ Lab
 
-| ทาง | เหมาะกับ | หมายเหตุ |
+| สิ่งที่ต้องมี | อยู่ที่ | ผ่านเมื่อ |
 |---|---|---|
-| **A — TUI** | Subagents แยกเซสชัน / `@` | แนะนำ — context สะอาด |
-| **B — CLI** | `claude -p` ทีละบทบาท | ย้ำบทบาททุกรอบ |
+| ความเห็น 3 มุม | `docs/DEBATE.md` | มี `## Brand Strategist`, `## UX Critic`, `## Devil's Advocate` |
+| การตัดสินใจ | `docs/DECISIONS.md` | ตาราง D1–D6+, Out of scope, เกณฑ์พร้อม Lab 04 |
+| (แนะนำ) | Git commit | `docs: debate and decisions from Lab 02` |
 
-Prompts:
-
-- [`prompts/01-brand-strategist.md`](prompts/01-brand-strategist.md)
-- [`prompts/02-ux-critic.md`](prompts/02-ux-critic.md)
-- [`prompts/03-devils-advocate.md`](prompts/03-devils-advocate.md)
-- [`prompts/04-synthesize-decisions.md`](prompts/04-synthesize-decisions.md)
-- [`prompts/05-agent-teams-fallback.md`](prompts/05-agent-teams-fallback.md)
+**ยังไม่ผ่านถ้า…** DEBATE เป็นคนเดียวเขียนคลอ · ไม่มี D1–D6 · ไปแก้ไฟล์ `.astro`
 
 ---
 
-## ขั้นตอน
+## เลือกวิธีทำ
 
-### ทาง A — TUI (Subagents หลัก)
+| ทาง | เหมาะกับใคร | สั้น ๆ |
+|---|---|---|
+| **A — Subagents / เซสชันแยก (แนะนำ)** | คนที่อยากเห็นมุมขัดกันชัด | เปิด `claude` ใหม่ (หรือ `@`) ทีละบทบาท |
+| **B — CLI** | คนที่คุ้น `claude -p` | ส่ง prompt ทีละไฟล์ |
+| **C — Agent Teams (ทางเลือก)** | อยากลอง Teams | ใช้ prompt 05 — ถ้าไม่เสถียรใน 15 นาที กลับ A |
 
-#### 1) Brand Strategist
+ไฟล์ prompt (คัดลอกเฉพาะในกรอบ \`\`\`text):
 
-เปิด `claude` ใหม่ (หรือ subagent) → วาง [`01-brand-strategist.md`](prompts/01-brand-strategist.md)
+- [`01-brand-strategist.md`](prompts/01-brand-strategist.md)
+- [`02-ux-critic.md`](prompts/02-ux-critic.md)
+- [`03-devils-advocate.md`](prompts/03-devils-advocate.md)
+- [`04-synthesize-decisions.md`](prompts/04-synthesize-decisions.md)
+- [`05-agent-teams-fallback.md`](prompts/05-agent-teams-fallback.md) — ทางเลือก
 
-#### 2) UX Critic
+---
 
-เซสชันใหม่หรือ subagent ใหม่ → [`02-ux-critic.md`](prompts/02-ux-critic.md)
+## ทาง A — ทีละขั้น (แนะนำในห้อง)
 
-#### 3) Devil's Advocate
+### ขั้นที่ 1 — Brand Strategist
 
-→ [`03-devils-advocate.md`](prompts/03-devils-advocate.md)
+1. เปิด `claude` ที่โฟลเดอร์ repo  
+2. (แนะนำ) พิมพ์ `@` แล้วเลือก/สร้าง subagent **หรือ** เปิดเซสชันใหม่  
+3. วาง prompt จาก `01-brand-strategist.md`  
+4. เปิด `docs/DEBATE.md` ดูว่ามีหัวข้อ Brand แล้ว
 
-#### 4) สังเคราะห์
+### ขั้นที่ 2 — UX Critic
 
-เซสชัน facilitator (คุณหรือ Claude หลัก) → [`04-synthesize-decisions.md`](prompts/04-synthesize-decisions.md)
+เซสชัน/subagent **ใหม่** → วาง `02-ux-critic.md` → ตรวจหัวข้อ UX ใน DEBATE
 
-#### 5) (ทางเลือก) Agent Teams
+### ขั้นที่ 3 — Devil's Advocate
 
-ถ้า Teams พร้อม → [`05-agent-teams-fallback.md`](prompts/05-agent-teams-fallback.md)  
-**ถ้าไม่เสถียรภายใน 15 นาที** → ใช้ Subagents อย่างเดียว
+เซสชัน/subagent **ใหม่** → วาง `03-devils-advocate.md` → ตรวจหัวข้อ Devil
 
-#### 6) Commit
+**ทำไมแยกเซสชัน:** ถ้าใช้แชทเดียวสลับหมวก โมเดลมัก “กลมกลืน” จนความขัดแย้งหาย  
+**ใช้แล้วทิ้ง:** หลังจบ 3 มุม ไม่ต้องเก็บเซสชัน Brand ไว้ — เปิดใหม่สำหรับ synthesize ได้ · ของมีค่าอยู่ในไฟล์
+
+### ขั้นที่ 4 — สังเคราะห์เป็น DECISIONS
+
+เซสชัน facilitator (คุณหรือ Claude หลัก) → วาง `04-synthesize-decisions.md`  
+อ่านตาราง D1–D6 แล้ว**แก้คำตัดสินเอง**ถ้ายังคลุมเครือ
+
+### ขั้นที่ 5 — (ทางเลือก) Agent Teams
+
+ถ้า Teams พร้อม: เปิดตาม SETUP แล้ววาง `05-agent-teams-fallback.md`  
+**ถ้าไม่เสถียรภายใน 15 นาที** → ใช้ Subagents อย่างเดียว ยังผ่าน Lab  
+**อย่าบังคับ tmux บน Windows**
+
+### ขั้นที่ 6 — Commit
 
 ```powershell
 git add docs/DEBATE.md docs/DECISIONS.md docs/PROFILE.md
+git status
 git commit -m "docs: debate and decisions from Lab 02"
 ```
 
 ---
 
-### ทาง B — CLI
-
-รันทีละบทบาท (ย้ำ READ/WRITE path ใน prompt):
+## ทาง B — CLI
 
 ```powershell
-$role = Get-Content -Raw .\path\to\labs\lab-02-debate\prompts\01-brand-strategist.md
-$role | claude -p --permission-mode acceptEdits --output-format text
+cd <โฟลเดอร์-repo-ของคุณ>
+Get-Content -Raw .\labs\lab-02-debate\prompts\01-brand-strategist.md |
+  claude -p --permission-mode acceptEdits --output-format text
 # ทำซ้ำ 02, 03 แล้ว 04
 ```
 
 ---
 
-## ตัวอย่างผลลัพธ์ที่คาดหวัง
-
-**`docs/DECISIONS.md` (ย่อ)**
+## ตัวอย่าง DECISIONS ที่ “ตัดสินจริง”
 
 ```markdown
 | D1 | headline | ใช้ headline สั้น + tagline ยาว | อ่านบนมือถือ | Brand + UX |
-| D2 | guestbook | เปิด v1 แต่มี rate limit ฝั่ง backend | spam | Devil |
+| D2 | guestbook | เปิด v1 แต่มี rate limit | spam | Devil |
 | D3 | สีหลัก | #2563eb | สอดคล้อง tone | Brand |
 ```
 
-**`docs/DEBATE.md`:** แต่ละหัวข้อ ≥ 1 ย่อหน้ + bullet ข้อเสนอ
+แต่ละแถวต้องตอบได้ว่า “เลือกอะไร / ทำไม / มุมไหนผลัก”
 
 ---
 
-## คำสั่งตรวจ
+## PROFILE เชื่อมกับมุมไหน
+
+| หัวข้อ PROFILE | Brand | UX | Devil |
+|---|---|---|---|
+| headline | positioning | scan มือถือ | overclaim |
+| interests | ความเชี่ยวชาญ | จำนวนรายการ | ข้อมูลเกินจำเป็น |
+| contact | trust | ฟอร์มสั้น | spam / privacy |
+| Brainstorm Must | ลด scope | ลด cognitive load | ตัด feature เสี่ยง |
+
+---
+
+## ตรวจว่าผ่านหรือยัง
 
 ```powershell
 Test-Path .\docs\DEBATE.md, .\docs\DECISIONS.md
@@ -155,69 +166,27 @@ Select-String -Path .\docs\DECISIONS.md -Pattern "\| D[1-6] "
 npm test
 ```
 
----
-
-## เกณฑ์ผ่าน Lab
-
-- [ ] DEBATE ครบ 3 หัวข้อ · มีความขัดแย้งที่บันทึกจริง
-- [ ] DECISIONS ≥ 6 แถว · มี Out of scope · มีเกณฑ์พร้อม Lab 04
-- [ ] PROFILE ยังสอดคล้อง (หรืออธิบายการแก้ใน DECISIONS)
-- [ ] ใช้ Subagents หรือ Teams — **ไม่** single-chat สลับหมวกโดยไม่แยกรอบ
-
-## ยังไม่ผ่านถ้า…
-
-- รวม debate เป็นย่อหน้าเดียวไม่มี 3 มุม
-- DECISIONS เป็น copy จาก PROFILE ไม่มีการตัดสิน
-- ใช้ tmux บังคับบน Windows แล้วติดค้างจนข้าม deliverable
+- [ ] DEBATE ครบ 3 หัวข้อ · มีความขัดแย้งที่บันทึกจริง  
+- [ ] DECISIONS ≥ 6 แถว · Out of scope · เกณฑ์พร้อม Lab 04  
+- [ ] ใช้ Subagents หรือ Teams — ไม่ใช่แชทเดียวสลับหมวกโดยไม่แยกรอบ  
+- [ ] (แนะนำ) มี git commit  
 
 ---
 
-## Troubleshooting Windows
+## ติดปัญหาบ่อย (Windows)
 
-| อาการ | ทำอะไร |
+| อาการ | ลองทำ |
 |---|---|
-| Agent Teams ไม่ขึ้น | ใช้ Subagents 3 รอบ — เกณฑ์ผ่านเท่ากัน |
-| Subagent ลืม append DEBATE | ย้ำ "append under ## ..." · เปิดไฟล์ดูก่อนปิดเซสชัน |
+| Agent Teams ไม่ขึ้น | ใช้ Subagents 3 รอบ — ผ่านเท่ากัน |
+| Subagent ลืม append DEBATE | ย้ำ “append under ## …” · เปิดไฟล์ดูก่อนปิด |
 | context ปนกัน | เปิด `claude` ใหม่ต่อบทบาท |
-| CLI เขียนทับไฟล์ | ใช้ `--permission-mode acceptEdits` + backup `DEBATE.md` |
-| ภาษาไม่สม่ำเสมอ | บอก "ภาษาไทยทั้งไฟล์" ใน facilitator prompt |
+| CLI เขียนทับไฟล์ | backup `DEBATE.md` ก่อนรัน |
 
----
+### คำถามทบทวน
 
----
-
-## บทบาทในสายงาน V4
-
-Lab 02 เป็น **จุดแรกที่ multi-agent มองเห็นเป็นคนละเสียง** — ก่อน Lab 03 จะแปลง decisions เป็น issue  
-ถ้าคุณใช้ Agent Teams สำเร็จ ให้จดใน DECISIONS ว่าใช้ Teams หรือ Subagents (วิทยากรใช้สถิติปรับห้องเรียน)
-
-### เชื่อมกับ `docs/PROFILE.md`
-
-| หัวข้อ PROFILE | Brand มักพูดถึง | UX มักพูดถึง | Devil มักพูดถึง |
-|---|---|---|---|
-| headline | positioning | scan บนมือถือ | overclaim |
-| interests | ความเชี่ยวชาญ | จำนวนรายการ | ข้อมูลเกินจำเป็น |
-| contact | trust | ฟอร์มสั้น | spam / privacy |
-| Brainstorm Must | ลด scope | ลด cognitive load | ตัด feature เสี่ยง |
-
-### Checklist ก่อนปิด Lab
-
-```powershell
-(Get-Content .\docs\DEBATE.md | Measure-Object -Line).Lines -gt 30
-(Get-Content .\docs\DECISIONS.md | Select-String "\| D").Count -ge 6
-git diff docs/PROFILE.md   # ถ้ามี ต้องอธิบายใน DECISIONS
-```
-
-### คำถามทบทวน (ตอบในใจหรือ learning note)
-
-1. มุมไหนขัดกันมากที่สุด — คุณเลือกใครชนะใน D-id ไหน?
-2. ถ้าใช้ Subagents 3 เซสชัน ต่างจากแชทเดียวสลับหมวกอย่างไร?
-3. Out of scope v1 มีอะไรที่เสียดาย — เก็บไว้ issue ภายหลังได้ไหม?
-
-### อ้างอิง SETUP
-
-- Agent Teams: [`SETUP.md`](../../SETUP.md) ข้อ 6
-- ไม่บังคับ tmux บน Windows
+1. มุมไหนขัดกันมากที่สุด — คุณเลือกใครใน D-id ไหน?  
+2. Subagents 3 เซสชันต่างจากแชทเดียวสลับหมวกอย่างไร?  
+3. Out of scope มีอะไรเสียดาย — เก็บเป็น issue ภายหลังได้ไหม?
 
 ---
 

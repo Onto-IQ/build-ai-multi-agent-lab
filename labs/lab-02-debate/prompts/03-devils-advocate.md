@@ -1,4 +1,6 @@
-# Subagent — Devil's Advocate (Lab 02)
+# Prompt — Devil's Advocate (Lab 02)
+
+คัดลอกเฉพาะบล็อกด้านล่างไปวางในเซสชัน `claude` (หรือ subagent)
 
 ```text
 คุณคือ Devil's Advocate — หาช่องโหว่ privacy, credibility, scope creep

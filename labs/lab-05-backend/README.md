@@ -1,217 +1,201 @@
-# Lab 05 — Backend (OpenCode · Guestbook / SQLite)
+# Lab 05 — ทำให้ Guestbook ทำงานจริง (OpenCode)
 
-**เวลาเป้าหมาย:** 90–120 นาที  
+**ใช้เวลาประมาณ:** 90–120 นาที  
 **เครื่องมือ:** OpenCode **2.0.6+** · oh-my-openagent **4.19.4** (ทางเลือก)  
-**Issue:** `[Lab 05] Guestbook API`  
-**Ownership:** Backend / OpenCode
+**Ownership:** Backend / OpenCode  
+**ผลลัพธ์หลัก:** `npm run test:labs` เขียว + PR ฝั่ง Backend
 
-## เป้าหมาย
-
-implement **`insertContact` / guestbook** กับ SQLite ตาม **course stubs** จน **`npm run test:labs` เขียว**  
-แล้วเปิด **PR** ฝั่ง Backend  
-**จุดที่ควรรู้สึกว้าว:** test:labs ที่เคยแดงตั้งแต่ SETUP กลายเป็นเขียวเพราะ agent ทำถูก contract
+> ตั้งแต่ SETUP ชุด `test:labs` มักแดง — Lab นี้คือตอนที่มันควรเขียวเพราะ API ถูกสัญญา
 
 ---
 
-## ได้รับมาจาก Lab ก่อน
+## คุณจะได้อะไรจาก Lab นี้
 
-- Lab 04: UI + ฟอร์ม contact (หรือ placeholder)
-- `docs/DECISIONS.md` เรื่อง guestbook / rate limit
-- SETUP: `better-sqlite3` build ผ่าน
+1. ใช้ **OpenCode** implement backend ตาม course stubs  
+2. เห็น **contract ทดสอบ** บังคับงาน agent ไม่ให้เดาสุ่ม  
+3. PR ที่แยก ownership จาก Frontend (Lab 04)
 
-## ได้เพิ่มใน Lab นี้
+**ความรู้ที่ควรติดตัว**
 
-- API/handler บันทึก guestbook
-- **`npm run test:labs` green**
-- PR Backend (แยกหรือต่อจาก FE ตามทีม)
+- ทำไมคอร์สแยก CLI คนละฝั่ง — ลดจุดบอดและฝึก handoff  
+- อย่าแก้ไฟล์ test ให้ผ่านโดยไม่ implement  
+- ความปลอดภัยขั้นต่ำ: validate input · ไม่ leak stack/SQL · ไม่เก็บ secret ใน DB · skill `public-site-safe`
 
----
+> **ทวน Persistent Memory (OpenCode):** ถ้าต่องาน guestbook จากเมื่อวาน — **resume session เดิม** ของ harness  
+> เซสชันใหม่ยังโหลด `AGENTS.md` / `backend` agent แต่ข้อจำปากเปล่าต้องอยู่ใน `docs/` หรือโค้ด · อย่าติด plugin memory แข่ง
 
-## ผลลัพธ์รูปธรรม (ไฟล์ที่ต้องมี)
-
-| หลักฐาน | รายละเอียด |
-|---|---|
-| Implementation | ไฟล์ตาม template (`src/` server routes, `course/` adapters) |
-| Tests | `npm run test:labs` exit 0 |
-| PR | repo ผู้เรียน · อธิบาย security input validation |
-
-**ยังไม่ผ่านถ้า…**
-
-- test:labs ยังแดง
-- hardcode secret / เปิด CORS กว้างโดยไม่จำเป็น
-- ใช้ Claude แก้ backend เป็นหลักโดยไม่มี PR OpenCode (เกณฑ์ ownership)
+> **ทำไมต้องประสาน (เสา 3):** คุณรับไม้ต่อจาก Lab 04 ผ่าน **handoff + STATUS + issue + DECISIONS** — ไม่ได้ถือ context UI ทั้งก้อน  
+> หลัง Lab นี้มี **Lab 05b Swarm** ถ้ายังเขียวไม่ครบหรืออยากฝึกหลายตัวภายใต้เพดาน 20 turns  
+> **Commit ก่อนสลับ** กลับ Claude (หรือเข้า swarm) — single-writer บน STATUS/OPEN_LOOPS
 
 ---
 
-## Preflight
+## ก่อนเริ่ม
+
+แนะนำมี UI/ฟอร์มจาก Lab 04 · มี decisions เรื่อง guestbook · อ่าน handoff จาก Lab 04  
+oh-my-openagent ควรติดตั้งแล้วใน [`Lab 00`](../lab-00-project-init/README.md) (project `opencode.json`)
 
 ```powershell
+cd <โฟลเดอร์-repo-ของคุณ>
 opencode --version
-npm run test:labs   # คาดว่าแดง — จด error แรก
+Test-Path .\opencode.json
+Test-Path .\docs\handoffs\04-claude-to-opencode.md, .\docs\STATUS.md, .\docs\OPEN_LOOPS.md
+Get-Content .\docs\handoffs\04-claude-to-opencode.md -Head 40
+Get-Content .\docs\STATUS.md -Head 30
 npm test
-Test-Path .\course\
-```
-
-oh-my-openagent (ไม่บังคับ):
-
-```powershell
-bunx oh-my-openagent@4.19.4 install --no-tui --platform=opencode
-```
-
-Fallback: native `@` ใน OpenCode
-
----
-
-## เลือกทาง A — TUI vs B — CLI
-
-| ทาง | เหมาะกับ |
-|---|---|
-| **A — TUI `opencode`** | แก้หลายไฟล์ · รัน test วน |
-| **B — `opencode run`** | one-shot งานย่อย |
-
-Prompt: [`prompts/01-backend-guestbook.md`](prompts/01-backend-guestbook.md)
-
----
-
-## ขั้นตอน
-
-### 1) Branch
-
-```powershell
+npm run test:labs   # คาดว่าแดง — จด error แรกไว้
 git checkout main
 git pull
 git checkout -b lab-05-backend
 ```
 
-### 2) เปิด OpenCode
+ถ้ายังไม่มี handoff จาก Lab 04 — ให้สร้างจาก [`docs/handoffs/TEMPLATE.md`](../../docs/handoffs/TEMPLATE.md) ก่อน (อย่าเริ่มจากแชทเปล่า)
+
+ถ้า oh-my ยังไม่พร้อม: ใช้ native `@` ใน OpenCode (fallback จาก Lab 00) — อย่าใช้ `bunx oh-my-openagent install` เป็นทางหลัก (user-global)
+
+---
+
+## สิ่งที่ต้องมีเมื่อจบ Lab
+
+| สิ่งที่ต้องมี | ผ่านเมื่อ |
+|---|---|
+| Implementation | guestbook/contact บันทึก SQLite ตาม template |
+| Tests | `npm run test:labs` exit 0 |
+| PR | repo คุณ · บอกวิธีรัน test + โน้ต security |
+| Ownership | ใช้ OpenCode เป็นหลัก |
+| Hot state | อัปเดต STATUS/OPEN_LOOPS หลังเขียว · commit ก่อนสลับ harness |
+
+**ยังไม่ผ่านถ้า…** test ยังแดง · hardcode secret · ให้ Claude ทำ backend ทั้งก้อนโดยไม่มีงาน OpenCode · แก้ test ให้ผ่านปลอม · เริ่มโดยไม่ได้อ่าน handoff/STATUS
+
+---
+
+## เลือกวิธีทำ
+
+| ทาง | เหมาะกับใคร |
+|---|---|
+| **A — TUI `opencode` (แนะนำ)** | แก้หลายไฟล์ · วน test |
+| **B — `opencode run`** | งานย่อย one-shot |
+
+Prompt: [`01-backend-guestbook.md`](prompts/01-backend-guestbook.md)
+
+---
+
+## ทาง A — ทีละขั้น
+
+### ขั้นที่ 1 — เปิด OpenCode ที่ root repo
 
 ```powershell
 opencode
 ```
 
-วาง [`01-backend-guestbook.md`](prompts/01-backend-guestbook.md)
+วาง prompt จาก `01-backend-guestbook.md`
 
-### 3) วน test
+### ขั้นที่ 2 — วนจน test เขียว
+
+ใน terminal อีกอัน (หรือใน TUI ถ้าสั่งรันได้):
 
 ```powershell
 npm run test:labs
 npm test
-npm run dev
-# ทดสอบ POST ฟอร์ม manual หรือ curl
 ```
 
-### 4) PR
+อ่าน error แรก → ให้ OpenCode แก้ → รันซ้ำ จนเขียว
+
+### ขั้นที่ 3 — ลองฟอร์มบนเครื่อง
+
+```powershell
+npm run dev
+```
+
+ส่งข้อความ demo ที่หน้า Contact/Guestbook  
+หรือ:
+
+```powershell
+curl.exe -X POST "http://localhost:4321/api/guestbook" `
+  -H "Content-Type: application/json" `
+  -d "{\"name\":\"t\",\"email\":\"t@ex.com\",\"message\":\"hi\"}"
+```
+
+(ปรับ path ตาม template จริง)
+
+### ขั้นที่ 4 — เปิด PR
 
 ```powershell
 git add -A
 git status
 git commit -m "feat(api): guestbook SQLite Lab 05"
 git push -u origin lab-05-backend
-gh pr create --title "[Lab 05] Guestbook API" --body "## Summary
+gh pr create --title "[Lab 05] Guestbook API" --body "$( @'
+## Summary
 - insertContact / guestbook per course tests
+- Ownership: Backend / OpenCode
 
 ## Test
 npm run test:labs
 npm test
 
 ## Security
-- validation, no stack trace leak"
+- validation, no stack trace leak
+'@ )"
+```
+
+### ขั้นที่ 5 — อัปเดต Hot state + commit ก่อนสลับ
+
+```powershell
+# อัปเดต STATUS: Done += Lab 05 test:labs · Next = 05b หรือ 06
+# อัปเดต OPEN_LOOPS: ปิดแถว guestbook API · เปิด follow-up ถ้ามี
+git add docs/STATUS.md docs/OPEN_LOOPS.md
+# ถ้าส่งต่อ Lab 07 หรือ swarm — คัดลอก handoff จาก TEMPLATE
+git status
+git commit -m "docs: Lab 05 status after test:labs green"
+git push
 ```
 
 ---
 
-## ตัวอย่างผลลัพธ์ที่คาดหวัง
+## ทำความเข้าใจ `test:labs`
 
-```text
-> npm run test:labs
- PASS  course/guestbook.test.ts
- ...
-Tests: N passed
-```
+Template วาง **course stubs** ไว้ทดสอบสัญญา guestbook/contact  
+แดงตั้งแต่ SETUP เป็นเรื่องปกติ — เขียวหลัง Lab 05 แปลว่าทำถูก contract
 
-ฟอร์มบน Contact ส่งแล้วได้ข้อความ success · มี row ใน SQLite (ตาม template)
+อย่าแก้ไฟล์ test เพื่อ “ลดงาน” — วิทยากรดู diff
+
+### oh-my vs native `@`
+
+| วิธี | เมื่อใช้ |
+|---|---|
+| oh-my จาก Lab 00 (`opencode.json`) | ค่าหลักของคอร์ส |
+| native `@` | Lab 00 / plugin พัง — ยังผ่าน Lab 05 ได้ |
 
 ---
 
-## คำสั่งตรวจ
+## ตรวจว่าผ่านหรือยัง
 
 ```powershell
 npm run test:labs
 npm test
 npm run build
-gh pr checks   # ถ้ามี CI
 ```
 
----
+- [ ] `test:labs` เขียวทั้งชุด  
+- [ ] PR Backend · บอกวิธีรัน test  
+- [ ] ไม่ leak `.env` · validate input  
+- [ ] ใช้ OpenCode เป็นหลัก  
+- [ ] อ่าน handoff Lab 04 แล้ว · อัปเดต STATUS/OPEN_LOOPS · commit ก่อนสลับ  
 
-## เกณฑ์ผ่าน Lab
-
-- [ ] `npm run test:labs` เขียวทั้งชุดที่ template กำหนด
-- [ ] PR Backend · body บอกวิธีรัน test
-- [ ] ไม่ leak `.env` · validate input
-- [ ] ใช้ OpenCode เป็นหลัก (oh-my หรือ native @)
-
-## ยังไม่ผ่านถ้า…
-
-- skip test ด้วย `.only` / ปิด test file
-- แก้ test ให้ผ่านโดยไม่ implement จริง
-- better-sqlite3 ไม่ rebuild แล้วยอมแดง
+ถ้า conflict กับ branch Lab 04: rebase บน main · ให้ OpenCode ช่วยเฉพาะไฟล์ API · รัน `test:labs` อีกครั้งก่อน Lab 06
 
 ---
 
-## Troubleshooting Windows
+## ติดปัญหาบ่อย
 
-| อาการ | ทำอะไร |
+| อาการ | ลองทำ |
 |---|---|
 | better-sqlite3 fail | `npm approve-scripts better-sqlite3` · VS Build Tools |
-| test:labs path ผิด | รันจาก root repo · ดู `package.json` scripts |
-| opencode ไม่เห็น repo | `cd` root · เปิดใหม่ |
-| oh-my ติด >15 นาที | ใช้ native @ · ยังผ่านได้ |
-| port ชนกับ dev | ใช้ PORT ใน `.env` |
+| opencode ไม่เห็น repo | `cd` ไป root ที่มี `package.json` · เปิดใหม่ |
+| oh-my ติดนาน | ใช้ native `@` |
+| พอร์ตชน | เปลี่ยน `PORT` ใน `.env` |
 
 ---
 
----
-
-## ทำความเข้าใจ `npm run test:labs`
-
-Template วาง **course stubs** ไว้ทดสอบสัญญา guestbook/contact — จนกว่า Lab 05 จะแดงเป็นเรื่องปกติจาก SETUP
-
-```powershell
-npm run test:labs 2>&1 | Select-Object -First 40
-```
-
-เมื่อเขียวแล้ว อย่าแก้ test เพื่อ “ลดงาน” — วิทยากรตรวจ diff test file
-
-### oh-my-openagent vs native `@`
-
-| วิธี | เมื่อใช้ |
-|---|---|
-| oh-my 4.19.4 | ต้องการ subagent หลายตัวใน OpenCode |
-| native `@` | ติดตั้ง plugin ไม่สำเร็จภายใน 15 นาที |
-
-### curl ทดสอบ local (ปรับ path)
-
-```powershell
-curl.exe -X POST "http://localhost:4321/api/guestbook" -H "Content-Type: application/json" -d "{\"name\":\"t\",\"email\":\"t@ex.com\",\"message\":\"hi\"}"
-```
-
-### ความปลอดภัยขั้นต่ำ
-
-- Validate ความยาว message · email format พื้นฐาน
-- ไม่ echo SQL error ให้ client
-- ไม่เก็บ secret ใน SQLite
-
-### Merge กับ Frontend PR
-
-ถ้ามี conflict กับ `lab-04-frontend`: rebase บน main · ให้ OpenCode ช่วย resolve เฉพาะไฟล์ API  
-หลัง merge ทั้งคู่ รัน `npm run test:labs` บน main อีกครั้งก่อน Lab 06
-
-### Pin เวอร์ชัน (ห้องเรียน)
-
-- OpenCode **2.0.6+**
-- oh-my-openagent **4.19.4** (optional)
-
----
-
-**Lab ถัดไป:** [`lab-06-playwright`](../lab-06-playwright/README.md)
+**Lab ถัดไป:** [`lab-05b-swarm-to-green`](../lab-05b-swarm-to-green/README.md) — แล้วค่อย [`lab-06-playwright`](../lab-06-playwright/README.md)
