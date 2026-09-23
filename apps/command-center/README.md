@@ -1,3 +1,5 @@
+<!-- V3 optional watch only — never a pass gate -->
+
 # Command Center (Thin Watch Layer)
 
 จอภาพรวมและมอนิเตอร์ข้ามเครื่องมือ (**ไม่ใช่ตัวสินค้า** และไม่ทำหน้าที่แทน Agent View แท้)  
@@ -51,3 +53,4 @@ npm run dev
 - **Dual Screen Watching:**
   - **จอใกล้ (In-Depth):** ให้ใช้ `claude agents` หรือ OpenCode TUI ในการอ่านแชทจริงและดู Transcript
   - **จอรวม (Big Picture):** ให้ใช้ Command Center ดูจังหวะการ Dispatches ข้ามเครื่องมือ และตรวจสอบ Checklist ร่วม
+
