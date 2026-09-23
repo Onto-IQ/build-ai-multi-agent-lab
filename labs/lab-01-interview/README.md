@@ -2,7 +2,7 @@
 
 **เวลาเป้าหมาย:** 60–90 นาที  
 **เครื่องมือ:** Claude Code **2.1.278+** · plugin **superpowers** (brainstorming)  
-**สินค้า:** [Onto-IQ/course-personal-site](https://github.com/Onto-IQ/course-personal-site) (repo ของคุณ)  
+**สินค้า:** [Onto-IQ/build-ai-multi-agent-lab](https://github.com/Onto-IQ/build-ai-multi-agent-lab) (repo ของคุณ)  
 **Issue อ้างอิง:** `[Lab 01] Profile interview` (ถ้ามีใน repo หลัง `create-course-issues`)
 
 ## เป้าหมาย
@@ -15,10 +15,10 @@
 
 ## ได้รับมาจาก Lab ก่อน
 
-- ทำ [`SETUP.md`](../../SETUP.md) ครบ: clone template, `npm install`, `.env`, `create-course-issues`
-- Repo สินค้ารัน `npm run dev` ที่ http://localhost:4321 ได้
+- ทำ [`SETUP.md`](../../SETUP.md) ครบ: Use this template แล้ว clone, `npm install`, `.env`, `create-course-issues`
+- repo ของคุณรัน `npm run dev` ที่ http://localhost:4321 ได้
 - ติดตั้ง superpowers: `/plugin install superpowers@claude-plugins-official`
-- เปิด workspace คู่: **repo สินค้า** + **lab repo** (branch `v4`)
+- ทำงานที่ root ของ repo นี้ (มี package.json และ labs/)
 
 ## ได้เพิ่มใน Lab นี้
 
@@ -51,7 +51,7 @@
 
 ## Preflight
 
-รันใน **root repo สินค้า** (โฟลเดอร์ที่มี `package.json` — ไม่ใช่แค่ `build-ai-multi-agent-lab/labs/`)
+รันใน **root repo ของคุณ** (โฟลเดอร์ที่มี `package.json` — ไม่ใช่แค่ `build-ai-multi-agent-lab/labs/`)
 
 ```powershell
 Get-Location
@@ -62,11 +62,9 @@ npm test            # smoke ควรเขียว
 npm run dev         # เปิดครั้งหนึ่ง แล้ว Ctrl+C
 ```
 
-ใน lab repo:
+ที่ root ของ repo นี้:
 
 ```powershell
-cd D:\dev\Courses\Build AI Multi-Agent with Claude Code\build-ai-multi-agent-lab
-git checkout v4
 .\scripts\preflight.ps1
 ```
 
@@ -101,7 +99,7 @@ Prompt ไฟล์:
 
 ### ทาง A — TUI
 
-#### 1) เปิด Claude ที่ repo สินค้า
+#### 1) เปิด Claude ที่ repo ของคุณ
 
 ```powershell
 cd <your-personal-site-repo>
@@ -127,7 +125,7 @@ Get-Content .\docs\PROFILE.md | Select-Object -First 40
 
 วาง [`prompts/02-brainstorm-superpowers.md`](prompts/02-brainstorm-superpowers.md)
 
-#### 5) Commit ใน repo สินค้า (เมื่อพร้อม)
+#### 5) Commit ใน repo ของคุณ (เมื่อพร้อม)
 
 ```powershell
 git add docs/PROFILE.md
@@ -157,7 +155,7 @@ headline: ...
   claude -p --permission-mode acceptEdits --output-format text
 ```
 
-ปรับ path ไปยัง lab repo ให้ตรงเครื่องคุณ
+ปรับ path ของ prompt ใต้ `labs/lab-01-interview/prompts/` ให้ตรงเครื่องคุณ
 
 #### 2) Brainstorm CLI
 
@@ -203,7 +201,7 @@ tone:
 ## คำสั่งตรวจ
 
 ```powershell
-# อยู่ repo สินค้า
+# อยู่ repo ของคุณ
 Test-Path .\docs\PROFILE.md
 Select-String -Path .\docs\PROFILE.md -Pattern "displayName|headline|## Brainstorm"
 npm test
@@ -239,12 +237,12 @@ gh issue view --web
 
 | อาการ | ทำอะไร |
 |---|---|
-| เปิด `claude` ผิดโฟลเดอร์ | `cd` ไป repo สินค้า ปิดแล้วเปิด `claude` ใหม่ |
+| เปิด `claude` ผิดโฟลเดอร์ | `cd` ไป repo ของคุณ ปิดแล้วเปิด `claude` ใหม่ |
 | Plan mode ไม่ขึ้น | อัปเดต Claude Code ≥ 2.1.278 · ลอง `/plan` |
 | superpowers ไม่มี brainstorming | `/plugin install superpowers@claude-plugins-official` แล้ว restart TUI |
 | `claude -p` ไม่เขียนไฟล์ | เพิ่ม `--permission-mode acceptEdits` |
 | PowerShell ตัด prompt ยาว | ใช้ `$x \| claude -p` ไม่ใช่ argument เดียวยาวมาก |
-| path lab repo ผิด | clone `Onto-IQ/build-ai-multi-agent-lab` branch `v4` |
+| path ของ labs ผิด | ยืนยันว่าอยู่ที่ root ที่มี `package.json` และ `labs/` |
 | พอร์ต 4321 ไม่ขึ้น | ตั้ง `PORT` ใน `.env` ตาม SETUP |
 
 ---

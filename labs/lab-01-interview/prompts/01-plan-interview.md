@@ -1,15 +1,15 @@
 # Prompt — Plan mode + Interview (Lab 01)
 
-วางในเซสชัน `claude` ที่ **root ของ repo สินค้า** (มี `package.json`, `astro.config.mjs`)
+วางในเซสชัน `claude` ที่ **root ของ repo ของคุณ** (มี `package.json`, `astro.config.mjs`)
 
 ```text
 เปิด Plan mode ก่อน (Shift+Tab หรือ /plan ตามเวอร์ชัน Claude Code 2.1.278)
 
-เป้าหมาย Lab 01: สัมภาษณ์ฉันเพื่อสร้าง personal branding site จาก template course-personal-site
+เป้าหมาย Lab 01: สัมภาษณ์ฉันเพื่อสร้าง personal branding site จาก template build-ai-multi-agent-lab
 แล้วเขียนผลลัพธ์เป็น docs/PROFILE.md ภาษาไทย (หัวข้อและเนื้อหาอ่านง่าย)
 
 กฎ:
-- อ่าน SETUP ใน lab repo ถ้าจำเป็น แต่แก้ไฟล์เฉพาะใน repo สินค้านี้
+- อ่าน SETUP.md ที่ root ถ้าจำเป็น — แก้ไฟล์เฉพาะใน repo นี้
 - ถามทีละหัวข้อ อย่างน้อย 8 คำถาม ครอบคลุม: ชื่อที่แสดง, headline, เรื่องเล่าสั้น About,
   ความสนใจ 3–5 ข้อ, ช่องทางติดต่อ, โทนภาพ/สีที่ชอบ, สิ่งที่ไม่อยากโชว์บนเว็บ
 - หลังได้คำตอบครบ ให้สรุปแผนสั้น ๆ แล้วเขียน docs/PROFILE.md ตาม schema ด้านล่าง

@@ -1,6 +1,0 @@
-Done. Created two files, no source code touched:
-
-- `docs/DEBATE.md` — three sections (**Brand Strategist**, **UX Critic**, **Devil's Advocate**), 5 concrete points each covering structure, tone, and features across Home/About/Interests/Contact/Guestbook.
-- `docs/DECISIONS.md` — five decision bullets: pages, visual tone, must-have API features (guestbook GET/POST + contact POST with validation, rate limiting, moderation), PROFILE.md as the single content source, and an explicit not-building list.
-
-All content is derived from `docs/PROFILE.md`.

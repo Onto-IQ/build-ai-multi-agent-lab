@@ -3,7 +3,7 @@
 **เวลาเป้าหมาย:** 60–75 นาที  
 **เครื่องมือ:** OpenCode **2.0.6+** (`opencode run`) · Claude Code **2.1.278+** (`claude -p`)  
 **Issue:** `[Lab 07] Cross-model review`  
-**สินค้า:** [Onto-IQ/course-personal-site](https://github.com/Onto-IQ/course-personal-site)
+**สินค้า:** [Onto-IQ/build-ai-multi-agent-lab](https://github.com/Onto-IQ/build-ai-multi-agent-lab)
 
 ## เป้าหมาย
 
@@ -52,7 +52,7 @@
 ## Preflight
 
 ```powershell
-# repo สินค้า
+# repo ของคุณ
 cd <your-personal-site-repo>
 gh pr list
 gh pr view <num> --json url,headRefName,baseRefName

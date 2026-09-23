@@ -1,0 +1,43 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Contact">
+  <section class="card">
+    <h1>Contact</h1>
+    <p>ฟอร์มนี้โพสต์ไปที่ <code>POST /api/contact</code> (Lab 05 ทำให้ API ใช้งานได้จริง)</p>
+    <form id="contact-form">
+      <label for="name">Name</label>
+      <input id="name" name="name" required maxlength="80" />
+      <label for="email">Email</label>
+      <input id="email" name="email" type="email" required maxlength="120" />
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="5" required maxlength="2000"></textarea>
+      <p style="margin-top:1rem"><button type="submit">Send</button></p>
+      <p id="status" role="status" aria-live="polite"></p>
+    </form>
+  </section>
+</BaseLayout>
+<script>
+  const form = document.getElementById('contact-form');
+  const status = document.getElementById('status');
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const fd = new FormData(form);
+    const payload = Object.fromEntries(fd.entries());
+    status.textContent = 'Sending…';
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(payload),
+      });
+      const data = await res.json();
+      status.textContent = res.ok ? 'Sent. Thank you!' : `Error: ${data.error || res.status}`;
+      if (res.ok) form.reset();
+    } catch (err) {
+      status.textContent = 'Network error';
+    }
+  });
+</script>
+

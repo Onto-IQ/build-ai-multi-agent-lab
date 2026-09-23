@@ -1,6 +1,6 @@
 # Prompt — GitHub MCP สร้าง issues จาก DECISIONS (Lab 03)
 
-รันใน `claude` ที่ repo สินค้า · ต้องมี GitHub MCP + PAT
+รันใน `claude` ที่ repo ของคุณ · ต้องมี GitHub MCP + PAT
 
 ```text
 เป้าหมาย Lab 03: แปลง docs/DECISIONS.md เป็น GitHub issues ใน repo นี้เท่านั้น

@@ -44,7 +44,7 @@
 ## Preflight
 
 ```powershell
-# repo สินค้า
+# repo ของคุณ
 Test-Path .\docs\PROFILE.md
 Get-Content .\docs\PROFILE.md | Select-Object -First 15
 claude --version

@@ -1,44 +1,52 @@
-# Agents
+# Agents — Build AI Multi-Agent Lab (V4)
 
-กติการ่วมสำหรับ Claude Code และ OpenCode — ใช้ native agents ของแต่ละเครื่องมือ
+กติการ่วมสำหรับ **Claude Code** และ **OpenCode** ใน repo นี้  
+สินค้า = เว็บ personal branding (Astro) ใน root นี้เอง — ไม่มี repo สินค้าแยก
 
-## บทบาท
+## Ownership
 
-| ชื่อ | เครื่องมือ | โฟลเดอร์ |
-|---|---|---|
-| `frontend` | Claude Code (`.claude/agents/frontend.md`) | `apps/trade-desk/frontend/` |
-| `reviewer` | Claude Code (`.claude/agents/reviewer.md`) | อ่านอย่างเดียว |
-| `backend` | OpenCode (`.opencode/agents/backend.md`) | `apps/trade-desk/backend/` |
-| `qa` | OpenCode (`.opencode/agents/qa.md`) | checklist / รายงาน |
-| Build / Plan | OpenCode built-in | Plan ห้ามแก้ไฟล์โดยไม่ถาม |
-
-## Skills ร่วม
-
-วางที่ `.claude/skills/` — OpenCode โหลดได้
-
-- `paper-only`
-- `dispatch-opencode`
-- `dispatch-claude`
-- `log-dispatch`
-- `done-when`
-
-## JSON vs Command Center
-
-| เมื่อไหร่ | ใช้อะไร |
+| Artifact | Owner |
 |---|---|
-| ฟัง agent คุย / เปิด transcript | **native** (`claude agents` / OpenCode session) |
-| มองข้ามเครื่องมือ + เกณฑ์ผ่าน | **Command Center** |
-| ส่งงานข้ามเครื่องมือ | **CLI** ไม่ใช่สัญญา JSON กลาง |
+| UI pages (`src/pages/*.astro`, `src/layouts/`) | Claude Code |
+| API + SQLite (`src/lib/db.ts`, `src/pages/api/*`) | OpenCode |
+| E2E / a11y (`playwright/`, `docs/QA.md`) | Playwright MCP + either CLI |
+| Profile / debate docs (`docs/PROFILE.md`, `DEBATE.md`, `DECISIONS.md`) | Claude (Lab 01–02) |
+| Ship (`docs/SHIP.md`, Coolify) | Lab 08 |
 
-## โครง vs สั่งงาน
+## Workflow
 
-Agent + skill + แผงว่าง = ของห้อง  
-ผู้เรียนเป็นคน Interview / Plan / สั่งต่อ — อย่าทำโจทย์ให้จบในพรอมต์เดียวถ้าผู้เรียนยังคุยต่อได้  
-ผลงานแต่ละเครื่องไม่ต้องเหมือนกัน เกณฑ์ร่วมอยู่ที่ skill `done-when`
+```text
+Interview → Plan → Build → Test → Ship
+```
+
+หยุดเมื่อ GitHub issue acceptance ผ่าน — ไม่ใช่เมื่อครบโควต้ารอบ
+
+## Native harness only
+
+- ใช้ Skills จาก community (superpowers) และ native agents / Subagents / `@` ของแต่ละเครื่องมือ
+- Cross-CLI (`opencode run` แล้ว `claude -p`) **เฉพาะ Lab 07** สำหรับรีวิวอิสระ
+- ห้ามสร้างชั้น orchestration แข่ง (JSON bus / Flux / room dispatch)
+- MCP ใช้กับงานผลิต (GitHub Issues/PR, Playwright) — **ไม่ใช่ท่อส่งงานระหว่างสอง CLI**
+
+## คำสั่งหลัก
+
+```powershell
+npm install
+npm run dev          # http://localhost:4321
+npm test             # smoke — ต้องเขียว
+npm run test:labs    # Lab 05 — แดงจนกว่าจะ implement db
+npm run build
+npm start
+node scripts/create-course-issues.mjs
+```
 
 ## ห้าม
 
-- แก้ไฟล์คนละฝั่งพร้อมกัน
-- สร้าง harness กลางแทน Skills/Agents ของเครื่องมือ
-- บังคับ Flux / tmux เป็นเกณฑ์ผ่าน
-- ทำ Trade Desk ให้ “เหมือนคำตอบกลางของห้อง” จนทุกเครื่องหน้าตาเดียวกันโดยผู้เรียนไม่ได้สั่ง
+- Commit `.env`, PAT, Coolify webhook
+- ยืนยัน deploy สำเร็จถ้ายังไม่มี URL จริง (`https://<STUDENT_SLUG>.9expert.online`)
+- บังคับ tmux ในห้อง Windows (Agent Teams ใช้ in-process)
+- เปิด PR เข้า `Onto-IQ/*` — PR เข้า **repo ของผู้เรียนเท่านั้น**
+
+## Labs
+
+เริ่มที่ [`SETUP.md`](./SETUP.md) แล้วทำตาม [`labs/README.md`](./labs/README.md)

@@ -1,6 +1,6 @@
 # Prompt — Backend guestbook (Lab 05 · OpenCode)
 
-รันใน **OpenCode 2.0.6+** ที่ root repo สินค้า
+รันใน **OpenCode 2.0.6+** ที่ root repo ของคุณ
 
 ```text
 เป้าหมาย Lab 05: implement insertContact / guestbook SQLite ตาม course stubs จน npm run test:labs เขียว

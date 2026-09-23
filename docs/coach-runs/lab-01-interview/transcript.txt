@@ -1,1 +1,0 @@
-Done — `docs/PROFILE.md` is overwritten with the fictional profile for "Phak", a Thai AI multi-agent workshop instructor. It contains exactly the five required sections (`## Name`, `## Headline`, `## Bio`, `## Audience`, `## Interests` with 5 bullets), kept professional with no personal contact details or sensitive info. No other files were created.

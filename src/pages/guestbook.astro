@@ -1,0 +1,46 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+<BaseLayout title="Guestbook">
+  <section class="card">
+    <h1>Guestbook</h1>
+    <p>Lab 05 ทำให้ <code>/api/guestbook</code> อ่าน/เขียน SQLite ได้จริง</p>
+    <form id="gb-form">
+      <label for="name">Name</label>
+      <input id="name" name="name" required maxlength="80" />
+      <label for="message">Message</label>
+      <textarea id="message" name="message" rows="3" required maxlength="500"></textarea>
+      <p style="margin-top:1rem"><button type="submit">Sign</button></p>
+    </form>
+    <div id="entries" class="card" style="margin-top:1.25rem" aria-live="polite">Loading…</div>
+  </section>
+</BaseLayout>
+<script>
+  const entries = document.getElementById('entries');
+  const form = document.getElementById('gb-form');
+  async function load() {
+    const res = await fetch('/api/guestbook');
+    const data = await res.json();
+    if (!res.ok) {
+      entries.textContent = data.error || `HTTP ${res.status}`;
+      return;
+    }
+    entries.innerHTML = (data.entries || [])
+      .map((e) => `<p><strong>${e.name}</strong>: ${e.message}<br/><small>${e.created_at}</small></p>`)
+      .join('') || '<p>No entries yet.</p>';
+  }
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = Object.fromEntries(new FormData(form).entries());
+    await fetch('/api/guestbook', {
+      method: 'POST',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    form.reset();
+    await load();
+  });
+  load();
+</script>
+

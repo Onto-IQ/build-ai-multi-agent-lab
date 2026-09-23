@@ -1,0 +1,16 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadProfile } from '../lib/profile';
+const profile = loadProfile();
+---
+<BaseLayout title={`Interests · ${profile.name}`}>
+  <section class="card">
+    <h1>Interests</h1>
+    <ul>
+      {profile.interests.map((item) => <li>{item}</li>)}
+    </ul>
+    <p>Lab 04: ดึงจาก content collection หรือ API `/api/interests`</p>
+  </section>
+</BaseLayout>
+

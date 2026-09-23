@@ -44,7 +44,7 @@
 ## Preflight
 
 ```powershell
-# repo สินค้า
+# repo ของคุณ
 Test-Path .\docs\DECISIONS.md
 gh auth status
 gh repo view --json nameWithOwner
@@ -191,7 +191,7 @@ npm test
 | `gh` ชี้ repo ผิด | `gh repo set-default owner/repo` |
 | MCP ไม่ list | `copy .mcp.json.example .mcp.json` · restart `claude` |
 | สร้าง issue ซ้ำ | ปิด duplicate · อ้าง # ใน DECISIONS |
-| fine-grained PAT จำกัด repo | เลือกเฉพาะ repo สินค้าใน token settings |
+| fine-grained PAT จำกัด repo | เลือกเฉพาะ repo ของคุณใน token settings |
 
 ---
 

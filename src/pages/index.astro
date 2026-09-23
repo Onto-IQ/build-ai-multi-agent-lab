@@ -1,0 +1,22 @@
+---
+export const prerender = false;
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { loadProfile } from '../lib/profile';
+const profile = loadProfile();
+---
+<BaseLayout title={`${profile.name} · Home`} description={profile.headline}>
+  <section class="card">
+    <p style="margin:0;color:var(--accent);font-weight:700">Personal branding site</p>
+    <h1>{profile.name}</h1>
+    <p style="font-size:1.2rem;color:var(--text)">{profile.headline}</p>
+    <p>{profile.bio}</p>
+    <p><strong>Audience:</strong> {profile.audience}</p>
+  </section>
+  <section class="grid">
+    <a class="card" href="/about"><h2>About</h2><p>เรื่องราวและเส้นทาง</p></a>
+    <a class="card" href="/interests"><h2>Interests</h2><p>หัวข้อที่สนใจ</p></a>
+    <a class="card" href="/contact"><h2>Contact</h2><p>ส่งข้อความถึงฉัน</p></a>
+    <a class="card" href="/guestbook"><h2>Guestbook</h2><p>ฝากคำทักทาย</p></a>
+  </section>
+</BaseLayout>
+

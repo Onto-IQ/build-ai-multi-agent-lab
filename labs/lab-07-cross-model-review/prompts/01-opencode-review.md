@@ -1,6 +1,6 @@
 # Prompt — OpenCode review Claude PR (Lab 07)
 
-รันใน **Windows Terminal แท็บ OpenCode** · repo สินค้า
+รันใน **Windows Terminal แท็บ OpenCode** · repo ของคุณ
 
 ```text
 รีวิว PR จาก Lab 04 หรือ 05 (ฝั่ง Claude / Frontend) แบบอิสระ

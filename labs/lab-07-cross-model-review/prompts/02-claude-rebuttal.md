@@ -1,6 +1,6 @@
 # Prompt — Claude rebuttal + PR summary (Lab 07)
 
-รันในแท็บ **claude** · repo สินค้า
+รันในแท็บ **claude** · repo ของคุณ
 
 ```text
 อ่าน docs/review-opencode.md (ผู้เรียนวาง findings จาก OpenCode)

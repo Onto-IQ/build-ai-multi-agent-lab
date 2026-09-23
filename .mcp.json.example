@@ -1,11 +1,15 @@
 {
   "mcpServers": {
-    "flux": {
+    "github": {
       "type": "http",
-      "url": "https://flux.umin.ai/api/mcp",
+      "url": "https://api.githubcopilot.com/mcp/",
       "headers": {
-        "Authorization": "Bearer ${FLUX_API_KEY}"
+        "Authorization": "Bearer ${GITHUB_PERSONAL_ACCESS_TOKEN}"
       }
+    },
+    "playwright": {
+      "command": "npx",
+      "args": ["-y", "@playwright/mcp@0.0.82"]
     }
   }
 }
