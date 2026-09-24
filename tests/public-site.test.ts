@@ -5,9 +5,9 @@ import { join } from 'node:path';
 /**
  * The deployed site must never mention the course to visitors — they should
  * see a personal site, not lab scaffolding. This scans rendered markup in
- * src/**/*.astro and src/**/*.html (frontmatter and HTML comments stripped).
- * Code comments in .ts files are learner scaffolding, are not rendered, and
- * are allowed to mention labs.
+ * every .astro/.html file under the src folder (frontmatter and HTML comments
+ * stripped). Code comments in .ts files are learner scaffolding, are not
+ * rendered, and are allowed to mention labs.
  */
 function collectMarkupFiles(dir: string, out: string[] = []): string[] {
   for (const entry of readdirSync(dir, { withFileTypes: true })) {
