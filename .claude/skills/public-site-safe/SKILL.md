@@ -10,6 +10,7 @@ description: Guardrails for the personal branding site course — secrets, deplo
 ## อนุญาต
 
 - อ่าน/เขียนโค้ดตาม ownership ของ agent ที่เรียก
+- Call ข้าม harness แบบ headless one-shot (`claude -p` / `opencode run`) ผ่านไฟล์ใน `docs/` — ฝั่งที่ถูกเรียกเขียนได้**เฉพาะไฟล์รายงาน**ที่ prompt ระบุ · ห้าม daemon/loop
 - ใช้ demo data (`demo@example.com`) บน guestbook
 - Deploy ตรวจด้วย `curl` จริงแล้วค่อยบันทึกใน `docs/SHIP.md`
 
@@ -17,6 +18,7 @@ description: Guardrails for the personal branding site course — secrets, deplo
 
 - ขอ เก็บ หรือพิมพ์ API keys, PAT, Coolify webhook, รหัสผ่าน ในแชทหรือไฟล์ที่ commit
 - Commit `.env`, `.mcp.json` (ถ้า gitignore), `node_modules`
+- **เขียนข้อความถึง Lab / คอร์ส / เวิร์กช็อป ลงใน markup ที่ render ออกหน้าเว็บ** (`src/pages`, `layouts`, `components`) — ผู้ชมเว็บต้องไม่เห็นว่าเว็บมาจากคอร์ส · อ้าง Lab ได้เฉพาะคอมเมนต์โค้ด, PR, และ `docs/` (`npm test` มี check จับข้อความหลุด)
 - เคลมว่า ship สำเร็จถ้ายังไม่มี URL ที่ตอบ HTTP 200 จริง
 - Leak stack trace / SQL error ให้ผู้ใช้เว็บ
 - ใช้ MCP เป็นท่อส่งงานระหว่าง Claude ↔ OpenCode

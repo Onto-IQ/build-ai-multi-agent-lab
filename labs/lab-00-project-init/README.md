@@ -211,7 +211,7 @@ Template มีไฟล์พร้อมแล้ว — ตรวจใน VS
 |---|---|
 | `.claude/agents/frontend.md` | UI owner — ความจำแยกจาก backend |
 | `.claude/agents/reviewer.md` | รีวิว Lab 07 |
-| `.claude/skills/public-site-safe/SKILL.md` | ห้าม secret / เคลม deploy มั่ว / swarm ≤20 turns |
+| `.claude/skills/public-site-safe/SKILL.md` | ห้าม secret / เคลม deploy มั่ว / swarm ≤20 turns / ห้ามพูดถึง Lab ในหน้าเว็บ |
 | `.claude/skills/opencode/SKILL.md` | เรียก OpenCode ข้าม harness (headless one-shot ผ่านไฟล์) |
 
 ```powershell

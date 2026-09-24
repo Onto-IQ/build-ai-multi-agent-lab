@@ -25,5 +25,6 @@ Scope:
 ห้าม commit .env
 ห้าม PR ไป Onto-IQ/build-ai-multi-agent-lab upstream
 ห้ามแก้ guestbook/SQLite logic เต็ม — เก็บไว้ Lab 05
+ห้ามเขียนข้อความถึง "Lab 0X" / คอร์ส / เวิร์กช็อป ลงใน markup ที่ render ออกหน้าเว็บ — ผู้ชมเว็บต้องไม่เห็นว่าเว็บมาจากคอร์ส (อ้าง Lab ได้เฉพาะคอมเมนต์โค้ด/PR/docs · npm test มี check จับข้อความหลุด)
 STATUS/OPEN_LOOPS = single-writer รอบนี้ (คุณ/frontend เท่านั้น)
 ```

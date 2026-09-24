@@ -214,13 +214,13 @@ cd <โฟลเดอร์-repo-ของคุณ>
 | สิ่งที่ได้รับ | ผ่านเมื่อ |
 |---|---|
 | โค้ด UI | 4 หน้าหลัก + nav (รวมลิงก์ Guestbook) |
-| เนื้อหา | ชื่อ/headline/interests สะท้อน PROFILE |
+| เนื้อหา | ชื่อ/headline/interests สะท้อน PROFILE · ไม่มีข้อความอ้าง Lab/คอร์สหลุดในหน้าเว็บ |
 | PR | เปิดใน repo คุณ · อ้าง issue · ไม่มี `.env` |
 | ทดสอบ | `npm test` เขียว |
 | Call ข้าม harness | มี `docs/fe-be-contract-check.md` (OpenCode เขียน) · mismatch แก้แล้ว |
 | Handoff → Lab 05 | มี `docs/handoffs/04-claude-to-opencode.md` อ้าง contract check + อัปเดต STATUS/OPEN_LOOPS · **commit แล้ว** |
 
-**ยังไม่ผ่านถ้า…** PR ไป Onto-IQ · หน้ายังเป็น template เดิมทั้งก้อน · มีแค่ local ไม่มี PR · สลับไป OpenCode โดยไม่มี handoff / ไม่ commit
+**ยังไม่ผ่านถ้า…** PR ไป Onto-IQ · หน้ายังเป็น template เดิมทั้งก้อน · มีแค่ local ไม่มี PR · หน้าเว็บมีข้อความอ้าง Lab/คอร์สหลุดออกไป (`npm test` จับ) · สลับไป OpenCode โดยไม่มี handoff / ไม่ commit
 
 ---
 

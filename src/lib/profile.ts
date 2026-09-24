@@ -13,10 +13,15 @@ export type Profile = {
   interests: string[];
 };
 
+/**
+ * FALLBACK renders publicly when docs/PROFILE.md is missing or a section is
+ * empty — keep it course-free (no lab references); learner hints belong in
+ * comments and docs, not in rendered fallback text.
+ */
 const FALLBACK: Profile = {
   name: 'Your Name',
-  headline: 'Personal branding site (course stub)',
-  bio: 'Replace this stub after Lab 01 Interview. Write docs/PROFILE.md then wire pages in Lab 04.',
+  headline: 'Personal branding site',
+  bio: 'This personal site is still being built — content is coming soon.',
   audience: 'Hiring managers / peers / community',
   interests: ['AI agents', 'Web', 'Teaching'],
 };
