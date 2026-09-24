@@ -275,6 +275,8 @@ Get-ChildItem -Recurse .\.claude\agent-memory -ErrorAction SilentlyContinue
 opencode
 ```
 
+> ต้องเป็น OpenCode **v2** (`opencode --version` ขึ้น 2.x) — v1 (1.18.x หรือที่ติดจาก winget) จะขึ้น `Failed to initialize OpenTUI render library … TinyCC is disabled` เมื่อเปิด TUI แก้ด้วย `npm install -g @opencode/cli` แล้วเปิด terminal ใหม่
+
 ใน TUI พิมพ์ `/init`  
 merge กับ [`AGENTS.md`](../../AGENTS.md) seed — **อย่าลบ** Ownership / Native harness only — วาง prompt สำเร็จรูปจาก [`prompts/03-merge-opencode-init.md`](prompts/03-merge-opencode-init.md) ได้เลย
 
@@ -285,26 +287,17 @@ merge กับ [`AGENTS.md`](../../AGENTS.md) seed — **อย่าลบ** O
 | Explorer | `AGENTS.md` เปลี่ยน · อาจมี `.opencode/` |
 | Source Control | diff ใน `AGENTS.md` |
 
-### C2 — ติดตั้ง oh-my แบบ Project (เลือกอย่างใดอย่างหนึ่ง)
+### C2 — ตั้งค่า `opencode.json` (MCP) — v2 ใช้ native agents
 
 **ทำที่:** Windows Terminal (แท็บ `powershell`) — รันจาก **root** ของ repo
 
-**ทาง A — copy ตัวอย่างแล้วเปิด OpenCode (แนะนำผู้เรียนใหม่):**
-
 ```powershell
 copy .\opencode.json.example .\opencode.json
-opencode plugin list
 ```
 
-ไฟล์ตัวอย่างมีทั้ง pin `oh-my-openagent@4.19.4` และ MCP stubs
+ไฟล์ตัวอย่างมี MCP stubs (GitHub + Playwright) — ไม่มี plugin เสริม
 
-**ทาง B — CLI เพิ่มเข้า project:**
-
-```powershell
-opencode plugin add oh-my-openagent@4.19.4
-```
-
-รันจาก **root** เพื่อให้เขียนเข้า `opencode.json` ของโปรเจกต์
+> **ทำไมไม่ติดตั้ง oh-my-openagent:** ทดสอบจริง 2026-09-24 — oh-my-openagent ทั้ง `4.19.4` (stable) และ `5.0.0-beta.89` **ยังไม่รองรับ plugin API ของ v2** (ล่มทันทีด้วย `PluginModule.LoadError`) คอร์สจึงใช้ **native agents** จาก template เป็นค่าหลัก (ไม่ใช่ fallback แล้ว) — ถ้าอนาคต oh-my รองรับ v2 วิทยากรจะประกาศให้
 
 ### C3 — ตรวจผล
 
@@ -319,12 +312,10 @@ Test-Path .\.opencode
 Smoke:
 
 ```powershell
-opencode run "Reply with one sentence: confirm oh-my-openagent or native agents are available. Do not edit files."
+opencode run "Reply with one sentence: confirm native agents (@backend) are available. Do not edit files."
 ```
 
-**ห้ามเป็นทางหลัก:** `bunx oh-my-openagent install` (โน้มไป user-global) — ใช้เมื่อ Troubleshooting เท่านั้น
-
-**Fallback (15 นาที):** ถ้า oh-my ไม่ขึ้น → ใช้ native `@` ใน OpenCode · จดใน commit message หรือ `docs/` สั้น ๆ ว่าใช้ fallback · Lab 05 ยังทำต่อได้
+`opencode --version` ต้องขึ้น 2.x — ถ้าขึ้น 1.x ให้ `npm install -g @opencode/cli` แล้วเปิด terminal ใหม่
 
 ### C4 — Backend agent + skill (OpenCode)
 
@@ -453,7 +444,7 @@ git commit -m "chore: Lab 00 project init, agents, hot state, and public-site-sa
 |---|---|
 | Dependencies | มี `node_modules` จาก `npm install` · `npm test` เขียว |
 | Claude project | มี `.claude/settings.json` · superpowers · agents `frontend`/`reviewer` · skill `public-site-safe` |
-| OpenCode project | มี `opencode.json` · agent `backend` · skill `public-site-safe` (หรือ fallback `@`) |
+| OpenCode project | มี `opencode.json` · agent `backend` · skill `public-site-safe` · skill `claude-code` (native agents บน v2) |
 | Init | `/init` Claude + OpenCode แล้ว · กฎ ownership ใน seed ยังอยู่ |
 | Hot state | มี `docs/STATUS.md` + `docs/OPEN_LOOPS.md` (จาก example) |
 | Consistency | Claude กับ OpenCode ตอบ Goal / next จากไฟล์ชุดเดียวกัน (ไม่จากแชทคนละฝั่ง) |
@@ -502,7 +493,8 @@ npm test
 | `claude` ไม่โหลด project settings | เปิดจาก root · ไม่ใช่ subdirectory |
 | ติด plugin เป็น User โดยไม่ตั้งใจ | ถอนแล้วติดตั้งใหม่ด้วย `--scope project` / TUI เลือก Project |
 | `node_modules` โผล่ใน SCM | ตรวจ `.gitignore` มี `node_modules/` · อย่า `git add -A` มั่ว |
-| oh-my พัง | native `@` · อย่าเสียเวลากับ user-global install |
+| `opencode` TUI ขึ้น "TinyCC is disabled" | กำลังใช้ v1 — `npm install -g @opencode/cli` (v2) แล้วเปิด terminal ใหม่ · ถอน v1 ที่ติดจาก winget: `winget uninstall SST.opencode` |
+| oh-my-openagent โหลดไม่ขึ้น | ยังไม่รองรับ v2 (ทดสอบ 2026-09-24) — ใช้ native `@` agents เป็นค่าหลัก |
 | VS Code ไม่เห็นไฟล์ใหม่ | คลิกใน Explorer หรือ Refresh · ดู SCM |
 | `/init` ทับ CLAUDE.md ทั้งก้อน | Undo ใน SCM · merge มือตาม seed |
 | agent-memory ไม่โผล่ | ยืนยัน `memory: project` · สั่งให้ agent บันทึก memory ชัด ๆ · อัปเดต Claude Code |

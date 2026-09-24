@@ -15,7 +15,7 @@ Deploy: `https://<STUDENT_SLUG>.9expert.online` ผ่าน Coolify
 
 **ความจำร่วม** = `docs/` + git/PR · **ความจำแยก** = เซสชัน/agent คนละตัว · **อย่า**ยัดทุกบทบาทในแชทเดียว  
 
-**Harness memory (ไม่สร้างชั้นเอง):** Claude ใช้ `memory: project` + `/memory` · OpenCode ใช้ `AGENTS.md` + resume session — ตรวจใน Lab 00 · ห้าม memory bus แบบ V1
+**Harness memory (ไม่สร้างชั้นเอง)** — harness = ความจำถาวรที่ตัวเครื่องมือมีให้ในตัว: Claude ใช้ `memory: project` + `/memory` · OpenCode ใช้ `AGENTS.md` + resume session — ตรวจใน Lab 00 · **ห้าม**สร้างระบบส่งต่อความจำระหว่าง agent เอง
 
 ## สี่ชั้นความรู้ในโฟลเดอร์ (folder-centric)
 
@@ -46,9 +46,10 @@ Harness memory (Claude agent-memory / OpenCode resume) **คนละชั้�
 |---|---|
 | Project init / agents / skills | Lab 00 |
 | Interview / Debate / Frontend | Claude Code (`frontend` agent + superpowers) |
-| API / SQLite / Vitest | OpenCode (`backend` agent + oh-my) |
+| API / SQLite / Vitest | OpenCode (`backend` agent — native, v2) |
 | Swarm to green (≤20 turns) | Lab 05b |
 | E2E / a11y | Playwright MCP + either CLI |
+| Cross-harness calls (FE ↔ BE ↔ reviewer) | headless one-shot `opencode run` / `claude -p` · ท่อ = ไฟล์ `docs/` |
 | Cross-model review | `opencode run` แล้ว `claude -p` (ไม่ใช้ MCP เป็นท่อ) |
 | Ship | Coolify → slug.9expert.online |
 
@@ -60,13 +61,25 @@ Harness memory (Claude agent-memory / OpenCode resume) **คนละชั้�
 
 หยุดเมื่อ issue acceptance ผ่าน — หรือเมื่อ swarm ครบเพดาน 20 turns (สรุปช่องว่าง)
 
+## Call ข้าม harness (Multi-agent ของจริง)
+
+Agent ของเรา**คุยกันเองได้** — แต่ละตัวยังรันบน harness ตนเอง (ไม่มีตัวกลางภายนอก):
+
+| จาก | เรียก | ด้วย | จุดในคอร์ส |
+|---|---|---|---|
+| Frontend (Claude) | Backend (OpenCode) | skill `opencode` → `opencode run` | Lab 04 ตรวจสัญญา API ก่อน handoff |
+| Backend (OpenCode) | Frontend (Claude) | skill `claude-code` → `claude -p` | Lab 05 ตรวจการผูกฟอร์มหลังเขียว |
+| รีวิวข้ามโมเดล | กันและกัน | `opencode run` + `claude -p` | Lab 07 โต้วาที 2–3 รอบ |
+
+**กติกาเดียวกันทุก call:** headless one-shot เท่านั้น · ท่อ = ไฟล์ใน `docs/` · ฝั่งที่ถูกเรียกเขียนได้**เฉพาะไฟล์รายงาน**ที่ prompt ระบุ — ห้ามแตะไฟล์ ownership ของผู้เรียก · ผู้เรียนเป็นกรรมการปิดรอบ · ยังห้าม MCP เป็นท่อ / bus / daemon
+
 ## Native harness only
 
 - Plugins **project scope** (Lab 00)
 - Skill `public-site-safe` — ห้าม secret / เคลม deploy มั่ว / swarm เกิน 20 turns
 - Persistent memory ผ่าน **harness** (Claude agent-memory · OpenCode session) — ไม่สร้างชั้น memory เอง
-- Cross-CLI เฉพาะรีวิว (Lab 07)
-- ห้าม JSON bus / Flux / room dispatch
+- Call ข้าม harness ได้ — แต่ละตัวยังรันบน harness ตนเอง (`claude -p` / `opencode run` one-shot ผ่านไฟล์) · ฝั่งที่ถูกเรียกเขียนได้เฉพาะไฟล์รายงาน
+- ห้ามสร้างระบบส่งข้อความ/สถานะระหว่าง CLI เอง (เช่น ใช้ไฟล์ JSON เป็นท่อส่งงาน)
 - อย่า commit `.env`, ความลับ, `node_modules`
 - PR เข้า learner repo เท่านั้น
 

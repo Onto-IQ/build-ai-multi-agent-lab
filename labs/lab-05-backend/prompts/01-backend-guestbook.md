@@ -1,7 +1,7 @@
 # Prompt — Backend guestbook (Lab 05 · OpenCode)
 
 คัดลอกเฉพาะบล็อกด้านล่างไปวางใน `opencode`  
-**(ติดตั้ง oh-my / เปิด TUI / เปิด PR — ตาม README)**
+**(เปิด TUI / เปิด PR — ตาม README)**
 
 ```text
 เป้าหมาย: implement insertContact / guestbook SQLite ตาม course stubs จน npm run test:labs เขียว

@@ -38,7 +38,7 @@
 
 จบงานที่เปลี่ยนสถานะ: อัปเดต `STATUS.md` / `OPEN_LOOPS.md` (และ handoff ถ้าสลับ harness)
 
-### Single-writer (ไฟล์ร่วม)
+### Single-writer (ไฟล์ร่วมมีคนเขียนคนเดียวต่อรอบ)
 
 - `docs/STATUS.md` และ `docs/OPEN_LOOPS.md` มี **writer คนเดียวต่อรอบ** — สลับ Claude ↔ OpenCode หลัง commit หรือหลังเขียน handoff
 - Ownership โค้ดตามตารางด้านล่าง — reviewer อ่านอย่างเดียวจนกว่าจะโอนงานชัดใน handoff
@@ -63,7 +63,7 @@
 |---|---|---|
 | ร่วม (shared) | `docs/`, git, PR | STATUS, OPEN_LOOPS, PROFILE, DECISIONS, QA, handoffs |
 | แยก (agent-local) | เซสชัน + ไฟล์ agent | frontend ไม่ถือ context backend |
-| **Harness persistent** | Claude / OpenCode native | ดูตารางด้านล่าง — **ห้ามสร้าง memory bus เอง (เลิกแนว V1)** |
+| **Harness persistent** | Claude / OpenCode native | ดูตารางด้านล่าง — **ห้ามสร้าง memory bus เอง — ใช้ของที่ harness มีให้** |
 | ทิ้งได้ | Sub-Agent รอบเดียว | Brand/UX/Devil หลังจบ Lab 02 |
 
 ### Harness persistent memory (ตรวจใน Lab 00)
@@ -74,7 +74,7 @@
 | OpenCode | `AGENTS.md` + agent file + **resume session** | resume เห็นบริบท · เซสชันใหม่ไม่บังคับ recall ปากเปล่า |
 
 ความจำร่วมของคอร์ส (`docs/`) คนละชั้นกับ harness memory — สิ่งที่ต้องโชว์ข้ามคน/CLI ให้เขียนลง docs  
-Adapter (`AGENTS.md` / `CLAUDE.md`) ต้อง**ชี้ไป**ไฟล์กลาง — อย่าคัดลอกเนื้อหา STATUS/DECISIONS ซ้ำใน adapter
+Adapter (ไฟล์กติกาที่แต่ละ CLI อ่าน — `AGENTS.md` / `CLAUDE.md`) ต้อง**ชี้ไป**ไฟล์กลาง — อย่าคัดลอกเนื้อหา STATUS/DECISIONS ซ้ำใน adapter
 
 ## Workflow
 
@@ -84,9 +84,12 @@ Adapter (`AGENTS.md` / `CLAUDE.md`) ต้อง**ชี้ไป**ไฟล์�
 
 ## Native harness only
 
-- Plugins project scope: superpowers · oh-my-openagent@4.19.4  
-- Cross-CLI **เฉพาะ Lab 07**  
-- ห้าม JSON bus / Flux / room dispatch  
+harness = ความสามารถถาวรที่ Claude Code / OpenCode มีให้ในตัว (memory, plugin, session) — ใช้ของเดิม ไม่สร้างชั้นเอง
+
+- Plugins project scope: superpowers (oh-my-openagent ยังไม่รองรับ OpenCode v2 — ใช้ native agents)  
+- **Call ข้าม harness ทำได้** — แต่ละตัวยังรันบน harness ตนเอง: ฝั่ง OpenCode เรียก `claude -p` · ฝั่ง Claude เรียก `opencode run` (headless one-shot · ท่อ = ไฟล์ใน `docs/`)  
+- **กติกา call:** ฝั่งที่ถูกเรียกเขียนได้**เฉพาะไฟล์รายงาน**ที่ prompt ระบุ (เช่น `docs/review-*.md`) — ห้ามแตะไฟล์ ownership ของผู้เรียก · อย่าให้สอง harness เขียน working tree พร้อมกัน (commit ก่อน)  
+- ห้ามสร้างระบบส่งข้อความ/สถานะระหว่าง CLI เอง (เช่น ใช้ไฟล์ JSON เป็นท่อส่งงาน) · ห้าม daemon/loop ถาวร  
 - MCP = งานผลิต — **ไม่ใช่**ท่อระหว่างสอง CLI  
 - Swarm หยุดเมื่อ done **หรือ** ครบ **20 turns**
 

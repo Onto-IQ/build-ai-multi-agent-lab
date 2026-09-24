@@ -6,8 +6,10 @@
   Installs or repairs every tool the course needs:
     Git, GitHub CLI (gh), Node.js 22 LTS (+npm), Bun, Claude Code, OpenCode, VS Code.
 
-  - Prefers native installers that ship real .exe binaries (Claude Code, OpenCode, Bun)
-    instead of npm global shims (.ps1/.cmd) that break when PATH is not mapped.
+  - Claude Code and Bun come from native installers that ship real .exe binaries.
+    OpenCode v2 comes from npm (@opencode/cli) - its official Windows channel;
+    winget and the GitHub releases carry only the old v1 line whose TUI is broken
+    on Windows ARM64 (TinyCC disabled).
   - Repairs common broken states left by previous installs:
       * tool folders missing from the user PATH
       * dead or conflicting npm global shims for claude/opencode
@@ -184,35 +186,22 @@ function Resolve-Winget {
     return $null
 }
 
-function Get-MachineArch {
-    # Real machine arch (stable under x64 emulation on ARM64 machines)
-    try {
-        $v = & reg.exe query 'HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Environment' /v PROCESSOR_ARCHITECTURE 2>$null
-        foreach ($ln in @($v)) { if ($ln -match 'REG_SZ\s+(\S+)') { return $Matches[1] } }
-    } catch { }
-    return $env:PROCESSOR_ARCHITECTURE
-}
-
-function Install-ZipTool([hashtable]$Spec) {
-    $march = Get-MachineArch
-    $asset = $Spec.ZipAssetX64
-    if ($march -eq 'ARM64') { $asset = $Spec.ZipAssetArm64 }
-    $url = $Spec.ZipUrlBase + $asset
-    $dest = $Spec.ZipDest
-    Write-Step "Downloading $asset (native build, no npm shim)"
-    $tmpZip = Join-Path $env:TEMP $asset
-    try {
-        Invoke-WebRequest -Uri $url -OutFile $tmpZip -UseBasicParsing
-        New-Item -ItemType Directory -Force -Path $dest | Out-Null
-        Expand-Archive -Path $tmpZip -DestinationPath $dest -Force
-        return (Test-Path (Join-Path $dest $Spec.ZipExe))
-    } catch {
-        Write-Bad "Download/extract failed for ${asset}: $($_.Exception.Message)"
+function Install-FromNpm([string]$Package) {
+    $npm = Get-Command npm -ErrorAction SilentlyContinue
+    if (-not $npm) {
+        Write-Bad "npm not found - install Node.js first (this script does that before this step)"
         return $false
-    } finally {
-        if (Test-Path $tmpZip) { Remove-Item $tmpZip -Force -ErrorAction SilentlyContinue }
+    }
+    Write-Step "npm install -g $Package (this can take a few minutes)"
+    try {
+        & npm install -g $Package 2>&1 | Out-Null
+        return ($LASTEXITCODE -eq 0)
+    } catch {
+        Write-Bad "npm install failed for ${Package}: $($_.Exception.Message)"
+        return $false
     }
 }
+
 
 function Install-FromWinget([string]$Id) {
     $wg = Resolve-Winget
@@ -334,13 +323,13 @@ function Ensure-Tool([hashtable]$Spec) {
 
     if (-not $script:DryRun) {
         $installed = $false
-        if ($Spec.NativeZip) { $installed = Install-ZipTool $Spec }
+        if ($Spec.NpmPkg) { $installed = Install-FromNpm $Spec.NpmPkg }
         if (-not $installed -and $Spec.Winget) { $installed = Install-FromWinget $Spec.Winget }
         if (-not $installed -and $Spec.ScriptUrl) { $installed = Install-FromScript $Spec.ScriptUrl $name }
         if (-not $installed) { Write-Info "Install step for $name did not complete cleanly; verifying actual state anyway" }
     } else {
         $how = $Spec.Winget
-        if ($Spec.NativeZip) { $how = 'GitHub Releases (native zip)' }
+        if ($Spec.NpmPkg) { $how = "npm -g $($Spec.NpmPkg)" }
         elseif (-not $how) { $how = $Spec.ScriptUrl }
         Write-Info "DryRun: would install $name via $how"
     }
@@ -370,7 +359,6 @@ function Get-ToolSpecs {
     $userBin   = Join-Path $env:USERPROFILE '.local\bin'
     $bunBin    = Join-Path $env:USERPROFILE '.bun\bin'
     $ocBin     = Join-Path $env:USERPROFILE '.opencode\bin'
-    $ocDest    = Join-Path $env:LOCALAPPDATA 'Programs\opencode'
     $nodejsDir = Join-Path $env:ProgramFiles 'nodejs'
     $gitDir    = Join-Path $env:ProgramFiles 'Git\cmd'
     $ghDir     = Join-Path $env:ProgramFiles 'GitHub CLI'
@@ -384,11 +372,11 @@ function Get-ToolSpecs {
         @{ Name = 'bun';     Exe = 'bun';      VerArg = '-v';        Probe = @($bunBin); ScriptUrl = 'https://bun.sh/install.ps1' },
         @{ Name = 'claude';  Exe = 'claude';   VerArg = '--version'; Probe = @($userBin); ScriptUrl = 'https://claude.ai/install.ps1';
            ShimPkgs = @('@anthropic-ai/claude-code'); RejectNpmShim = $true; RequireFile = (Join-Path $userBin 'claude.exe') },
-        @{ Name = 'opencode'; Exe = 'opencode'; VerArg = '--version'; Probe = @($ocBin, $userBin, $ocDest); ShimPkgs = @('opencode-ai'); RejectNpmShim = $true;
-           NativeZip = $true;
-           ZipUrlBase = 'https://github.com/anomalyco/opencode/releases/latest/download/';
-           ZipAssetX64 = 'opencode-windows-x64.zip'; ZipAssetArm64 = 'opencode-windows-arm64.zip';
-           ZipDest = $ocDest; ZipExe = 'opencode.exe'; Winget = 'SST.opencode' },
+        # OpenCode v2: npm distribution only (GitHub releases/winget carry the old
+        # v1 line, whose TUI is broken on Windows ARM64 - TinyCC disabled).
+        # MinMajor=2 flags any leftover v1 as broken and upgrades via npm.
+        @{ Name = 'opencode'; Exe = 'opencode'; VerArg = '--version'; Probe = @($ocBin, $userBin, (Join-Path $env:APPDATA 'npm')); ShimPkgs = @('opencode-ai');
+           NpmPkg = '@opencode/cli'; MinMajor = 2 },
         @{ Name = 'code';    Exe = 'code';     VerArg = '--version'; Probe = @($vscodeBin); Winget = 'Microsoft.VisualStudioCode'; Optional = $true }
     )
 }

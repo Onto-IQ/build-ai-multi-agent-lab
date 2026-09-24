@@ -1,7 +1,7 @@
 # Lab 05 — ทำให้ Guestbook ทำงานจริง (OpenCode)
 
 **ใช้เวลาประมาณ:** 90–120 นาที  
-**เครื่องมือ:** OpenCode **2.0.6+** · oh-my-openagent **4.19.4** (ทางเลือก)  
+**เครื่องมือ:** OpenCode **v2** (2.0.6+, npm `@opencode/cli`) · native agents (backend)  
 **Ownership:** Backend / OpenCode  
 **ผลลัพธ์หลัก:** `npm run test:labs` เขียว + PR ฝั่ง Backend
 
@@ -33,7 +33,7 @@
 ## ก่อนเริ่ม
 
 แนะนำมี UI/ฟอร์มจาก Lab 04 · มี decisions เรื่อง guestbook · อ่าน handoff จาก Lab 04  
-oh-my-openagent ควรติดตั้งแล้วใน [`Lab 00`](../lab-00-project-init/README.md) (project `opencode.json`)
+OpenCode ต้องเป็น **v2** (`opencode --version` ขึ้น 2.x) · ใช้ native `backend` agent จาก template (Lab 00)
 
 ```powershell
 cd <โฟลเดอร์-repo-ของคุณ>
@@ -50,8 +50,6 @@ git checkout -b lab-05-backend
 ```
 
 ถ้ายังไม่มี handoff จาก Lab 04 — ให้สร้างจาก [`docs/handoffs/TEMPLATE.md`](../../docs/handoffs/TEMPLATE.md) ก่อน (อย่าเริ่มจากแชทเปล่า)
-
-ถ้า oh-my ยังไม่พร้อม: ใช้ native `@` ใน OpenCode (fallback จาก Lab 00) — อย่าใช้ `bunx oh-my-openagent install` เป็นทางหลัก (user-global)
 
 ---
 
@@ -192,12 +190,12 @@ Template วาง **course stubs** ไว้ทดสอบสัญญา gues
 
 อย่าแก้ไฟล์ test เพื่อ “ลดงาน” — วิทยากรดู diff
 
-### oh-my vs native `@`
+### native `@` บน v2
 
 | วิธี | เมื่อใช้ |
 |---|---|
-| oh-my จาก Lab 00 (`opencode.json`) | ค่าหลักของคอร์ส |
-| native `@` | Lab 00 / plugin พัง — ยังผ่าน Lab 05 ได้ |
+| native `backend` agent จาก template | ค่าหลักของคอร์สบน OpenCode v2 |
+| oh-my-openagent | ยังไม่รองรับ v2 (ทดสอบ 2026-09-24) — อย่าใช้ |
 
 ---
 
@@ -241,7 +239,7 @@ npm run build
 |---|---|
 | better-sqlite3 fail | `npm approve-scripts better-sqlite3` · VS Build Tools |
 | opencode ไม่เห็น repo | `cd` ไป root ที่มี `package.json` · เปิดใหม่ |
-| oh-my ติดนาน | ใช้ native `@` |
+| TUI ขึ้น "TinyCC is disabled" | ใช้ v1 อยู่ — `npm install -g @opencode/cli` แล้วเปิด terminal ใหม่ |
 | พอร์ตชน | เปลี่ยน `PORT` ใน `.env` |
 
 ---

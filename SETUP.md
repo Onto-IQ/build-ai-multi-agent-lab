@@ -12,11 +12,11 @@ Deploy ปลายทาง: `https://<STUDENT_SLUG>.9expert.online` (Coolify �
 |---|---|
 | Node.js | 22+ (แนะนำ 22 หรือ 24 LTS) |
 | Claude Code | 2.1.278+ |
-| OpenCode | 2.0.6+ |
-| Bun | 1.3.x (ใช้ตอน OpenCode ดึง plugin) |
+| OpenCode | **v2** — 2.0.6+ (ทดสอบ 2.0.16) · ติดตั้ง `npm install -g @opencode/cli` · **winget = v1 ห้ามใช้** (TUI พัง) |
+| Bun | 1.3.x (ไม่บังคับแล้วบน v2 — เดิมใช้ตอน OpenCode v1 ดึง plugin) |
 | gh | 2.x |
 | Playwright MCP | `@playwright/mcp@0.0.82` |
-| oh-my-openagent | `4.19.4` (ติดตั้งใน **Lab 00** แบบ project) |
+| oh-my-openagent | ❌ ยังไม่รองรับ v2 (ทดสอบ 2026-09-24) — ใช้ native agents แทน |
 | superpowers | ติดตั้งใน **Lab 00** ด้วย `--scope project` |
 
 > Template **ไม่มี** `node_modules` · **ไม่มี** `.claude/settings.json` / `opencode.json` สำเร็จรูป  
@@ -167,7 +167,7 @@ claude mcp add playwright -- npx -y @playwright/mcp@0.0.82
 
 - `npm install` → `node_modules` (ไม่มาจาก template)
 - Claude `/init` + `claude plugin install … --scope project`
-- OpenCode `/init` + `opencode plugin add oh-my-openagent@4.19.4`
+- OpenCode `/init` — ต้องเป็น **v2** (`opencode --version` = 2.x) · native agents จาก template เป็นค่าหลัก
 - ดูการเปลี่ยนแปลงใน **Explorer + Source Control**
 
 ตัวอย่าง config (อ้างอิง — Lab 00 สร้างของจริง):
@@ -201,6 +201,7 @@ gh issue list --limit 10
 |---|---|
 | `claude` ไม่เจอ | ปิดเปิด Terminal · PATH `%USERPROFILE%\.local\bin` |
 | ติดตั้งแล้วได้ shim `.ps1`/`.cmd` เรียกไม่ขึ้น | รัน `setup-windows.ps1` ซ้ำ — มีขั้นเติม PATH และถอด npm shim แล้วลง native `.exe` แทน |
+| `opencode` TUI ขึ้น "TinyCC is disabled" | กำลังใช้ v1 — `npm install -g @opencode/cli` (v2) แล้วเปิด terminal ใหม่ · ถอน v1: `winget uninstall SST.opencode` |
 | winget ไม่มีในเครื่อง | ติดตั้ง **App Installer** จาก Microsoft Store แล้วรันสคริปต์ซ้ำ (OpenCode/claude/bun ไม่ต้องใช้ winget ก็ลงได้) |
 | GitHub MCP 401 | PAT หมดอายุ / scope ไม่ครบ |
 | พอร์ตซ้ำ | เปลี่ยน `PORT` ใน `.env` |
