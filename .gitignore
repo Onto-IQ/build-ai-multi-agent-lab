@@ -27,6 +27,7 @@ coverage/
 docs/_cli-*
 docs/_pr-diff.txt
 docs/_pr-comment.md
+*.tmp.md
 
 # instructor (should never be in template)
 instructor/

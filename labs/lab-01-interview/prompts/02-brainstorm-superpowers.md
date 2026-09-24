@@ -9,6 +9,10 @@
 
 Input: อ่าน docs/PROFILE.md ที่มีอยู่
 
+โหมด: ถ้ารันแบบโต้ตอบ (TUI) ให้ถามฉันทีละข้อได้
+แต่ถ้ารันแบบ one-shot (claude -p / ท่อจาก terminal): ตัดสินใจแทนฉันจาก PROFILE.md
+แล้วทำ Deliverables ให้ครบในรอบเดียว — ห้ามจบด้วยการถามกลับ
+
 Deliverables:
 1. ไอเดีย feature/เนื้อหา จัดเป็น Must / Nice / Later (รวมอย่างน้อย 8 ข้อ)
 2. มุมเล่าเรื่อง 3 แบบสำหรับหน้า About

@@ -157,6 +157,12 @@ claude
 
 แล้ว `/init` ตามนั้น
 
+**Headless (ทดสอบแล้ว):** `/init` ไม่ทำงานใน `claude -p` (ถูกมองเป็นข้อความธรรมดา) — ใช้คำสั่งรวมแทน:
+
+```powershell
+claude -p "ทำ /init: วิเคราะห์ codebase แล้ว merge โครงสร้างที่มีประโยชน์เข้า CLAUDE.md ที่มีอยู่ (เขียนไฟล์จริง) — ห้ามลบ: Ownership Frontend=Claude · Backend=OpenCode · ห้ามใช้ MCP เป็นท่อส่งงาน · ห้าม commit .env" --permission-mode acceptEdits
+```
+
 ### จุดเช็ก
 
 | ที่ดู | ควรเห็น |

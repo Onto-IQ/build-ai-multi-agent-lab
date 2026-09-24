@@ -84,6 +84,12 @@ claude
 วาง prompt จาก `01-issues-from-decisions.md`  
 รอจนได้ Issue # แล้วเปิดเบราว์เซอร์ตรวจ title/body
 
+**Headless (ทดสอบแล้ว — โหลด token ตาม "ก่อนเริ่ม" ก่อน แล้วอนุญาตเฉพาะ tool ของ github MCP):**
+
+```powershell
+claude -p (Get-Content -Raw .\labs\lab-03-plan-issues\prompts\01-issues-from-decisions.md) --permission-mode acceptEdits --allowedTools "mcp__github"
+```
+
 ### ขั้นที่ 3 — ยืนยันด้วย `gh` (คุณทำเอง)
 
 **ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
