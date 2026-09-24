@@ -8,10 +8,8 @@ data/
 # secrets / local
 .env
 .mcp.json
-.claude/settings.json
 .claude/settings.local.json
 .claude/agent-memory-local/
-opencode.json
 !opencode.json.example
 !.claude/settings.json.example
 
