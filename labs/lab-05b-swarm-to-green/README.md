@@ -41,21 +41,11 @@ npm run test:labs
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| `docs/SWARM.md` | มี done criteria, จำนวน turns (≤20 หรือหยุดที่เพดาน), สรุปเสร็จ/ค้าง |
-| ผลงาน | `test:labs` เขียว **หรือ** สรุปช่องว่างชัดเมื่อครบ 20 |
-| Guardrail | ไม่ commit secret · ใช้ `public-site-safe` |
-
-**ยังไม่ผ่านถ้า…** ปล่อยลูปไม่มีเพดาน · ไม่มี `SWARM.md` · ไม่มี done criteria
-
----
-
-## ทีละขั้น
+## ขั้นตอนการทำ Lab
 
 ### 1) เขียน done criteria (คุณทำก่อนปล่อย)
+
+**ทำที่:** ที่ไหนก็ได้ — ตกลงกับตัวเองให้ชัดก่อนเขียนลงไฟล์ในขั้นถัดไป
 
 ตัวอย่าง:
 
@@ -65,6 +55,8 @@ npm run test:labs
 ```
 
 ### 2) สร้างโครง SWARM.md
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 @'
@@ -90,6 +82,8 @@ npm run test:labs
 
 ### 3) ปล่อย swarm
 
+**ทำที่:** Windows Terminal แท็บ `claude` หรือ `opencode` — วาง prompt จาก [`prompts/01-swarm-to-green.md`](prompts/01-swarm-to-green.md)
+
 **ทาง A — Subagents / หลายเซสชัน (แนะนำบน Windows):**  
 เปิด `claude` หรือ `opencode` ตาม ownership งานที่ค้าง · วาง [`prompts/01-swarm-to-green.md`](prompts/01-swarm-to-green.md)  
 สลับ/ขนานได้ แต่**นับ turn รวม ≤ 20**
@@ -100,6 +94,8 @@ npm run test:labs
 ระหว่างรัน: อัปเดตตารางใน `docs/SWARM.md` คร่าว ๆ (ไม่ต้องละเอียดทุกข้อความ)
 
 ### 4) หยุดเมื่อเขียว หรือครบ 20
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 npm run test:labs
@@ -114,6 +110,18 @@ git add -u
 git status   # ไม่มี .env
 git commit -m "docs: Lab 05b swarm log (≤20 turns)"
 ```
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| `docs/SWARM.md` | มี done criteria, จำนวน turns (≤20 หรือหยุดที่เพดาน), สรุปเสร็จ/ค้าง |
+| ผลงาน | `test:labs` เขียว **หรือ** สรุปช่องว่างชัดเมื่อครบ 20 |
+| Guardrail | ไม่ commit secret · ใช้ `public-site-safe` |
+
+**ยังไม่ผ่านถ้า…** ปล่อยลูปไม่มีเพดาน · ไม่มี `SWARM.md` · ไม่มี done criteria
 
 ---
 

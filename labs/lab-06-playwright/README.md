@@ -49,18 +49,6 @@ npx -y @playwright/mcp@0.0.82 --help
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| `docs/QA.md` | มี `## E2E Playwright`, `## a11y Debate`, `## a11y Action items` |
-| Screenshots | ≥ 2 ไฟล์ใต้ `docs/screenshots/` |
-| E2E จริง | มี step pass/fail ไม่ใช่สมมติ |
-
-**ยังไม่ผ่านถ้า…** ไม่รัน `npm run dev` ตอนเทส · ไม่มีหลักฐาน E2E · ไม่จัดลำดับ P0/P1/P2
-
----
-
 ## เลือกวิธีทำ
 
 | ทาง | หมายเหตุ |
@@ -72,9 +60,11 @@ Prompts: [`01-playwright-e2e.md`](prompts/01-playwright-e2e.md) · [`02-a11y-deb
 
 ---
 
-## ทาง A — ทีละขั้น
+## ทาง A — ขั้นตอนการทำ Lab
 
 ### ขั้นที่ 1 — สร้างโครง QA
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 @'
@@ -88,6 +78,8 @@ New-Item -ItemType Directory -Force -Path .\docs\screenshots | Out-Null
 
 ### ขั้นที่ 2 — E2E (dev server ต้องยังรันอยู่)
 
+**ทำที่:** Windows Terminal แท็บ `claude` — พิมพ์ `claude` แล้ววาง prompt
+
 ใน Terminal B:
 
 ```powershell
@@ -99,10 +91,14 @@ claude
 
 ### ขั้นที่ 3 — a11y debate
 
+**ทำที่:** แท็บ `claude` เซสชันเดิม — วาง prompt
+
 วาง `02-a11y-debate.md`  
 (แยก subagent 2 รอบได้ถ้าอยาก context สะอาด)
 
 ### ขั้นที่ 4 — (ทางเลือก) แก้ P0 เล็ก ๆ
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 git checkout -b lab-06-qa-fix
@@ -113,10 +109,29 @@ git commit -am "fix(a11y): Lab 06 P0 label"
 
 ### ขั้นที่ 5 — Commit หลักฐาน
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 git add docs/QA.md docs/screenshots/
 git commit -m "docs: Lab 06 QA and screenshots"
 ```
+
+---
+
+## ทาง B — CLI (จำกัด)
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
+**ข้อจำกัดตรง ๆ:** browser tools ของ Playwright MCP ต้องผ่าน session ที่เปิด MCP ไว้ (`claude` แบบ interactive) — `claude -p` จึง**เทส E2E จริงบนเบราว์เซอร์ไม่ได้** · ส่วน E2E ต้องใช้ทาง A ไม่มีทางลัด
+
+CLI ทำได้เฉพาะงานที่อ่านโค้ดอย่างเดียว — a11y debate:
+
+```powershell
+Get-Content -Raw .\labs\lab-06-playwright\prompts\02-a11y-debate.md |
+  claude -p --permission-mode acceptEdits --output-format text
+```
+
+สรุป: ทำทาง B ได้แค่ส่วน a11y · `docs/QA.md` ต้องมี `## E2E Playwright` จากทาง A จึงผ่าน Lab · เกณฑ์ "ใช้ Playwright MCP จริง" ตรวจจากทาง A เท่านั้น
 
 ---
 
@@ -139,6 +154,18 @@ git commit -m "docs: Lab 06 QA and screenshots"
 - P0: associate label for email field
 - P1: focus ring on nav links
 ```
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| `docs/QA.md` | มี `## E2E Playwright`, `## a11y Debate`, `## a11y Action items` |
+| Screenshots | ≥ 2 ไฟล์ใต้ `docs/screenshots/` |
+| E2E จริง | มี step pass/fail ไม่ใช่สมมติ |
+
+**ยังไม่ผ่านถ้า…** ไม่รัน `npm run dev` ตอนเทส · ไม่มีหลักฐาน E2E · ไม่จัดลำดับ P0/P1/P2
 
 ---
 

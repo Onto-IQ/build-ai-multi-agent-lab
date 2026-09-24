@@ -47,19 +47,6 @@ Write-Host "Target: https://$slug.9expert.online"
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| URL | `https://userNN.9expert.online` เปิดได้ |
-| HTTP | `curl -I` ได้ 200 (หรืออธิบาย 304) |
-| API | POST contact/guestbook สำเร็จบน production |
-| เอกสาร | `docs/SHIP.md` มี URL, เวลา, คำสั่งที่ใช้ |
-
-**ยังไม่ผ่านถ้า…** ใช้แค่ localhost · ใช้ demo.9expert แทน slug ตัวเอง · commit webhook/รหัส admin · เคลมสำเร็จโดยไม่มี 200
-
----
-
 ## เลือกวิธีทำ
 
 | ทาง | บทบาท |
@@ -71,9 +58,11 @@ Prompts: [`01-coolify-deploy.md`](prompts/01-coolify-deploy.md) · [`02-github-p
 
 ---
 
-## ทีละขั้น — Coolify (หลัก)
+## ขั้นตอนการทำ Lab — Coolify (หลัก)
 
 ### ขั้นที่ 1 — Build ท้ายสุดบนเครื่อง
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 npm run test:labs
@@ -82,6 +71,8 @@ git status
 ```
 
 ### ขั้นที่ 2 — สร้าง/อัปเดต App บน Coolify (ทำกับวิทยากร)
+
+**ทำที่:** เบราว์เซอร์เปิด Coolify UI (ทำกับวิทยากร) · จบด้วยแท็บ `claude`
 
 1. Coolify → Project คอร์ส → **New Resource** → Application จาก GitHub repo **คุณ**  
 2. Branch: `main` · Build: **Dockerfile**  
@@ -97,6 +88,8 @@ Webhook (ถ้ามี): เก็บใน GitHub Secret — ไม่ใส�
 
 ### ขั้นที่ 3 — ตรวจ HTTP + API (คุณทำ)
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 แทน `userNN` ด้วย slug ของคุณ:
 
 ```powershell
@@ -111,6 +104,8 @@ curl.exe -sS -X POST "$base/api/contact" `
 ปรับ path/body ตาม template จริง
 
 ### ขั้นที่ 4 — เขียนและ commit SHIP.md
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 # ให้ Claude ช่วยเติมจากผล curl หรือเขียนเอง
@@ -132,6 +127,8 @@ git push
 
 ### ขั้นที่ 5 — Fallback Pages (ถ้าจำเป็น)
 
+**ทำที่:** Windows Terminal แท็บ `claude` — วาง prompt
+
 Coolify/DNS ไม่พร้อม → วาง `02-github-pages-fallback.md` · บันทึกใน SHIP.md ว่า **fallback** · API ไม่ครบ · แจ้งวิทยากร
 
 | | Coolify (เต็ม) | Pages fallback |
@@ -139,6 +136,19 @@ Coolify/DNS ไม่พร้อม → วาง `02-github-pages-fallback.md`
 | 4 หน้า | ✓ | ✓ |
 | Guestbook API | ✓ | ✗ |
 | เกณฑ์ slug.9expert | ✓ | ไม่แทน |
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| URL | `https://userNN.9expert.online` เปิดได้ |
+| HTTP | `curl -I` ได้ 200 (หรืออธิบาย 304) |
+| API | POST contact/guestbook สำเร็จบน production |
+| เอกสาร | `docs/SHIP.md` มี URL, เวลา, คำสั่งที่ใช้ |
+
+**ยังไม่ผ่านถ้า…** ใช้แค่ localhost · ใช้ demo.9expert แทน slug ตัวเอง · commit webhook/รหัส admin · เคลมสำเร็จโดยไม่มี 200
 
 ---
 

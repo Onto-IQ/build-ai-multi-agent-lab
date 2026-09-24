@@ -44,22 +44,6 @@ code .
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| Dependencies | มี `node_modules` จาก `npm install` · `npm test` เขียว |
-| Claude project | มี `.claude/settings.json` · superpowers · agents `frontend`/`reviewer` · skill `public-site-safe` |
-| OpenCode project | มี `opencode.json` · agent `backend` · skill `public-site-safe` (หรือ fallback `@`) |
-| Init | `/init` Claude + OpenCode แล้ว · กฎ ownership ใน seed ยังอยู่ |
-| Hot state | มี `docs/STATUS.md` + `docs/OPEN_LOOPS.md` (จาก example) |
-| Consistency | Claude กับ OpenCode ตอบ Goal / next จากไฟล์ชุดเดียวกัน (ไม่จากแชทคนละฝั่ง) |
-| Git สะอาด | ไม่ commit `node_modules` / `.env` |
-
-**ยังไม่ผ่านถ้า…** ติดตั้ง plugin เป็น User scope · ไม่เปิดโฟลเดอร์ดูไฟล์ · `node_modules` ถูก add เข้า git · ไม่มี STATUS/OPEN_LOOPS · สอง harness ตอบสถานะคนละเรื่องโดยไม่มีไฟล์รอง
-
----
-
 ## ส่วน 0 — เครื่องเปล่า? ติดตั้ง/ซ่อมเครื่องมือด้วย `setup-windows.ps1`
 
 ข้ามส่วนนี้ได้ถ้าคำสั่งเหล่านี้ขึ้นเวอร์ชันครบแล้ว: `node -v` · `git --version` · `gh --version` · `claude --version` · `opencode --version` · `bun --version`
@@ -103,6 +87,8 @@ opencode auth login  # เลือก provider
 
 ### A1 — ยืนยันว่ายังไม่มี `node_modules`
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 cd <โฟลเดอร์-repo-ของคุณ>
 Test-Path .\node_modules
@@ -112,6 +98,8 @@ git ls-files node_modules
 คาดหวัง: `Test-Path` = `False` · `git ls-files` ว่าง
 
 ### A2 — ติดตั้ง
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 npm install
@@ -140,6 +128,8 @@ git status -sb
 
 ### B1 — เปิดและ trust
 
+**ทำที่:** Windows Terminal แท็บ `claude` — พิมพ์ตามนี้
+
 ```powershell
 claude
 ```
@@ -156,7 +146,7 @@ claude
 
 **สำคัญ:** template มี `CLAUDE.md` seed กฎคอร์สแล้ว  
 - **อย่าให้ทับทั้งไฟล์จนหายตาราง Ownership / ห้าม MCP pipe**  
-- ถ้า Claude เสนอเขียนใหม่ทั้งก้อน → ขอให้**merge**: เก็บบล็อกคอร์ส แล้วเติมโครงสร้าง/คำสั่งที่ `/init` แนะนำ  
+- ถ้า Claude เสนอเขียนใหม่ทั้งก้อน → ขอให้**merge**: เก็บบล็อกคอร์ส แล้วเติมโครงสร้าง/คำสั่งที่ `/init` แนะนำ — วาง prompt สำเร็จรูปจาก [`prompts/02-merge-claude-init.md`](prompts/02-merge-claude-init.md) ได้เลย  
 
 ทางเลือก interactive (ถ้าวิทยากรบอกใช้):
 
@@ -177,6 +167,8 @@ claude
 
 ### B3 — ติดตั้ง superpowers แบบ Project (เลือกอย่างใดอย่างหนึ่ง)
 
+**ทำที่:** CLI → Windows Terminal (แท็บ `powershell`) · TUI → แท็บ `claude`
+
 **CLI (แนะนำในห้อง — ทำซ้ำได้ชัด):**
 
 ```powershell
@@ -190,6 +182,8 @@ claude plugin install superpowers@claude-plugins-official --scope project
 3. เลือก scope **Project** — **ไม่ใช่ User**
 
 ### B4 — ตรวจ `.claude/settings.json`
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 Test-Path .\.claude\settings.json
@@ -275,12 +269,14 @@ Get-ChildItem -Recurse .\.claude\agent-memory -ErrorAction SilentlyContinue
 
 ### C1 — `/init` (TUI)
 
+**ทำที่:** Windows Terminal แท็บ `opencode` — พิมพ์ตามนี้
+
 ```powershell
 opencode
 ```
 
 ใน TUI พิมพ์ `/init`  
-merge กับ [`AGENTS.md`](../../AGENTS.md) seed — **อย่าลบ** Ownership / Native harness only
+merge กับ [`AGENTS.md`](../../AGENTS.md) seed — **อย่าลบ** Ownership / Native harness only — วาง prompt สำเร็จรูปจาก [`prompts/03-merge-opencode-init.md`](prompts/03-merge-opencode-init.md) ได้เลย
 
 ### จุดเช็ก
 
@@ -290,6 +286,8 @@ merge กับ [`AGENTS.md`](../../AGENTS.md) seed — **อย่าลบ** O
 | Source Control | diff ใน `AGENTS.md` |
 
 ### C2 — ติดตั้ง oh-my แบบ Project (เลือกอย่างใดอย่างหนึ่ง)
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — รันจาก **root** ของ repo
 
 **ทาง A — copy ตัวอย่างแล้วเปิด OpenCode (แนะนำผู้เรียนใหม่):**
 
@@ -309,6 +307,8 @@ opencode plugin add oh-my-openagent@4.19.4
 รันจาก **root** เพื่อให้เขียนเข้า `opencode.json` ของโปรเจกต์
 
 ### C3 — ตรวจผล
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 Test-Path .\opencode.json
@@ -372,11 +372,13 @@ OpenCode **ไม่มี** `memory: project` แบบ Claude — ของถ
 
 ---
 
-## ส่วน C6 — Hot state + Consistency check (shared folder)
+### C6 — Hot state + Consistency check (shared folder)
 
 ความจริงร่วมข้าม Claude ↔ OpenCode อยู่ที่ **ไฟล์** ไม่ใช่แชท — สร้าง Hot state ตาม [`COURSE.md`](../../COURSE.md) (ชั้น State)
 
 ### สร้างไฟล์
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 Copy-Item .\docs\STATUS.md.example .\docs\STATUS.md
@@ -392,6 +394,8 @@ Test-Path .\docs\handoffs\TEMPLATE.md
 ```
 
 ### Consistency check (บังคับ)
+
+**ทำที่:** แท็บ `claude` และแท็บ `opencode` — วางคำถามเดียวกันทีละตัว
 
 ถาม**ทั้งสอง** harness คำถามเดียวกัน (copy วางทีละตัว):
 
@@ -416,6 +420,8 @@ Test-Path .\docs\handoffs\TEMPLATE.md
 
 ถ้ายังไม่มี `.mcp.json` (จาก SETUP):
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 copy .\.mcp.json.example .\.mcp.json
 ```
@@ -423,6 +429,8 @@ copy .\.mcp.json.example .\.mcp.json
 ไฟล์นี้**อย่า commit** (อยู่ใน `.gitignore`)
 
 ### Commit สิ่งที่ควรเข้า git
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 git status -sb
@@ -436,6 +444,22 @@ git commit -m "chore: Lab 00 project init, agents, hot state, and public-site-sa
 ```
 
 **ห้าม `git add`:** `node_modules/`, `.env`, `.mcp.json`, `.claude/settings.local.json`, `.claude/agent-memory-local/`
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| Dependencies | มี `node_modules` จาก `npm install` · `npm test` เขียว |
+| Claude project | มี `.claude/settings.json` · superpowers · agents `frontend`/`reviewer` · skill `public-site-safe` |
+| OpenCode project | มี `opencode.json` · agent `backend` · skill `public-site-safe` (หรือ fallback `@`) |
+| Init | `/init` Claude + OpenCode แล้ว · กฎ ownership ใน seed ยังอยู่ |
+| Hot state | มี `docs/STATUS.md` + `docs/OPEN_LOOPS.md` (จาก example) |
+| Consistency | Claude กับ OpenCode ตอบ Goal / next จากไฟล์ชุดเดียวกัน (ไม่จากแชทคนละฝั่ง) |
+| Git สะอาด | ไม่ commit `node_modules` / `.env` |
+
+**ยังไม่ผ่านถ้า…** ติดตั้ง plugin เป็น User scope · ไม่เปิดโฟลเดอร์ดูไฟล์ · `node_modules` ถูก add เข้า git · ไม่มี STATUS/OPEN_LOOPS · สอง harness ตอบสถานะคนละเรื่องโดยไม่มีไฟล์รอง
 
 ---
 

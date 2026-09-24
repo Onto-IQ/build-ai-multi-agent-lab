@@ -55,20 +55,6 @@ git checkout -b lab-05-backend
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| Implementation | guestbook/contact บันทึก SQLite ตาม template |
-| Tests | `npm run test:labs` exit 0 |
-| PR | repo คุณ · บอกวิธีรัน test + โน้ต security |
-| Ownership | ใช้ OpenCode เป็นหลัก |
-| Hot state | อัปเดต STATUS/OPEN_LOOPS หลังเขียว · commit ก่อนสลับ harness |
-
-**ยังไม่ผ่านถ้า…** test ยังแดง · hardcode secret · ให้ Claude ทำ backend ทั้งก้อนโดยไม่มีงาน OpenCode · แก้ test ให้ผ่านปลอม · เริ่มโดยไม่ได้อ่าน handoff/STATUS
-
----
-
 ## เลือกวิธีทำ
 
 | ทาง | เหมาะกับใคร |
@@ -80,9 +66,11 @@ Prompt: [`01-backend-guestbook.md`](prompts/01-backend-guestbook.md)
 
 ---
 
-## ทาง A — ทีละขั้น
+## ทาง A — ขั้นตอนการทำ Lab
 
 ### ขั้นที่ 1 — เปิด OpenCode ที่ root repo
+
+**ทำที่:** Windows Terminal แท็บ `opencode` — พิมพ์ `opencode` แล้ววาง prompt
 
 ```powershell
 opencode
@@ -91,6 +79,8 @@ opencode
 วาง prompt จาก `01-backend-guestbook.md`
 
 ### ขั้นที่ 2 — วนจน test เขียว
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ (หรือสั่งใน TUI ถ้าสั่งรันได้)
 
 ใน terminal อีกอัน (หรือใน TUI ถ้าสั่งรันได้):
 
@@ -102,6 +92,8 @@ npm test
 อ่าน error แรก → ให้ OpenCode แก้ → รันซ้ำ จนเขียว
 
 ### ขั้นที่ 3 — ลองฟอร์มบนเครื่อง
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ แล้วลองที่เบราว์เซอร์
 
 ```powershell
 npm run dev
@@ -118,7 +110,23 @@ curl.exe -X POST "http://localhost:4321/api/guestbook" `
 
 (ปรับ path ตาม template จริง)
 
-### ขั้นที่ 4 — เปิด PR
+### ขั้นที่ 4 — Call ข้าม harness: ขอมุม Frontend ตรวจการผูกฟอร์ม (หลังเขียว)
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ (Claude ทำงาน headless ไม่ต้องเปิด TUI)
+
+test เขียว = สัญญาฝั่ง server ถูก — แต่**ฟอร์มบนหน้าเว็บ**ยิงถูกปุ่มหรือเปล่า ให้ฝั่ง **Claude (frontend)** ตรวจย้อนกลับมาหนึ่งรอบ:
+
+```powershell
+claude -p "Read docs/DECISIONS.md, docs/handoffs/04-claude-to-opencode.md, docs/fe-be-contract-check.md (ถ้ามี), and the Contact/Guestbook form code in src/pages/. The API is now implemented in src/pages/api/*.ts and src/lib/db.ts. Check that form fields, HTTP method and error handling match the implemented contract. Write docs/be-fe-integration-check.md in Thai with match / mismatch / suggestion. Do not edit any src/ file." --permission-mode acceptEdits
+```
+
+- **กติกา call ข้าม harness:** Claude (ฝั่งถูกเรียก) เขียนได้**เฉพาะ** `docs/be-fe-integration-check.md` — ไม่แตะงาน API
+- อ่านรายงาน → ถ้ามี mismatch ให้ OpenCode/คุณตัดสินว่าแก้ฝั่งไหน (API หรือฟอร์ม) แล้วทำใน ownership ของฝั่งนั้น
+- เวอร์ชัน "agent เรียกเอง": ในเซสชัน `opencode` สั่งผ่าน skill `claude-code` — OpenCode เป็นคนเรียก Claude เอง
+
+### ขั้นที่ 5 — เปิด PR
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 git add -A
@@ -139,7 +147,9 @@ npm test
 '@ )"
 ```
 
-### ขั้นที่ 5 — อัปเดต Hot state + commit ก่อนสลับ
+### ขั้นที่ 6 — อัปเดต Hot state + commit ก่อนสลับ
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) + แก้ไฟล์ใน VS Code — พิมพ์ตามนี้
 
 ```powershell
 # อัปเดต STATUS: Done += Lab 05 test:labs · Next = 05b หรือ 06
@@ -150,6 +160,28 @@ git status
 git commit -m "docs: Lab 05 status after test:labs green"
 git push
 ```
+
+---
+
+## ทาง B — `opencode run` (one-shot)
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ ทีละบล็อก
+
+สั่ง OpenCode implement จาก prompt ไฟล์โดยไม่เปิด TUI:
+
+```powershell
+cd <โฟลเดอร์-repo-ของคุณ>
+opencode run "$(Get-Content -Raw .\labs\lab-05-backend\prompts\01-backend-guestbook.md)"
+```
+
+วน test จนเขียว (ถ้ายังแดง สั่งแก้ต่อด้วย `opencode run "..."` อีกรอบ):
+
+```powershell
+npm run test:labs
+npm test
+```
+
+เขียวแล้ว: เปิด PR + อัปเดต Hot state ให้ครบ **เหมือนทาง A ขั้นที่ 5–6** (PR ต้องระบุ ownership Backend / OpenCode + วิธีรัน test) · ขั้นที่ 4 (call ข้าม harness ฝั่ง Claude ตรวจฟอร์ม) ยังต้องทำเหมือนเดิม
 
 ---
 
@@ -169,6 +201,21 @@ Template วาง **course stubs** ไว้ทดสอบสัญญา gues
 
 ---
 
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| Implementation | guestbook/contact บันทึก SQLite ตาม template |
+| Tests | `npm run test:labs` exit 0 |
+| PR | repo คุณ · บอกวิธีรัน test + โน้ต security |
+| Ownership | ใช้ OpenCode เป็นหลัก |
+| Call ข้าม harness | มี `docs/be-fe-integration-check.md` (Claude เขียน) · mismatch ตัดสินแล้ว |
+| Hot state | อัปเดต STATUS/OPEN_LOOPS หลังเขียว · commit ก่อนสลับ harness |
+
+**ยังไม่ผ่านถ้า…** test ยังแดง · hardcode secret · ให้ Claude ทำ backend ทั้งก้อนโดยไม่มีงาน OpenCode · แก้ test ให้ผ่านปลอม · เริ่มโดยไม่ได้อ่าน handoff/STATUS
+
+---
+
 ## ตรวจว่าผ่านหรือยัง
 
 ```powershell
@@ -181,6 +228,7 @@ npm run build
 - [ ] PR Backend · บอกวิธีรัน test  
 - [ ] ไม่ leak `.env` · validate input  
 - [ ] ใช้ OpenCode เป็นหลัก  
+- [ ] มี `docs/be-fe-integration-check.md` จากฝั่ง Claude · ฝั่งถูกเรียกแตะเฉพาะไฟล์รายงาน  
 - [ ] อ่าน handoff Lab 04 แล้ว · อัปเดต STATUS/OPEN_LOOPS · commit ก่อนสลับ  
 
 ถ้า conflict กับ branch Lab 04: rebase บน main · ให้ OpenCode ช่วยเฉพาะไฟล์ API · รัน `test:labs` อีกครั้งก่อน Lab 06

@@ -41,23 +41,6 @@ Test-Path .\.claude\settings.json
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | อยู่ที่ | ผ่านเมื่อ |
-|---|---|---|
-| โปรไฟล์ | `docs/PROFILE.md` | มีชื่อ, headline, bio, audience, interests ≥ 3, contact, tone |
-| Brainstorm | ท้ายไฟล์เดียวกัน | มีหัวข้อ `## Brainstorm` และ Must / Nice / Later |
-| (แนะนำ) | Git commit | commit ข้อความประมาณ `docs: add PROFILE from Lab 01` |
-
-**ยังไม่ผ่านถ้า…**
-
-- ให้ AI เดาชื่อและเรื่องเล่าโดยคุณไม่ตอบสัมภาษณ์  
-- ไฟล์ว่างหรือมีแค่หัวข้อไม่มีเนื้อหา  
-- เผลอ commit `.env` หรือรหัสลับ  
-- ไปแก้หน้า `.astro` ใน Lab นี้ (เก็บไว้ Lab 04)
-
----
-
 ## เลือกวิธีทำ (เลือกอย่างใดอย่างหนึ่ง)
 
 | ทาง | เหมาะกับใคร | ทำยังไงสั้น ๆ |
@@ -72,9 +55,11 @@ Test-Path .\.claude\settings.json
 
 ---
 
-## ทาง A — ทีละขั้น (แนะนำในห้อง)
+## ทาง A — ขั้นตอนการทำ Lab (แนะนำในห้อง)
 
 ### ขั้นที่ 1 — เปิด Claude ในโฟลเดอร์ถูกที่
+
+**ทำที่:** Windows Terminal (แท็บใหม่) — พิมพ์ตามนี้
 
 ```powershell
 cd <โฟลเดอร์-repo-ของคุณ>
@@ -86,6 +71,8 @@ claude
 
 ### ขั้นที่ 2 — เปิด Plan mode (ทำเอง ก่อนวาง prompt)
 
+**ทำที่:** ในหน้าต่าง `claude` ที่เปิดจากขั้นที่ 1
+
 ทำอย่างใดอย่างหนึ่ง:
 
 - กด **Shift+Tab** จนโหมดเป็น Plan หรือ  
@@ -95,11 +82,15 @@ claude
 
 ### ขั้นที่ 3 — วาง prompt สัมภาษณ์
 
+**ทำที่:** ในหน้าต่าง `claude` — วางแล้วกด Enter
+
 1. เปิดไฟล์ [`prompts/01-plan-interview.md`](prompts/01-plan-interview.md)  
 2. คัดลอก**เฉพาะ**ข้อความในกรอบ \`\`\`text ... \`\`\`  
 3. วางใน Claude แล้ว Enter  
 
 ### ขั้นที่ 4 — ตอบคำถามอย่างน้อย 8 ข้อ
+
+**ทำที่:** ในหน้าต่าง `claude` (บทสนทนาเดิม) — พิมพ์คำตอบทีละข้อ
 
 - ตอบด้วยข้อมูลจริงหรือ persona สาธิตก็ได้ แต่**ใช้ชุดเดียวกันทั้งคอร์ส**  
 - ถ้าไม่แน่ใจเรื่องสี/โทน บอกว่า “อยากได้โทนสะอาด อ่านง่าย ไม่ฉูดฉาด” ก็พอ  
@@ -108,6 +99,8 @@ claude
 เมื่อ Claude สรุปแผนและเขียนไฟล์แล้ว ไปขั้นถัดไป
 
 ### ขั้นที่ 5 — เปิดไฟล์ดูด้วยตา
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ (หรือเปิดใน VS Code)
 
 ```powershell
 notepad .\docs\PROFILE.md
@@ -126,6 +119,8 @@ notepad .\docs\PROFILE.md
 
 ### ขั้นที่ 7 — บันทึกงาน (commit)
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 git add docs/PROFILE.md
 git status
@@ -137,6 +132,8 @@ push เมื่อวิทยากรบอก (อย่า push `.env`)
 ---
 
 ## ทาง B — CLI สั้น ๆ (ทางเลือก)
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 เหมาะเมื่อคุณ**เตรียมคำตอบสัมภาษณ์ไว้แล้ว**ในไฟล์ข้อความ
 
@@ -208,6 +205,23 @@ Solution Architect ที่สนใจ Data และ AI agents
 
 ---
 
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | อยู่ที่ | ผ่านเมื่อ |
+|---|---|---|
+| โปรไฟล์ | `docs/PROFILE.md` | มีชื่อ, headline, bio, audience, interests ≥ 3, contact, tone |
+| Brainstorm | ท้ายไฟล์เดียวกัน | มีหัวข้อ `## Brainstorm` และ Must / Nice / Later |
+| (แนะนำ) | Git commit | commit ข้อความประมาณ `docs: add PROFILE from Lab 01` |
+
+**ยังไม่ผ่านถ้า…**
+
+- ให้ AI เดาชื่อและเรื่องเล่าโดยคุณไม่ตอบสัมภาษณ์  
+- ไฟล์ว่างหรือมีแค่หัวข้อไม่มีเนื้อหา  
+- เผลอ commit `.env` หรือรหัสลับ  
+- ไปแก้หน้า `.astro` ใน Lab นี้ (เก็บไว้ Lab 04)
+
+---
+
 ## ตรวจว่าผ่าน Lab หรือยัง
 
 ```powershell
@@ -235,7 +249,6 @@ git check-ignore -v .env
 | Plan mode ไม่ขึ้น | อัปเดต Claude Code · ลองพิมพ์ `/plan` |
 | วาง prompt แล้ว Claude รีบสร้างหน้าเว็บ | ย้ำว่า “Lab นี้ห้ามแก้ `.astro`” หรือเริ่มเซสชันใหม่ใน Plan mode |
 | superpowers ไม่มี brainstorming | กลับ [`Lab 00`](../lab-00-project-init/README.md) · ติดตั้งใหม่ `--scope project` |
-
 | ไม่แน่ใจว่าอยู่โฟลเดอร์ถูกไหม | `Get-Location` แล้วดูว่ามี `package.json` กับ `labs\` |
 
 ---

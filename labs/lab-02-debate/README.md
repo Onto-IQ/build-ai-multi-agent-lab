@@ -52,18 +52,6 @@ claude --version
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | อยู่ที่ | ผ่านเมื่อ |
-|---|---|---|
-| ความเห็น 3 มุม | `docs/DEBATE.md` | มี `## Brand Strategist`, `## UX Critic`, `## Devil's Advocate` |
-| การตัดสินใจ | `docs/DECISIONS.md` | ตาราง D1–D6+, Out of scope, เกณฑ์พร้อม Lab 04 |
-| (แนะนำ) | Git commit | `docs: debate and decisions from Lab 02` |
-
-**ยังไม่ผ่านถ้า…** DEBATE เป็นคนเดียวเขียนคลอ · ไม่มี D1–D6 · ไปแก้ไฟล์ `.astro`
-
----
-
 ## เลือกวิธีทำ
 
 | ทาง | เหมาะกับใคร | สั้น ๆ |
@@ -82,9 +70,11 @@ claude --version
 
 ---
 
-## ทาง A — ทีละขั้น (แนะนำในห้อง)
+## ทาง A — ขั้นตอนการทำ Lab (แนะนำในห้อง)
 
 ### ขั้นที่ 1 — Brand Strategist
+
+**ทำที่:** Windows Terminal แท็บ `claude` — ทำตามลำดับ
 
 1. เปิด `claude` ที่โฟลเดอร์ repo  
 2. (แนะนำ) พิมพ์ `@` แล้วเลือก/สร้าง subagent **หรือ** เปิดเซสชันใหม่  
@@ -93,9 +83,13 @@ claude --version
 
 ### ขั้นที่ 2 — UX Critic
 
+**ทำที่:** เซสชัน/subagent **ใหม่** ใน `claude` — วาง prompt
+
 เซสชัน/subagent **ใหม่** → วาง `02-ux-critic.md` → ตรวจหัวข้อ UX ใน DEBATE
 
 ### ขั้นที่ 3 — Devil's Advocate
+
+**ทำที่:** เซสชัน/subagent **ใหม่** อีกตัว — วาง prompt
 
 เซสชัน/subagent **ใหม่** → วาง `03-devils-advocate.md` → ตรวจหัวข้อ Devil
 
@@ -104,16 +98,24 @@ claude --version
 
 ### ขั้นที่ 4 — สังเคราะห์เป็น DECISIONS
 
+**ทำที่:** เซสชัน facilitator (คุณ หรือ `claude` หลัก) — วาง prompt
+
 เซสชัน facilitator (คุณหรือ Claude หลัก) → วาง `04-synthesize-decisions.md`  
 อ่านตาราง D1–D6 แล้ว**แก้คำตัดสินเอง**ถ้ายังคลุมเครือ
 
 ### ขั้นที่ 5 — (ทางเลือก) Agent Teams
 
+**ทำที่:** Agent Teams ตาม SETUP — วาง prompt
+
 ถ้า Teams พร้อม: เปิดตาม SETUP แล้ววาง `05-agent-teams-fallback.md`  
 **ถ้าไม่เสถียรภายใน 15 นาที** → ใช้ Subagents อย่างเดียว ยังผ่าน Lab  
 **อย่าบังคับ tmux บน Windows**
 
+(ทางนี้มีหัวข้อเต็มใน **ทาง C** ด้านล่าง)
+
 ### ขั้นที่ 6 — Commit
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 git add docs/DEBATE.md docs/DECISIONS.md docs/PROFILE.md
@@ -125,12 +127,58 @@ git commit -m "docs: debate and decisions from Lab 02"
 
 ## ทาง B — CLI
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ทีละบล็อก ตามลำดับ (แต่ละบล็อก = 1 เซสชัน one-shot แยกจากกันตามหลักแยกบทบาท)
+
+**1) Brand Strategist:**
+
 ```powershell
 cd <โฟลเดอร์-repo-ของคุณ>
 Get-Content -Raw .\labs\lab-02-debate\prompts\01-brand-strategist.md |
   claude -p --permission-mode acceptEdits --output-format text
-# ทำซ้ำ 02, 03 แล้ว 04
 ```
+
+**2) UX Critic:**
+
+```powershell
+Get-Content -Raw .\labs\lab-02-debate\prompts\02-ux-critic.md |
+  claude -p --permission-mode acceptEdits --output-format text
+```
+
+**3) Devil's Advocate:**
+
+```powershell
+Get-Content -Raw .\labs\lab-02-debate\prompts\03-devils-advocate.md |
+  claude -p --permission-mode acceptEdits --output-format text
+```
+
+ระหว่างทาง เปิด `docs/DEBATE.md` ดูว่าครบ 3 หัวข้อแล้ว
+
+**4) สังเคราะห์เป็น DECISIONS:**
+
+```powershell
+Get-Content -Raw .\labs\lab-02-debate\prompts\04-synthesize-decisions.md |
+  claude -p --permission-mode acceptEdits --output-format text
+```
+
+อ่านตาราง D1–D6 แล้ว**แก้คำตัดสินเอง**ถ้ายังคลุมเครือ · จบด้วย commit เหมือนทาง A ขั้นที่ 6
+
+---
+
+## ทาง C — Agent Teams (ทางเลือก)
+
+**ทำที่:** Windows Terminal แท็บ `claude` (ต้องมี `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` ใน `.env` ตามหัวข้อ "ก่อนเริ่ม")
+
+1. เปิด `claude` ที่ root repo — พิมพ์:
+
+```powershell
+claude
+```
+
+2. วาง prompt จาก [`prompts/05-agent-teams-fallback.md`](prompts/05-agent-teams-fallback.md) — prompt ตัวนี้จะจัดทีม Brand / UX / Devil และสังเคราะห์ `docs/DECISIONS.md` ตามโครงเดียวกับ `04-synthesize-decisions.md` ให้เอง  
+3. **ถ้าไม่เสถียรภายใน 15 นาที** → กลับไปทาง A (Subagents) — ยังผ่าน Lab เท่ากัน  
+4. **อย่าบังคับ tmux บน Windows** · Teams พังได้ = ปกติของ Windows ไม่ใช่ความผิดของคุณ
+
+จบแล้วตรวจเหมือนทาง A: มี `docs/DEBATE.md` ครบ 3 มุม + `docs/DECISIONS.md` ตาราง D1–D6 · commit ตามทาง A ขั้นที่ 6
 
 ---
 
@@ -154,6 +202,18 @@ Get-Content -Raw .\labs\lab-02-debate\prompts\01-brand-strategist.md |
 | interests | ความเชี่ยวชาญ | จำนวนรายการ | ข้อมูลเกินจำเป็น |
 | contact | trust | ฟอร์มสั้น | spam / privacy |
 | Brainstorm Must | ลด scope | ลด cognitive load | ตัด feature เสี่ยง |
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | อยู่ที่ | ผ่านเมื่อ |
+|---|---|---|
+| ความเห็น 3 มุม | `docs/DEBATE.md` | มี `## Brand Strategist`, `## UX Critic`, `## Devil's Advocate` |
+| การตัดสินใจ | `docs/DECISIONS.md` | ตาราง D1–D6+, Out of scope, เกณฑ์พร้อม Lab 04 |
+| (แนะนำ) | Git commit | `docs: debate and decisions from Lab 02` |
+
+**ยังไม่ผ่านถ้า…** DEBATE เป็นคนเดียวเขียนคลอ · ไม่มี D1–D6 · ไปแก้ไฟล์ `.astro`
 
 ---
 

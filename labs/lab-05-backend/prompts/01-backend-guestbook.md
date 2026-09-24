@@ -9,7 +9,7 @@
 อ่านก่อน (ห้ามสมมุติจากแชท Claude):
 - docs/handoffs/04-claude-to-opencode.md (ถ้ามี)
 - docs/STATUS.md · docs/OPEN_LOOPS.md
-- course/ tests ที่เกี่ยว (guestbook, contact)
+- tests/labs/lab05-api.test.ts (tests ที่เกี่ยว: guestbook, contact)
 - docs/DECISIONS.md (D ที่เกี่ยว guestbook)
 - AGENTS.md ใน repo ถ้ามี
 

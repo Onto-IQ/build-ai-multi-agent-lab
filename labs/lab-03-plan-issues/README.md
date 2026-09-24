@@ -52,18 +52,6 @@ claude mcp list
 
 ---
 
-## สิ่งที่ต้องมีเมื่อจบ Lab
-
-| สิ่งที่ต้องมี | ผ่านเมื่อ |
-|---|---|
-| Issues บน GitHub | ≥ 4 อันใน repo คุณ · body มี acceptance checklist |
-| เอกสาร | ท้าย `docs/DECISIONS.md` มี `## Lab 03 — MCP vs gh` (≥ 5 bullet) |
-| หลักฐาน MCP | ใช้อย่างน้อย 1 issue สร้างผ่าน MCP (แนะนำทั้งหมด) |
-
-**ยังไม่ผ่านถ้า…** issue ไป Onto-IQ upstream · MCP 401 แล้วยังเคลมผ่าน · ไม่มี acceptance
-
----
-
 ## เลือกวิธีทำ
 
 | ทาง | เหมาะกับใคร |
@@ -75,15 +63,19 @@ Prompts: [`01-issues-from-decisions.md`](prompts/01-issues-from-decisions.md) ·
 
 ---
 
-## ทาง A — ทีละขั้น
+## ทาง A — ขั้นตอนการทำ Lab
 
 ### ขั้นที่ 1 — ดู decisions
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
 
 ```powershell
 Select-String -Path .\docs\DECISIONS.md -Pattern "\| D"
 ```
 
 ### ขั้นที่ 2 — สร้าง issues ด้วย MCP
+
+**ทำที่:** Windows Terminal แท็บ `claude` — พิมพ์ `claude` แล้ววาง prompt
 
 ```powershell
 claude
@@ -94,12 +86,16 @@ claude
 
 ### ขั้นที่ 3 — ยืนยันด้วย `gh` (คุณทำเอง)
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 gh issue list --limit 15
 gh issue view <number> --web
 ```
 
 ### ขั้นที่ 4 — เทียบกับ `gh`
+
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้ (หรือแท็บ `claude` วาง `02-gh-compare.md`)
 
 วาง `02-gh-compare.md` หรือสร้าง draft เอง:
 
@@ -112,6 +108,8 @@ gh issue create --title "[Lab 03] Draft compare gh" `
 
 ### ขั้นที่ 5 — Commit เอกสาร
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ตามนี้
+
 ```powershell
 git add docs/DECISIONS.md
 git commit -m "docs: Lab 03 issue planning notes"
@@ -121,12 +119,43 @@ git commit -m "docs: Lab 03 issue planning notes"
 
 ## ทาง B — CLI (`gh` หลัก)
 
+**ทำที่:** Windows Terminal (แท็บ `powershell`) — พิมพ์ทีละบล็อก ต่อ decision
+
+**D2 — Guestbook:**
+
 ```powershell
+cd <โฟลเดอร์-repo-ของคุณ>
 claude -p --permission-mode acceptEdits "Read docs/DECISIONS.md. Write issue-bodies/d2-guestbook.md with acceptance criteria for decision D2 only."
 gh issue create --title "[D2] Guestbook scope" --body-file issue-bodies/d2-guestbook.md
 ```
 
-ทำซ้ำ decisions อื่น · ยังต้องมีส่วน MCP vs gh และควรมีอย่างน้อย 1 issue จาก MCP
+**D1 — Headline:**
+
+```powershell
+claude -p --permission-mode acceptEdits "Read docs/DECISIONS.md. Write issue-bodies/d1-headline.md with acceptance criteria for decision D1 only."
+gh issue create --title "[D1] Align Home hero with PROFILE" --body-file issue-bodies/d1-headline.md
+```
+
+**D3 — Visual:**
+
+```powershell
+claude -p --permission-mode acceptEdits "Read docs/DECISIONS.md. Write issue-bodies/d3-visual.md with acceptance criteria for decision D3 only."
+gh issue create --title "[D3] Theme color from tone" --body-file issue-bodies/d3-visual.md
+```
+
+**D4 — a11y:**
+
+```powershell
+claude -p --permission-mode acceptEdits "Read docs/DECISIONS.md. Write issue-bodies/d4-a11y.md with acceptance criteria for decision D4 only."
+gh issue create --title "[D4] Form labels and focus" --body-file issue-bodies/d4-a11y.md
+```
+
+**ยังต้องครบเกณฑ์ผ่าน 2 ข้อนี้ (ทำผ่านทาง A):**
+
+- **ส่วน `## Lab 03 — MCP vs gh`** — เปิดแท็บ `claude` แล้ววาง [`prompts/02-gh-compare.md`](prompts/02-gh-compare.md) (เหมือนทาง A ขั้นที่ 4)  
+- **≥ 1 issue สร้างผ่าน GitHub MCP** — เปิดแท็บ `claude` แล้ววาง [`prompts/01-issues-from-decisions.md`](prompts/01-issues-from-decisions.md) (เหมือนทาง A ขั้นที่ 2) — CLI อย่างเดียวสร้าง issue ทาง `gh` ไม่นับเป็นหลักฐาน MCP
+
+ทำซ้ำ decisions อื่นถ้ามีเกิน 4 · ตรวจครบตามหัวข้อ "ตรวจว่าผ่านหรือยัง" ด้านล่าง
 
 ---
 
@@ -150,6 +179,18 @@ gh issue create --title "[D2] Guestbook scope" --body-file issue-bodies/d2-guest
 | D2 guestbook | `[D2] Guestbook API + validation` | 05 |
 | D3 visual | `[D3] Theme color from tone` | 04 |
 | D4 a11y | `[D4] Form labels and focus` | 04/06 |
+
+---
+
+## สิ่งที่ได้รับหลังจบ Lab
+
+| สิ่งที่ได้รับ | ผ่านเมื่อ |
+|---|---|
+| Issues บน GitHub | ≥ 4 อันใน repo คุณ · body มี acceptance checklist |
+| เอกสาร | ท้าย `docs/DECISIONS.md` มี `## Lab 03 — MCP vs gh` (≥ 5 bullet) |
+| หลักฐาน MCP | ใช้อย่างน้อย 1 issue สร้างผ่าน MCP (แนะนำทั้งหมด) |
+
+**ยังไม่ผ่านถ้า…** issue ไป Onto-IQ upstream · MCP 401 แล้วยังเคลมผ่าน · ไม่มี acceptance
 
 ---
 
