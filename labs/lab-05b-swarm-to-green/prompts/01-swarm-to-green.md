@@ -4,7 +4,7 @@
 **(นับ turn และอัปเดต docs/SWARM.md — ตาม README)**
 
 ```text
-เป้าหมาย Lab 05b: swarm หลายตัว (หรือหลายรอบ) เพื่อทำให้ guestbook/API ตาม course stubs พร้อม
+เป้าหมาย: swarm หลายตัว (หรือหลายรอบ) เพื่อทำให้ guestbook/API ตาม course stubs พร้อม
 
 Done criteria (ปรับให้ตรงสถานะจริงถ้าจำเป็น):
 - npm run test:labs เขียว
