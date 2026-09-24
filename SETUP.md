@@ -24,9 +24,35 @@ Deploy ปลายทาง: `https://<STUDENT_SLUG>.9expert.online` (Coolify �
 
 ---
 
+## เตรียมเครื่องเปล่าใน 1 คำสั่ง (ติดตั้ง/ซ่อมให้อัตโนมัติ)
+
+เครื่องยัง**ไม่มี** Node / Git / gh / Bun / Claude Code / OpenCode หรือเคยติดตั้งแล้วคำสั่งเรียกไม่ขึ้น (ติดมาเป็น shim `.ps1`/`.cmd` แต่ PATH ไม่ map จริง) — เปิด **PowerShell** ปกติแล้วรัน:
+
+```powershell
+irm https://raw.githubusercontent.com/Onto-IQ/build-ai-multi-agent-lab/main/scripts/setup-windows.ps1 -OutFile "$env:TEMP\setup-windows.ps1"
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\setup-windows.ps1"
+```
+
+สคริปต์จะขอสิทธิ์ Administrator (UAC) เอง ติดตั้ง/ซ่อมให้จนครบ แล้วพิมพ์ตารางสรุปเวอร์ชัน:
+
+- ติดตั้งเป็น **`.exe` จริง** — Claude Code / OpenCode / Bun ใช้ installer แบบ native (ไม่ผ่าน npm) จึงไม่มีปัญหา shim
+- **ซ่อมเครื่องที่ลงพังได้**: PATH หาย → เติมให้ · npm global shim เดิม → ถอดแล้วลง native แทน · คำสั่งมีแต่เรียกแล้วค้าง/พัง → ติดตั้งทับ · Node < 22 → อัปเกรด
+- รันซ้ำได้ — ตัวไหนผ่านอยู่แล้วจะข้าม (`-DryRun` เพื่อดูอย่างเดียว · `-SkipVSCode` ถ้าใช้ Cursor)
+
+หลังสคริปต์จบ ทำ **login เองอีก 3 คำสั่ง** (เป็นขั้น interactive — สคริปต์ทำแทนไม่ได้):
+
+```powershell
+gh auth login        # GitHub.com → HTTPS → Login with a web browser
+claude               # เปิดครั้งแรก จะพาล็อกอิน
+opencode auth login  # เลือก provider
+```
+
+---
+
 ## 0) สิ่งที่ต้องมีก่อนเข้าห้อง
 
 - Windows 10/11 · Git for Windows · บัญชี GitHub
+- เครื่องเปล่า / เครื่องที่ติดตั้งพัง → รันสคริปต์ในหัวข้อ **เตรียมเครื่องเปล่าใน 1 คำสั่ง** (ด้านบน) แทนการติดตั้งเอง
 - Claude Code และ OpenCode ล็อกอินแล้ว
 - Bun
 - VS Code หรือ Cursor
@@ -174,6 +200,8 @@ gh issue list --limit 10
 | อาการ | แก้ |
 |---|---|
 | `claude` ไม่เจอ | ปิดเปิด Terminal · PATH `%USERPROFILE%\.local\bin` |
+| ติดตั้งแล้วได้ shim `.ps1`/`.cmd` เรียกไม่ขึ้น | รัน `setup-windows.ps1` ซ้ำ — มีขั้นเติม PATH และถอด npm shim แล้วลง native `.exe` แทน |
+| winget ไม่มีในเครื่อง | ติดตั้ง **App Installer** จาก Microsoft Store แล้วรันสคริปต์ซ้ำ (OpenCode/claude/bun ไม่ต้องใช้ winget ก็ลงได้) |
 | GitHub MCP 401 | PAT หมดอายุ / scope ไม่ครบ |
 | พอร์ตซ้ำ | เปลี่ยน `PORT` ใน `.env` |
 | `node_modules` ใน git | อย่า add — ตรวจ `.gitignore` |

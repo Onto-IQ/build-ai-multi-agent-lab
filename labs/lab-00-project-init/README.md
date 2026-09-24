@@ -1,7 +1,7 @@
 # Lab 00 — เตรียมโปรเจกต์ + Plugin แบบ Project Scope
 
 **ใช้เวลาประมาณ:** 45–60 นาที  
-**เครื่องมือ:** VS Code (หรือ Cursor) · Windows Terminal · Claude Code · OpenCode · npm  
+**เครื่องมือ:** VS Code (หรือ Cursor) · Windows Terminal · Claude Code · OpenCode · npm (เครื่องเปล่า? ทำ **ส่วน 0** ก่อน)  
 **ผลลัพธ์หลัก:** `node_modules` จากเครื่องคุณ · `.claude/settings.json` · `opencode.json` · `/init` ทั้งสองฝั่ง
 
 > Lab นี้สอนให้**เห็นไฟล์ใน repo เปลี่ยน** ไม่ใช่แค่ข้อความในแชท — เปิด VS Code ตามไปด้วย
@@ -57,6 +57,45 @@ code .
 | Git สะอาด | ไม่ commit `node_modules` / `.env` |
 
 **ยังไม่ผ่านถ้า…** ติดตั้ง plugin เป็น User scope · ไม่เปิดโฟลเดอร์ดูไฟล์ · `node_modules` ถูก add เข้า git · ไม่มี STATUS/OPEN_LOOPS · สอง harness ตอบสถานะคนละเรื่องโดยไม่มีไฟล์รอง
+
+---
+
+## ส่วน 0 — เครื่องเปล่า? ติดตั้ง/ซ่อมเครื่องมือด้วย `setup-windows.ps1`
+
+ข้ามส่วนนี้ได้ถ้าคำสั่งเหล่านี้ขึ้นเวอร์ชันครบแล้ว: `node -v` · `git --version` · `gh --version` · `claude --version` · `opencode --version` · `bun --version`
+
+เปิด **PowerShell** ปกติ (ไม่ต้อง as Administrator — สคริปต์ขอสิทธิ์เองผ่าน UAC) แล้วรัน:
+
+```powershell
+irm https://raw.githubusercontent.com/Onto-IQ/build-ai-multi-agent-lab/main/scripts/setup-windows.ps1 -OutFile "$env:TEMP\setup-windows.ps1"
+powershell -ExecutionPolicy Bypass -File "$env:TEMP\setup-windows.ps1"
+```
+
+สคริปต์ติดตั้ง/ซ่อมให้จนครบแล้วพิมพ์ตารางสรุป — ตัวไหนผ่านอยู่แล้วจะ**ข้าม** (รันซ้ำได้เสมอ · `-DryRun` = ดูอย่างเดียว · `-SkipVSCode` = ใช้ Cursor):
+
+| เครื่องมือ | ติดตั้งจาก | อยู่ที่ |
+|---|---|---|
+| Git · gh · Node 22 LTS + npm | winget | `C:\Program Files\...` |
+| Bun | installer ทางการ | `%USERPROFILE%\.bun\bin` |
+| Claude Code | native installer (**ไม่ผ่าน npm**) | `%USERPROFILE%\.local\bin\claude.exe` |
+| OpenCode | GitHub Releases (native `.exe`) | `%LOCALAPPDATA%\Programs\opencode` |
+| VS Code | winget | `%LOCALAPPDATA%\Programs\Microsoft VS Code` |
+
+จบแล้วตรวจ:
+
+```powershell
+node -v; git --version; gh --version; claude --version; opencode --version; bun --version; code --version
+```
+
+login เองอีก 3 คำสั่ง (เป็นขั้น interactive — สคริปต์ทำแทนไม่ได้):
+
+```powershell
+gh auth login        # GitHub.com → HTTPS → Login with a web browser
+claude               # เปิดครั้งแรก จะพาล็อกอิน
+opencode auth login  # เลือก provider
+```
+
+**ยังไม่ผ่านถ้า…** คำสั่งไหนยัง `not found` — ปิดแล้วเปิด Windows Terminal ใหม่ แล้ว**รันสคริปต์ซ้ำ**: มันจะเติม PATH ที่หาย · ถอด npm shim `.ps1`/`.cmd` เดิมแล้วลง native `.exe` แทน · ติดตั้งทับคำสั่งที่เรียกแล้วพัง · อัป Node ถ้าเก่ากว่า 22
 
 ---
 
@@ -179,10 +218,12 @@ Template มีไฟล์พร้อมแล้ว — ตรวจใน VS
 | `.claude/agents/frontend.md` | UI owner — ความจำแยกจาก backend |
 | `.claude/agents/reviewer.md` | รีวิว Lab 07 |
 | `.claude/skills/public-site-safe/SKILL.md` | ห้าม secret / เคลม deploy มั่ว / swarm ≤20 turns |
+| `.claude/skills/opencode/SKILL.md` | เรียก OpenCode ข้าม harness (headless one-shot ผ่านไฟล์) |
 
 ```powershell
 Test-Path .\.claude\agents\frontend.md, .\.claude\agents\reviewer.md
 Test-Path .\.claude\skills\public-site-safe\SKILL.md
+Test-Path .\.claude\skills\opencode\SKILL.md
 ```
 
 ใน `claude` ลอง `@` แล้วเลือก **frontend** (หรือถามว่า agent frontend พร้อมไหม) — ตอบสั้น ๆ โดย**ไม่แก้ไฟล์**
@@ -293,10 +334,12 @@ opencode run "Reply with one sentence: confirm oh-my-openagent or native agents 
 |---|---|
 | `.opencode/agents/backend.md` | API/SQLite owner |
 | `.opencode/skills/public-site-safe/SKILL.md` | guardrail เดียวกับฝั่ง Claude |
+| `.opencode/skills/claude-code/SKILL.md` | เรียก Claude Code ข้าม harness (headless one-shot ผ่านไฟล์) |
 
 ```powershell
 Test-Path .\.opencode\agents\backend.md
 Test-Path .\.opencode\skills\public-site-safe\SKILL.md
+Test-Path .\.opencode\skills\claude-code\SKILL.md
 ```
 
 เปิดแท็บ `opencode` คนละแท็บจาก `claude` — นี่คือ**ความจำแยก**ระดับเครื่องมือ
@@ -323,7 +366,7 @@ OpenCode **ไม่มี** `memory: project` แบบ Claude — ของถ
    - **ไม่บังคับ**ให้ recall ข้อจำปากเปล่าจากเซสชันเก่าแบบ Claude agent-memory  
    - สิ่งที่ต้องอยู่ข้ามเซสชันใหม่ → เขียนลง `docs/` หรือโค้ด (ความจำร่วมของคอร์ส)
 
-4. **ห้าม**ติดตั้ง `opencode-agent-memory` / Mem0 / ชั้น memory แข่งเป็นเกณฑ์ผ่าน (เกินจำเป็นแบบ V1)
+4. **ห้าม**ติดตั้ง `opencode-agent-memory` / Mem0 / ชั้น memory แข่งเป็นเกณฑ์ผ่าน (เกินจำเป็น — คอร์สไม่ใช้)
 
 **ความรู้:** Claude = agent-memory ไฟล์โปรเจกต์ · OpenCode = AGENTS + resume session · ทั้งคู่ไม่ใช่ memory bus ที่เราสร้างเอง
 
@@ -415,10 +458,10 @@ npm test
 - [ ] VS Code เปิดที่ root · เห็นไฟล์เปลี่ยนตามขั้น  
 - [ ] `node_modules` จาก `npm install` · ไม่ได้อยู่ใน git  
 - [ ] `.claude/settings.json` project + superpowers  
-- [ ] มี `.claude/agents/frontend.md` (`memory: project`) + skill `public-site-safe`  
+- [ ] มี `.claude/agents/frontend.md` (`memory: project`) + skill `public-site-safe` + skill `opencode`  
 - [ ] Claude: `@frontend` จำข้ามเซสชันได้ **หรือ** มีไฟล์ใต้ `.claude/agent-memory/`  
 - [ ] Claude: รู้จัก `/memory` (auto memory)  
-- [ ] `opencode.json` + `.opencode/agents/backend.md` (หรือ fallback บันทึกแล้ว)  
+- [ ] `opencode.json` + `.opencode/agents/backend.md` + skill `claude-code` (หรือ fallback บันทึกแล้ว)  
 - [ ] OpenCode: resume session เห็นงานต่อได้ · เซสชันใหม่ยังโหลด `AGENTS.md`  
 - [ ] มี `docs/STATUS.md` + `docs/OPEN_LOOPS.md`  
 - [ ] Consistency check: Claude กับ OpenCode สรุป Goal/next จากไฟล์ชุดเดียวกัน  
